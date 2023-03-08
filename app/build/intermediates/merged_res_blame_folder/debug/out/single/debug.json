@@ -1,0 +1,158 @@
+[
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_ic_arrow.png.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/ic_arrow.png"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_bold.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_bold.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_light.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_light.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_semibolditalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_semibolditalic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_ic_return.png.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/ic_return.png"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_ic_home.png.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/ic_home.png"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_thin.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_thin.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_regular.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_regular.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_ic_launcher_background.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_tintitalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_tintitalic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/mipmap-anydpi-v33_ic_launcher.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/mipmap-anydpi-v33/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/xml_data_extraction_rules.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/xml_backup_rules.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_extrabold.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_extrabold.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_lightitalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_lightitalic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_medium.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_medium.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_blackitalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_blackitalic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_italic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_italic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/layout_activity_main.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_background_rounded.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/background_rounded.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_circle.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/circle.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_ic_profile.png.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/ic_profile.png"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_ic_cart.png.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/ic_cart.png"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_semibold.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_semibold.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.tijara.app-merged_res-30:/layout_activity_main.xml.flat",
+        "source": "com.tijara.app-main-32:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_black.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_black.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_extralightitalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_extralightitalic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_mediumitalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_mediumitalic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable_ic_menu.png.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable/ic_menu.png"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_extrabolditalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_extrabolditalic.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_extralight.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_extralight.ttf"
+    },
+    {
+        "merged": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-merged_res-30:/font_poppins_bolditalic.ttf.flat",
+        "source": "/home/mphstar/.gradle/daemon/7.5/com.tijara.app-main-32:/font/poppins_bolditalic.ttf"
+    }
+]
