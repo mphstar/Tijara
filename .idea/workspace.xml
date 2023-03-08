@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5babe5f1-1a26-4ef3-91f8-28af5a932cf2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Belajar/AndroidNative/.gradle/7.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Belajar/AndroidNative/.gradle/7.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Belajar/AndroidNative/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Belajar/AndroidNative/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Belajar/AndroidNative/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Belajar/AndroidNative/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.gradle/7.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/dex/debug/mergeProjectDexDebug/1/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/dex/debug/mergeProjectDexDebug/1/classes.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/dex_archive_input_jar_hashes/debug/out" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/dex_archive_input_jar_hashes/debug/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/debug/mergeDebugResources/merged.dir/values/values.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir/values/values.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/HomeActivity.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/HomeActivity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/ListViewActivity.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/ListViewActivity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MahasiswaAdapter$MahasiswaViewHolder.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MahasiswaAdapter$MahasiswaViewHolder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MahasiswaAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MahasiswaAdapter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MainActivity$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MainActivity$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MainActivity.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/javac/debug/classes/com/example/minggu3/MainActivity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/merged_res/debug/drawable_ic_launcher_background.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/merged_res/debug/drawable_ic_launcher_background.xml.flat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/merged_res_blame_folder/debug/out/single/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/merged_res_blame_folder/debug/out/single/debug.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/packaged_res/debug/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/packaged_res/debug/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/processed_res/debug/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/processed_res/debug/out/resources-debug.ap_" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/19589814e6df6e8e8da8f3312b9119475127aa89a50d92905197099a0b1f1878_0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/19589814e6df6e8e8da8f3312b9119475127aa89a50d92905197099a0b1f1878_1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/HomeActivity.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/HomeActivity.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/ListViewActivity.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/ListViewActivity.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MahasiswaAdapter$MahasiswaViewHolder.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MahasiswaAdapter$MahasiswaViewHolder.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MahasiswaAdapter.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MahasiswaAdapter.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MainActivity$4.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MainActivity$4.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MainActivity.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/project_dex_archive/debug/out/com/example/minggu3/MainActivity.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/runtime_symbol_list/debug/R.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/runtime_symbol_list/debug/R.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/stable_resource_ids_file/debug/stableIds.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/intermediates/stable_resource_ids_file/debug/stableIds.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Minggu 3/app/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Minggu 3/app/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/mphstar/.android/avd/MphstarOS.avd]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="valueResourceFile" />
+        <option value="resourceFile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2MM0gdc0m1BwDJayoveF5e2w5UI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/mphstar/Development/mobile/Tijara/app/src/main/res/drawable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/font" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="Tijara.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5babe5f1-1a26-4ef3-91f8-28af5a932cf2" name="Changes" comment="" />
+      <created>1677562257230</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677562257230</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
