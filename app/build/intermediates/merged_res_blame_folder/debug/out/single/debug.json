@@ -1,0 +1,230 @@
+[
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_kembali.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/kembali.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_shape_white.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/shape_white.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_bottom_sheet.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/bottom_sheet.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_close.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/close.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_shape.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/shape.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_scan_barcode.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/scan_barcode.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_shape4.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/shape4.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_icon_keyboard.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/icon_keyboard.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_add_2.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/add_2.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_line.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/line.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_pembayaran.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/pembayaran.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_giphy.gif.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/giphy.gif"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_pilih_voucher.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/pilih_voucher.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_voucher_nominal.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/voucher_nominal.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_activity_main.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_icon_voucher.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/icon_voucher.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_shape3.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/shape3.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_search_2.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/search_2.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_bayar.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/bayar.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-anydpi-v33_ic_launcher.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-anydpi-v33/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_qris.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/qris.png"
+    },
+    {
+        "merged": "com.example.projecttijarastore.app-merged_res-29:/layout_bottom_sheet_product.xml.flat",
+        "source": "com.example.projecttijarastore.app-main-31:/layout/bottom_sheet_product.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_detail_rincian_barang.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/detail_rincian_barang.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_trush.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/trush.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/raw_no_values.json.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/raw/no_values.json"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_ic_launcher_background.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_bottom_sheet_product.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/bottom_sheet_product.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/xml_backup_rules.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_shape2_1.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/shape2_1.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_content_dialog_transaksi.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/content_dialog_transaksi.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_activity_tambah_barang.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/activity_tambah_barang.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_voucher_persentase.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/voucher_persentase.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_shape2.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/shape2.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_activity_content.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/activity_content.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_add.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/add.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_next.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/next.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_search.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/search.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_icon_barcode.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/icon_barcode.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_content_tambah_barang.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/content_tambah_barang.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_scan.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/scan.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/layout_content_produk_free.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/layout/content_produk_free.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_keranjang.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/keranjang.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/xml_data_extraction_rules.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-merged_res-29:/drawable_tunai.png.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.example.projecttijarastore.app-main-31:/drawable/tunai.png"
+    }
+]

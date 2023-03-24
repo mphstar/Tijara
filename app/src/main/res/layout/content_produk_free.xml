@@ -4,8 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:layout_marginVertical="13dp"
-android:layout_marginHorizontal="20dp"
+android:layout_marginVertical="5dp"
 tools:context=".ContentProdukFreeActivity"
 android:paddingVertical="7dp">
 
@@ -23,7 +22,6 @@ android:paddingVertical="7dp">
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:layout_marginStart="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -71,7 +69,7 @@ android:paddingVertical="7dp">
                     <TextView
                         app:layout_flexBasisPercent="30%"
                         android:id="@+id/name_product"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="15dp"
                         android:text="June 10"

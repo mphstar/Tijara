@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bottom_sheet"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".BottonSheetProductActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/line"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deskripsi Produk"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="30dp"
+        android:textColor="@color/black"/>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="23dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexDirection="row"
+        app:justifyContent="space_between">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kode Barang   :"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/kode_produk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Produk"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexDirection="row"
+        app:justifyContent="space_between">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Barang  :"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/nama_produk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Produk"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexDirection="row"
+        app:justifyContent="space_between">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Harga               :"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/harga_produk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Produk"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexDirection="row"
+        app:justifyContent="space_between">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diskon              :"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/diskon_produk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Produk"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexDirection="column"
+        app:justifyContent="space_between">
+        <TextView
+            android:gravity="bottom"
+            android:text="Jumlah"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_marginVertical="20dp"
+            android:paddingStart="10dp"
+            android:paddingVertical="10dp"
+            android:background="@drawable/shape4"
+            android:hint="Kode Barang"
+            android:textSize="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </EditText>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/info_pesanan"
+        android:layout_marginHorizontal="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexDirection="column"
+        app:justifyContent="space_between">
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:justifyContent="space_between"
+            app:flexDirection="row">
+            <LinearLayout
+                app:layout_alignSelf="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="bottom"
+                    android:text="Free Produk"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:gravity="bottom"
+                    android:text="3"
+                    android:textStyle="bold"
+                    android:textColor="#FF0000"
+                    android:textSize="13dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tambah_produk"
+                android:paddingHorizontal="10dp"
+                app:layout_alignSelf="center"
+                android:background="@drawable/shape2_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:paddingVertical="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:text="Tambah Produk"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/produk_gratis"
+            android:layout_marginVertical="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="230dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginHorizontal="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:justifyContent="space_between"
+        app:flexDirection="row">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            app:layout_alignSelf="center"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/shape2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:elevation="2dp">
+            <ImageView
+                android:layout_marginVertical="13dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/keranjang"/>
+            <TextView
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:text="Lanjutkan"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:flexDirection="column"
+                app:justifyContent="space_between">
+                <TextView
+                    app:layout_alignSelf="flex_end"
+                    android:text="Sub Total "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    app:layout_alignSelf="flex_end"
+                    android:text="Rp.430.000"
+                    android:textSize="20dp"
+                    android:textColor="#FF0000"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.flexbox.FlexboxLayout>
+        </LinearLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -20,8 +21,10 @@ import java.util.ArrayList;
 
 public class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaViewHolder>{
 
+    int view2 = 2;
     private String nameProduct, priceProduct, Values;
     private ArrayList<ModelAddBarang> datalist;
+    LinearLayout detail_dialog;
 
     public AdapterAddBarang(ArrayList<ModelAddBarang> datalist, Context applicationContext){
         this.datalist = datalist;
@@ -83,22 +86,70 @@ public class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.Maha
 
     private void showAlertDialog(View view){
 
+        if (Values == "2"){
+            produkFree(view);
+            System.out.println("gratis produk");
+        }else if (Values == "1") {
+            non_produkFree(view);
+            System.out.println("no gratis");
+        }
+
+    }
+
+    void produkFree(View view){
+        ArrayList<modelProdukFree> dataModel;
+        RecyclerView materi;
+        AdapterProdukFree adapterTransaksi;
+
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(view.getRootView().getContext(), R.style.BottomSheetDialogTheme);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_product);
         bottomSheetDialog.show();
 
         TextView kode_produk, nama_produk, harga_produk, diskon_produk;
+        RecyclerView list_produk_gratis;
         FlexboxLayout values;
+
+        detail_dialog = bottomSheetDialog.findViewById(R.id.detail_dialog);
         values = bottomSheetDialog.findViewById(R.id.info_pesanan);
         nama_produk = bottomSheetDialog.findViewById(R.id.nama_produk);
         harga_produk = bottomSheetDialog.findViewById(R.id.harga_produk);
-        if (Values == "2"){
-            values.setVisibility(View.VISIBLE);
-            System.out.println("gratis produk");
-        }else if (Values == "1") {
-            values.setVisibility(View.GONE);
-            System.out.println("no gratis");
-        }
+        list_produk_gratis = bottomSheetDialog.findViewById(R.id.list_produk_gratis);
+
+        nama_produk.setText(nameProduct);
+        harga_produk.setText(priceProduct);
+
+        materi = bottomSheetDialog.findViewById(R.id.produk_gratis);
+        dataModel = new ArrayList<>();
+//        for (int i = 0; i <10; i++){
+//            dataModel.add(new modelProdukFree("Dress Casual Pink", "1"));
+//        }
+        dataModel.add(new modelProdukFree("Dress Panjang Kondangan K..", "1"));
+        dataModel.add(new modelProdukFree("Dress Casual Pink", "2"));
+        dataModel.add(new modelProdukFree("Celana Chinos Buat Perang ...", "4"));
+        adapterTransaksi = new AdapterProdukFree(dataModel);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        materi.setLayoutManager(layoutManager);
+        materi.setAdapter(adapterTransaksi);
+    }
+
+    void non_produkFree(View view){
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(view.getRootView().getContext(), R.style.BottomSheetDialogTheme);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_product);
+        bottomSheetDialog.show();
+
+        TextView kode_produk, nama_produk, harga_produk, diskon_produk;
+        RecyclerView list_produk_gratis;
+        FlexboxLayout values;
+
+        detail_dialog = bottomSheetDialog.findViewById(R.id.detail_dialog);
+        values = bottomSheetDialog.findViewById(R.id.info_pesanan);
+        nama_produk = bottomSheetDialog.findViewById(R.id.nama_produk);
+        harga_produk = bottomSheetDialog.findViewById(R.id.harga_produk);
+        list_produk_gratis = bottomSheetDialog.findViewById(R.id.list_produk_gratis);
+
+
+        values.setVisibility(View.GONE);
         nama_produk.setText(nameProduct);
         harga_produk.setText(priceProduct);
 
@@ -112,6 +163,16 @@ public class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.Maha
                 builder.setView(dialogView);
                 builder.setCancelable(true);
                 builder.show();
+
+                LinearLayout next_dialog_keyboard = dialogView.findViewById(R.id.button_metode_keyboard);
+                next_dialog_keyboard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (view2 == 2) {
+                            System.out.println("view input barang");
+                        }
+                    }
+                });
             }
         });
     }
@@ -141,6 +202,7 @@ public class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.Maha
             trush = itemView.findViewById(R.id.icon_sampah);
         }
     }
+
 //
 //    private ArrayList<ModelTransaksi> dataSet;
 //    Context mContext;

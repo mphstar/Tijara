@@ -102,7 +102,6 @@
 
     </com.google.android.flexbox.FlexboxLayout>
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/detail_dialog"
         android:orientation="vertical"
         android:layout_width="match_parent"

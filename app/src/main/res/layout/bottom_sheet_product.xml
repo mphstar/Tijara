@@ -201,9 +201,10 @@
 
         </com.google.android.flexbox.FlexboxLayout>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/produk_gratis"
             android:layout_marginVertical="20dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="230dp">
         </androidx.recyclerview.widget.RecyclerView>
     </com.google.android.flexbox.FlexboxLayout>
 
@@ -211,7 +212,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         app:justifyContent="space_between"
         app:flexDirection="row">
 
@@ -222,9 +223,9 @@
             android:background="@drawable/shape2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:elevation="2dp"
-            android:paddingVertical="13dp">
+            android:elevation="2dp">
             <ImageView
+                android:layout_marginVertical="13dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"

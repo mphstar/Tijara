@@ -1,8 +1,15 @@
 package com.example.projecttijarastore;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import java.util.ArrayList;
 
 public class BottonSheetProductActivity extends AppCompatActivity {
 
@@ -44,5 +51,31 @@ class ModelBottomSheet{
 
     public void setHarga_potongan(String harga_potongan) {
         this.harga_potongan = harga_potongan;
+    }
+}
+
+class modelProdukFree {
+    String name_product;
+    String values;
+
+    public modelProdukFree(String name_product, String values) {
+        this.name_product = name_product;
+        this.values = values;
+    }
+
+    public String getName_product() {
+        return name_product;
+    }
+
+    public void setName_product(String name_product) {
+        this.name_product = name_product;
+    }
+
+    public String getValues() {
+        return values;
+    }
+
+    public void setValues(String values) {
+        this.values = values;
     }
 }

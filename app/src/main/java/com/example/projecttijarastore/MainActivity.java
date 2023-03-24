@@ -36,21 +36,22 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     ArrayList<ModelTransaksi> dataModels;
     RecyclerView materi;
-    TextView kode_produk;
     private static AdapterTransaksi adapterTransaksi;
+    TextView kode_produk;
     private String KEY_KODE = "KODE_BARANG";
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int view1 = 1;
         setContentView(R.layout.activity_main);
 
         ImageView button_add = findViewById(R.id.add_product);
         LinearLayout button_lanjut = findViewById(R.id.button_lanjut);
+
         materi = findViewById(R.id.list_pesanan);
         kode_produk = findViewById(R.id.result_kode);
-
         dataModels = new ArrayList<>();
         for (int i = 0; i <10; i++){
             dataModels.add(new ModelTransaksi("Dress Casual Pink", "Rp.210.000", "Rp.210.000", "Rp.150.000",  "0"," ","3", R.drawable.trush, R.drawable.trush));
@@ -72,12 +73,15 @@ public class MainActivity extends AppCompatActivity {
                 builder.setView(dialogView);
                 builder.setCancelable(true);
                 builder.show();
+
+                LinearLayout detail_dialog = dialogView.findViewById(R.id.detail_dialog);
+                detail_dialog.setVisibility(View.GONE);
                 final AlertDialog Close_dialog = builder.create();
                 ImageView close_button =dialogView.findViewById(R.id.button_close);
                 close_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Close_dialog.dismiss();
+                        finish();
                     }
                 });
                 LinearLayout next_dialog_barcode = dialogView.findViewById(R.id.button_metode_barcode);
@@ -99,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
                 next_dialog_keyboard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(MainActivity.this, TambahBarangActivity.class);
-                        startActivity(intent);
+                        if (view1 == 1) {
+                            Intent intent = new Intent(MainActivity.this, TambahBarangActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 });
 //                Intent intent = new Intent(MainActivity.this, TambahBarangActivity.class);

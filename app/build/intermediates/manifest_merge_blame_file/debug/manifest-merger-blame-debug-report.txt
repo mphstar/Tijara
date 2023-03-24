@@ -1,0 +1,186 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.projecttijarastore"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="25"
+8-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.CAMERA" />
+11-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:5:5-64
+11-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:5:22-62
+12
+13    <!-- Don't require camera, as this requires a rear camera. This allows it to work on the Nexus 7 -->
+14    <uses-feature
+14-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:25:5-27:36
+15        android:name="android.hardware.camera"
+15-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:26:9-47
+16        android:required="false" />
+16-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:27:9-33
+17    <uses-feature
+17-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:28:5-30:36
+18        android:name="android.hardware.camera.front"
+18-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:29:9-53
+19        android:required="false" /> <!-- TODO replace above two with next line after Android 4.2 -->
+19-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:30:9-33
+20    <!-- <uses-feature android:name="android.hardware.camera.any"/> -->
+21    <uses-feature
+21-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:33:5-35:36
+22        android:name="android.hardware.camera.autofocus"
+22-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:34:9-57
+23        android:required="false" />
+23-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:35:9-33
+24    <uses-feature
+24-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:36:5-38:36
+25        android:name="android.hardware.camera.flash"
+25-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:37:9-53
+26        android:required="false" />
+26-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:38:9-33
+27    <uses-feature
+27-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:39:5-41:36
+28        android:name="android.hardware.screen.landscape"
+28-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:40:9-57
+29        android:required="false" />
+29-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:41:9-33
+30    <uses-feature
+30-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:42:5-44:36
+31        android:name="android.hardware.wifi"
+31-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:43:9-45
+32        android:required="false" />
+32-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:44:9-33
+33
+34    <application
+34-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:7:5-52:19
+35        android:allowBackup="true"
+35-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:8:9-35
+36        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+36-->[androidx.core:core:1.7.0] /home/Tryit/.gradle/caches/transforms-3/6863554b5934014f8e380f5ea3e03757/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
+37        android:dataExtractionRules="@xml/data_extraction_rules"
+37-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:9:9-65
+38        android:debuggable="true"
+39        android:extractNativeLibs="false"
+40        android:fullBackupContent="@xml/backup_rules"
+40-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:10:9-54
+41        android:icon="@mipmap/ic_launcher"
+41-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:11:9-43
+42        android:label="@string/app_name"
+42-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:12:9-41
+43        android:supportsRtl="true"
+43-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:13:9-35
+44        android:testOnly="true"
+45        android:theme="@style/Theme.ProjectTijaraStore" >
+45-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:14:9-56
+46        <activity
+46-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:16:9-21:40
+47            android:name="com.example.projecttijarastore.ScanBarcodeActivity"
+47-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:17:13-48
+48            android:exported="false"
+48-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:21:13-37
+49            android:screenOrientation="portrait"
+49-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:18:13-49
+50            android:stateNotNeeded="true"
+50-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:19:13-42
+51            android:theme="@style/zxing_CaptureTheme" />
+51-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:20:13-54
+52        <activity
+52-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:22:9-24:40
+53            android:name="com.example.projecttijarastore.ContentProdukFreeActivity"
+53-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:23:13-54
+54            android:exported="false" />
+54-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:24:13-37
+55        <activity
+55-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:25:9-27:40
+56            android:name="com.example.projecttijarastore.DetailRincianBarangActivity"
+56-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:26:13-56
+57            android:exported="false" />
+57-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:27:13-37
+58        <activity
+58-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:28:9-30:40
+59            android:name="com.example.projecttijarastore.PilihVoucherActivity"
+59-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:29:13-49
+60            android:exported="false" />
+60-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:30:13-37
+61        <activity
+61-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:31:9-33:40
+62            android:name="com.example.projecttijarastore.PembayaranActivity"
+62-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:32:13-47
+63            android:exported="false" />
+63-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:33:13-37
+64        <activity
+64-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:34:9-36:40
+65            android:name="com.example.projecttijarastore.BottonSheetProductActivity"
+65-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:35:13-55
+66            android:exported="false" />
+66-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:36:13-37
+67        <activity
+67-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:37:9-39:40
+68            android:name="com.example.projecttijarastore.TambahBarangActivity"
+68-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:38:13-49
+69            android:exported="false" />
+69-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:39:13-37
+70        <activity
+70-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:40:9-48:20
+71            android:name="com.example.projecttijarastore.MainActivity"
+71-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:41:13-41
+72            android:exported="true" >
+72-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:42:13-36
+73            <intent-filter>
+73-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:43:13-47:29
+74                <action android:name="android.intent.action.MAIN" />
+74-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:44:17-69
+74-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:44:25-66
+75
+76                <category android:name="android.intent.category.LAUNCHER" />
+76-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:46:17-77
+76-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:46:27-74
+77            </intent-filter>
+78        </activity>
+79        <activity
+79-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:49:9-51:40
+80            android:name="com.example.projecttijarastore.ContentActivity"
+80-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:50:13-44
+81            android:exported="false" />
+81-->/home/Tryit/Tijara Store/app/src/main/AndroidManifest.xml:51:13-37
+82        <activity
+82-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:47:9-53:63
+83            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+83-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:48:13-74
+84            android:clearTaskOnLaunch="true"
+84-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:49:13-45
+85            android:screenOrientation="sensorLandscape"
+85-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:50:13-56
+86            android:stateNotNeeded="true"
+86-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:51:13-42
+87            android:theme="@style/zxing_CaptureTheme"
+87-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:52:13-54
+88            android:windowSoftInputMode="stateAlwaysHidden" />
+88-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/8e3208886694d3b71d296e696e5d358e/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:53:13-60
+89
+90        <provider
+90-->[androidx.emoji2:emoji2:1.0.0] /home/Tryit/.gradle/caches/transforms-3/0c2a6fc7125aa26ea749e0e581cab939/transformed/emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+91            android:name="androidx.startup.InitializationProvider"
+91-->[androidx.emoji2:emoji2:1.0.0] /home/Tryit/.gradle/caches/transforms-3/0c2a6fc7125aa26ea749e0e581cab939/transformed/emoji2-1.0.0/AndroidManifest.xml:27:13-67
+92            android:authorities="com.example.projecttijarastore.androidx-startup"
+92-->[androidx.emoji2:emoji2:1.0.0] /home/Tryit/.gradle/caches/transforms-3/0c2a6fc7125aa26ea749e0e581cab939/transformed/emoji2-1.0.0/AndroidManifest.xml:28:13-68
+93            android:exported="false" >
+93-->[androidx.emoji2:emoji2:1.0.0] /home/Tryit/.gradle/caches/transforms-3/0c2a6fc7125aa26ea749e0e581cab939/transformed/emoji2-1.0.0/AndroidManifest.xml:29:13-37
+94            <meta-data
+94-->[androidx.emoji2:emoji2:1.0.0] /home/Tryit/.gradle/caches/transforms-3/0c2a6fc7125aa26ea749e0e581cab939/transformed/emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+95                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+95-->[androidx.emoji2:emoji2:1.0.0] /home/Tryit/.gradle/caches/transforms-3/0c2a6fc7125aa26ea749e0e581cab939/transformed/emoji2-1.0.0/AndroidManifest.xml:32:17-75
+96                android:value="androidx.startup" />
+96-->[androidx.emoji2:emoji2:1.0.0] /home/Tryit/.gradle/caches/transforms-3/0c2a6fc7125aa26ea749e0e581cab939/transformed/emoji2-1.0.0/AndroidManifest.xml:33:17-49
+97            <meta-data
+97-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/Tryit/.gradle/caches/transforms-3/2d0e9ec2bf966d8dc182924b0ee09a9d/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+98                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+98-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/Tryit/.gradle/caches/transforms-3/2d0e9ec2bf966d8dc182924b0ee09a9d/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+99                android:value="androidx.startup" />
+99-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/Tryit/.gradle/caches/transforms-3/2d0e9ec2bf966d8dc182924b0ee09a9d/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+100        </provider>
+101    </application>
+102
+103</manifest>
