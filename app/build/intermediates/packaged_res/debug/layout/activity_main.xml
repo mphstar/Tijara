@@ -15,7 +15,8 @@
         app:justifyContent="space_between"
         android:paddingHorizontal="@dimen/paddingHorizontal"
         android:paddingVertical="@dimen/paddingVertical_home"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="MissingClass">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +46,8 @@
                 app:flexDirection="column"
                 android:id="@+id/welcome_text"
                 android:paddingHorizontal="@dimen/paddingHorizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="MissingClass">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,6 +115,7 @@
                 android:paddingHorizontal="@dimen/paddingHorizontal"
                 android:orientation="vertical">
                 <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/to_transaksi"
                     android:layout_width="match_parent"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="10dp"
@@ -120,7 +123,8 @@
                     app:alignItems="center"
                     android:backgroundTint="#EFEFEF"
                     android:background="@drawable/background_rounded"
-                    app:justifyContent="space_between">
+                    app:justifyContent="space_between"
+                    tools:ignore="MissingClass">
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
@@ -150,6 +154,7 @@
                 </com.google.android.flexbox.FlexboxLayout>
 
                 <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/to_return"
                     android:layout_width="match_parent"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="10dp"
@@ -158,7 +163,8 @@
                     app:alignItems="center"
                     android:backgroundTint="#EFEFEF"
                     android:background="@drawable/background_rounded"
-                    app:justifyContent="space_between">
+                    app:justifyContent="space_between"
+                    tools:ignore="MissingClass">
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
@@ -203,7 +209,8 @@
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
             app:justifyContent="center"
-            app:flexDirection="row">
+            app:flexDirection="row"
+            tools:ignore="MissingClass">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -217,7 +224,8 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             app:justifyContent="center"
-            app:flexDirection="row">
+            app:flexDirection="row"
+            tools:ignore="MissingClass">
             <ImageView
                 android:layout_width="9dp"
                 android:layout_height="9dp"

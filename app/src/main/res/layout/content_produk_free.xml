@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginVertical="5dp"
+tools:context=".ContentProdukFreeActivity"
+android:paddingVertical="7dp">
+
+<LinearLayout
+    android:id="@+id/content_pilih_produk_free"
+    android:layout_marginVertical="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingConstraints">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            app:cardCornerRadius="@dimen/_15sdp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/img"/>
+        </androidx.cardview.widget.CardView>
+<!--        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--            xmlns:tools="http://schemas.android.com/tools"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/bg"-->
+<!--                android:layout_width="80dp"-->
+<!--                android:layout_height="80dp"-->
+<!--                android:src="@drawable/shape2"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                tools:ignore="MissingConstraints"-->
+<!--                android:elevation="30dp"/>-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/img"-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/bg"-->
+<!--                app:layout_constraintEnd_toEndOf="@+id/bg"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/bg"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/bg"-->
+<!--                tools:ignore="MissingConstraints" />-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <!--            <ImageView-->
+        <!--                android:id="@+id/img"-->
+        <!--                android:layout_marginStart="20sp"-->
+        <!--                android:background="@drawable/avatar"-->
+        <!--                android:layout_width="80dp"-->
+        <!--                android:layout_height="80dp"-->
+        <!--                />-->
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_alignSelf="center">
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_marginVertical="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:justifyContent="space_between"
+                    app:flexDirection="column">
+                    <TextView
+                        android:gravity="center"
+                        app:layout_flexBasisPercent="30%"
+                        android:id="@+id/name_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:text="June 10"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal" />
+                    <com.google.android.flexbox.FlexboxLayout
+                        app:layout_flexBasisPercent="40%"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:justifyContent="space_between">
+                        <TextView
+                            android:backgroundTint="#FF8B8B"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/shape2_1"
+                            app:layout_alignSelf="center"
+                            app:layout_flexBasisPercent="25%"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="FREE"
+                            android:gravity="center"
+                            android:textColor="#FF0000"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="MissingConstraints" />
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/plus_minus_values"
+                            app:layout_alignSelf="center"
+                            app:justifyContent="space_between"
+                            app:layout_flexBasisPercent="30%"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:ignore="MissingConstraints" >
+                            <ImageView
+                                android:src="@drawable/line"
+                                android:paddingHorizontal="5dp"
+                                android:backgroundTint="@color/black"
+                                android:background="@drawable/shape2"
+                                android:id="@+id/min_jumlah"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"/>
+                            <TextView
+                                android:textStyle="bold"
+                                android:text="1"
+                                android:id="@+id/jumlah_pcs"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <ImageView
+                                android:src="@drawable/add_2"
+                                android:background="@drawable/shape2"
+                                android:id="@+id/add_jumlah"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"/>
+                        </com.google.android.flexbox.FlexboxLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+                    <LinearLayout
+                        app:layout_flexBasisPercent="30%"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </LinearLayout>
+                </com.google.android.flexbox.FlexboxLayout>
+            </LinearLayout>
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
