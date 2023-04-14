@@ -3915,6 +3915,7 @@ int id group_divider 0x7f0900e7
 int id grouping 0x7f0900e8
 int id groups 0x7f0900e9
 int id hardware 0x7f0900ea
+int id harga_barang_free 0x7f09024a
 int id harga_barang_pesan 0x7f0900eb
 int id harga_pcs 0x7f0900ec
 int id harga_produk 0x7f0900ed
@@ -3944,11 +3945,13 @@ int id invisible 0x7f090104
 int id inward 0x7f090105
 int id italic 0x7f090106
 int id item_touch_helper_previous_elevation 0x7f090107
+int id jum_barang_free 0x7f09024b
 int id jum_barang_pesan 0x7f090108
 int id jumlah_nominal 0x7f090109
 int id jumlah_pcs 0x7f09010a
 int id jumpToEnd 0x7f09010b
 int id jumpToStart 0x7f09010c
+int id kalkulasi_diskon 0x7f09024e
 int id kode_produk 0x7f09010d
 int id kurang_bayar 0x7f09010e
 int id labeled 0x7f09010f
@@ -4027,6 +4030,7 @@ int id mtrl_picker_text_input_range_start 0x7f090157
 int id mtrl_picker_title_text 0x7f090158
 int id mtrl_view_tag_bottom_padding 0x7f090159
 int id multiply 0x7f09015a
+int id nama_barang_free 0x7f09024c
 int id nama_produk 0x7f09015b
 int id name_product 0x7f09015c
 int id navigation_bar_item_active_indicator_view 0x7f09015d
@@ -4087,6 +4091,7 @@ int id rightToLeft 0x7f090193
 int id right_icon 0x7f090194
 int id right_side 0x7f090195
 int id rincian_barang 0x7f090196
+int id rincian_barang_free 0x7f09024d
 int id rounded 0x7f090197
 int id row 0x7f090198
 int id row_index_key 0x7f090199
@@ -4380,6 +4385,7 @@ int layout bottom_sheet_product 0x7f0c0020
 int layout content_dialog_transaksi 0x7f0c0021
 int layout content_produk_free 0x7f0c0022
 int layout content_rincian_barang 0x7f0c0023
+int layout content_rincian_barang_free 0x7f0c007d
 int layout content_tambah_barang 0x7f0c0024
 int layout custom_dialog 0x7f0c0025
 int layout design_bottom_navigation_item 0x7f0c0026
@@ -4398,6 +4404,9 @@ int layout design_navigation_menu_item 0x7f0c0032
 int layout design_text_input_end_icon 0x7f0c0033
 int layout design_text_input_start_icon 0x7f0c0034
 int layout dp_example 0x7f0c0035
+int layout item_view_type_a 0x7f0c007e
+int layout item_view_type_b 0x7f0c007f
+int layout item_view_type_c 0x7f0c0080
 int layout m3_alert_dialog 0x7f0c0036
 int layout m3_alert_dialog_actions 0x7f0c0037
 int layout m3_alert_dialog_title 0x7f0c0038

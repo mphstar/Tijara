@@ -85,6 +85,7 @@ id detail_dialog
 id diskon_produk
 id field_isi_jumlah_barang
 id field_kode_product
+id harga_barang_free
 id harga_barang_pesan
 id harga_pcs
 id harga_produk
@@ -95,9 +96,11 @@ id image_no_value
 id img
 id info
 id info_pesanan
+id jum_barang_free
 id jum_barang_pesan
 id jumlah_nominal
 id jumlah_pcs
+id kalkulasi_diskon
 id kode_produk
 id kurang_bayar
 id line_diskon
@@ -105,6 +108,7 @@ id list_barang
 id list_pesanan
 id list_produk_gratis
 id min_jumlah
+id nama_barang_free
 id nama_produk
 id name_product
 id pilih_voucher
@@ -113,6 +117,7 @@ id potongan_harga
 id produk_gratis
 id result_kode
 id rincian_barang
+id rincian_barang_free
 id scan_produk
 id tambah_produk
 id to_detail
@@ -134,7 +139,11 @@ layout bottom_sheet_product
 layout content_dialog_transaksi
 layout content_produk_free
 layout content_rincian_barang
+layout content_rincian_barang_free
 layout content_tambah_barang
+layout item_view_type_a
+layout item_view_type_b
+layout item_view_type_c
 layout pembayaran
 layout pilih_voucher
 layout scan_barcode

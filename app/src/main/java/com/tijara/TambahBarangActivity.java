@@ -1,17 +1,5 @@
 package com.tijara;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,20 +11,28 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,11 +41,11 @@ import java.util.ArrayList;
 class allTypeData{
 
     int view2 = 2, view1 = 1;
-    String json;
+    String json, aa;
     public String nameProduct, priceProduct, Values, potonganHarga;
     public ArrayList<ModelAddBarang> datalist;
     LinearLayout detail_dialog, imageNoProduk, button_lanjut_transaksi, detail_dialog_free;
-    EditText searchProdukFree;
+    EditText searchProdukFree, field_isi_jumlah_barang;
     ImageView buttonClose;
     RecyclerView listProdukFree;
     ArrayList<modelProdukFree> dataModel;
@@ -63,6 +59,8 @@ class allTypeData{
 
 class ambilValues{
     static String nama_produk, harga_produk, jumlah_pesanan, diskon_produk, array_produk_free, jsonData;
+    static String hargaProduk, jumlahPesanan, namaProduk;
+    static JSONArray dataProdukFree;
 }
 
 class AdapterProdukFree extends RecyclerView.Adapter<AdapterProdukFree.ViewHolder> {
@@ -235,6 +233,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         holder.trush.setVisibility(View.GONE);
         holder.txtSubHarga.setVisibility(View.GONE);
         allTypeData.modelDataSetGet = new ArrayList<>();
+        allTypeData.dataModel2 = new ArrayList<>();
 //        holder.tambah_produk.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -311,6 +310,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
 
     public void showBottomSheet(View view){
         Gson gson = new Gson();
+//        JSONObject obj = new JSONObject();
         kirimValues kirimValues = new kirimValues();
         Transaksi mainActivity = new Transaksi();
         allTypeData.bottomSheetDialog = new BottomSheetDialog(view.getRootView().getContext(), R.style.BottomSheetDialogTheme);
@@ -339,9 +339,9 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
 
         if (allTypeData.view1 == 1){
             allTypeData.materi.setVisibility(View.GONE);
-            System.out.println("in");
+            System.out.println("a");
         }else if (allTypeData.view1 == 2){
-            System.out.println("out");
+            System.out.println("b");
             allTypeData.materi = allTypeData.bottomSheetDialog.findViewById(R.id.produk_gratis);
             allTypeData.materi.setVisibility(View.VISIBLE);
 
@@ -351,9 +351,16 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
             allTypeData.materi.setLayoutManager(layoutManager);
             allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
             allTypeData.json = gson.toJson(allTypeData.modelDataSetGet);
-            System.out.println(allTypeData.json);
+            allTypeData.aa = "\"nama_produk\":\""+allTypeData.adapterProdukFree2.dataNamaProduk+"\", \"jumlah_pesanan\":\"1\"";
+//            System.out.println(arr);
+            allTypeData.dataModel2.add(allTypeData.json);
+            System.out.println(allTypeData.aa+ "kon");
+            System.out.println(allTypeData.modelDataSetGet);
+            System.out.println(allTypeData.json+"tol");
         }else if (allTypeData.view1 == 3){
+            System.out.println("c");
             if (allTypeData.modelDataSetGet != null){
+                allTypeData.materi.setVisibility(View.GONE);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
                 allTypeData.materi.setLayoutManager(layoutManager);
                 allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
@@ -381,13 +388,60 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
                 }else if (Transaksi.dataModels != null){
                     Transaksi.view = 2;
                 }
-                ambilValues.array_produk_free = allTypeData.json;
-                ambilValues.harga_produk = String.valueOf(harga_produk.getText());
-                ambilValues.nama_produk = String.valueOf(nama_produk.getText());
-                ambilValues.jumlah_pesanan = String.valueOf(field_isi_jumlah_barang.getText());
+//                ambilValues.array_produk_free = allTypeData.json;
+//                ambilValues.harga_produk = String.valueOf(harga_produk.getText());
+//                ambilValues.nama_produk = String.valueOf(nama_produk.getText());
+//                ambilValues.jumlah_pesanan = String.valueOf(field_isi_jumlah_barang.getText());
 
-                ambilValues.jsonData = "{\"harga_produk\":\""+String.valueOf(harga_produk.getText())+"\",\"jumlah_pesanan\":\""+String.valueOf(field_isi_jumlah_barang.getText())+"\",\"nama_produk\":\""+String.valueOf(nama_produk.getText())+"\",\"data_produk_free\":\""+allTypeData.json+"\"}";
+//                ambilValues.jsonData = "{\"harga_produk\":\""+String.valueOf(harga_produk.getText())+"\",\"jumlah_pesanan\":\""+String.valueOf(field_isi_jumlah_barang.getText())+"\",\"nama_produk\":\""+String.valueOf(nama_produk.getText())+"\",\"data_produk_free\":\""+arr+"\"}";
 
+                JSONObject jsonObject = new JSONObject();
+                JSONObject jsonObject1 = new JSONObject();
+                System.out.println(allTypeData.modelDataSetGet.toArray().toString()+"aadasd");
+//                JSONArray arr = allTypeData.modelDataSetGet.toArray();
+                ArrayList<modelProdukFree> arr = allTypeData.modelDataSetGet;
+//                System.out.println(arr.get(0).name_product + "zxcv");
+//                System.out.println(arr.get(1).name_product + "zxcv");
+//                System.out.println(arr.size());
+
+//                ArrayList<JSONObject> ls = new ArrayList<>();
+                JSONArray jsonArray = new JSONArray();
+                try {
+                    for (int a = 0; a < arr.size(); a++){
+                        jsonObject1.put("nama", arr.get(a).name_product);
+                        jsonObject1.put("value", arr.get(a).values);
+                        jsonArray.put(jsonObject1);
+                        jsonObject1 = new JSONObject();
+//                        jsonArray.put(a,jsonObject1);
+                    }
+                    System.out.println(jsonArray+"ssjj");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+                try {
+                    jsonObject.put("hargaProduk", String.valueOf(harga_produk.getText()));
+                    jsonObject.put("jumlahPesanan", String.valueOf(field_isi_jumlah_barang.getText()));
+                    jsonObject.put("namaProduk", String.valueOf(nama_produk.getText()));
+                    jsonObject.put("dataProdukFree", jsonArray);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                System.out.println(arr);
+                System.out.println(jsonObject);
+
+                try {
+                    ambilValues.hargaProduk = jsonObject.getString("hargaProduk");
+                    ambilValues.jumlahPesanan = jsonObject.getString("jumlahPesanan");
+                    ambilValues.namaProduk  = jsonObject.getString("namaProduk");
+                    ambilValues.dataProdukFree  = jsonObject.getJSONArray("dataProdukFree");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+//                System.out.println(ambilValues.dataProdukFree+" aaa");
 //                try {
 //                    mainActivity.jsonObject = new JSONObject(ambilValues.jsonData);
 //                    mainActivity.nama_produk = mainActivity.jsonObject.getString("nama_produk");
@@ -397,7 +451,18 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
 //                    throw new RuntimeException(e);
 //                }
 
-                System.out.println(ambilValues.nama_produk);
+//                try {
+//                    JSONObject jsonObject = new JSONObject(ambilValues.jsonData);
+//
+//                    String hargaProduk = jsonObject.getString("harga_produk");
+//                    String namaProduk = jsonObject.getString("nama_produk");
+//                    String jumlahPesanan = jsonObject.getString("jumlah_pesanan");
+//                    JSONArray dataProdukFree = jsonObject.getJSONArray("data_produk_free");
+//
+//                    System.out.println(dataProdukFree+"aa");
+//                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+//                }
             }
         });
     }
@@ -484,9 +549,8 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         RecyclerView list_produk_gratis;
         LinearLayout button_back_to_transaksi;
         FlexboxLayout values;
-        EditText field_isi_jumlah_barang;
 
-        field_isi_jumlah_barang = bottomSheetDialog.findViewById(R.id.field_isi_jumlah_barang);
+        allTypeData.field_isi_jumlah_barang = bottomSheetDialog.findViewById(R.id.field_isi_jumlah_barang);
         allTypeData.detail_dialog = bottomSheetDialog.findViewById(R.id.detail_dialog);
         values = bottomSheetDialog.findViewById(R.id.info_pesanan);
         nama_produk = bottomSheetDialog.findViewById(R.id.nama_produk);
@@ -508,13 +572,37 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
                 }else if (Transaksi.dataModels != null){
                     Transaksi.view = 2;
                 }
-                ambilValues.array_produk_free = allTypeData.json;
-                ambilValues.harga_produk = String.valueOf(harga_produk.getText());
-                ambilValues.nama_produk = String.valueOf(nama_produk.getText());
-                ambilValues.jumlah_pesanan = String.valueOf(field_isi_jumlah_barang.getText());
-                ambilValues.diskon_produk = String.valueOf(diskon_produk.getText());
 
-                ambilValues.jsonData = "{\"harga_produk\":\""+String.valueOf(harga_produk.getText())+"\",\"jumlah_pesanan\":\""+String.valueOf(field_isi_jumlah_barang.getText())+"\",\"nama_produk\":\""+String.valueOf(nama_produk.getText())+"\",\"data_produk_free\":\""+allTypeData.json+"\"}";
+                JSONObject jsonObject = new JSONObject();
+                JSONArray arr = new JSONArray(allTypeData.dataModel2);
+
+                try {
+                    jsonObject.put("harga_produk", allTypeData.priceProduct);
+                    jsonObject.put("jumlah_pesanan", String.valueOf(allTypeData.field_isi_jumlah_barang.getText()));
+                    jsonObject.put("nama_produk", allTypeData.nameProduct);
+                    jsonObject.put("diskon_produk", allTypeData.potonganHarga);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                System.out.println(jsonObject);
+
+                try {
+                    ambilValues.harga_produk = jsonObject.getString("harga_produk");
+                    ambilValues.jumlah_pesanan = jsonObject.getString("jumlah_pesanan");
+                    ambilValues.nama_produk  = jsonObject.getString("nama_produk");
+                    ambilValues.diskon_produk = jsonObject.getString("diskon_produk");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+//                ambilValues.array_produk_free = allTypeData.json;
+//                ambilValues.harga_produk = String.valueOf(harga_produk.getText());
+//                ambilValues.nama_produk = String.valueOf(nama_produk.getText());
+//                ambilValues.jumlah_pesanan = String.valueOf(field_isi_jumlah_barang.getText());
+//                ambilValues.diskon_produk = String.valueOf(diskon_produk.getText());
+//
+//                ambilValues.jsonData = "{\"harga_produk\":\""+String.valueOf(harga_produk.getText())+"\",\"jumlah_pesanan\":\""+String.valueOf(field_isi_jumlah_barang.getText())+"\",\"nama_produk\":\""+String.valueOf(nama_produk.getText())+"\",\"data_produk_free\":\""+allTypeData.json+"\"}";
 
 //                try {
 //                    mainActivity.jsonObject = new JSONObject(ambilValues.jsonData);
@@ -767,6 +855,7 @@ public class TambahBarangActivity extends AppCompatActivity {
         backTOMainTransaksi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Transaksi.view = 2;
                 Intent intent = new Intent(TambahBarangActivity.this, Transaksi.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

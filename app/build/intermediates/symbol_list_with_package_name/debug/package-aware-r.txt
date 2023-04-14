@@ -3916,6 +3916,7 @@ id group_divider
 id grouping
 id groups
 id hardware
+id harga_barang_free
 id harga_barang_pesan
 id harga_pcs
 id harga_produk
@@ -3945,11 +3946,13 @@ id invisible
 id inward
 id italic
 id item_touch_helper_previous_elevation
+id jum_barang_free
 id jum_barang_pesan
 id jumlah_nominal
 id jumlah_pcs
 id jumpToEnd
 id jumpToStart
+id kalkulasi_diskon
 id kode_produk
 id kurang_bayar
 id labeled
@@ -4028,6 +4031,7 @@ id mtrl_picker_text_input_range_start
 id mtrl_picker_title_text
 id mtrl_view_tag_bottom_padding
 id multiply
+id nama_barang_free
 id nama_produk
 id name_product
 id navigation_bar_item_active_indicator_view
@@ -4088,6 +4092,7 @@ id rightToLeft
 id right_icon
 id right_side
 id rincian_barang
+id rincian_barang_free
 id rounded
 id row
 id row_index_key
@@ -4381,6 +4386,7 @@ layout bottom_sheet_product
 layout content_dialog_transaksi
 layout content_produk_free
 layout content_rincian_barang
+layout content_rincian_barang_free
 layout content_tambah_barang
 layout custom_dialog
 layout design_bottom_navigation_item
@@ -4399,6 +4405,9 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dp_example
+layout item_view_type_a
+layout item_view_type_b
+layout item_view_type_c
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title

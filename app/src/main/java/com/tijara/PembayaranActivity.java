@@ -1,11 +1,11 @@
 package com.tijara;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,54 +13,221 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-class AdapterPembayaran extends RecyclerView.Adapter<AdapterPembayaran.MahasiswaViewHolder>{
-    private ArrayList<ModelTransaksi> datalist;
+class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<Object> items;
 
-    public AdapterPembayaran(ArrayList<ModelTransaksi> datalist, Context applicationContext){
+    private static final int VIEW_TYPE_A = 0;
+    private static final int VIEW_TYPE_B = 1;
+    private static final int VIEW_TYPE_C = 2;
+
+    public AdapterListProdukPembayaran(ArrayList<Object> items) {
+        this.items = items;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (items.get(position) instanceof ModelA) {
+            return VIEW_TYPE_A;
+        } else if (items.get(position) instanceof ModelB) {
+            return VIEW_TYPE_B;
+        } else if (items.get(position) instanceof ModelC) {
+            return VIEW_TYPE_C;
+        }
+        return -1;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        RecyclerView.ViewHolder viewHolder = null;
+        switch (viewType) {
+            case VIEW_TYPE_A:
+                View viewA = inflater.inflate(R.layout.item_view_type_a, parent, false);
+                viewHolder = new ViewHolderTypeA(viewA);
+                break;
+            case VIEW_TYPE_B:
+                View viewB = inflater.inflate(R.layout.item_view_type_b, parent, false);
+                viewHolder = new ViewHolderTypeB(viewB);
+                break;
+            case VIEW_TYPE_C:
+                View viewC = inflater.inflate(R.layout.item_view_type_c, parent, false);
+                viewHolder = new ViewHolderTypeC(viewC);
+                break;
+        }
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        int viewType = getItemViewType(position);
+        switch (viewType) {
+            case VIEW_TYPE_A:
+                ViewHolderTypeA viewHolderTypeA = (ViewHolderTypeA) holder;
+                configureViewHolderTypeA(viewHolderTypeA, position);
+                break;
+            case VIEW_TYPE_B:
+                ViewHolderTypeB viewHolderTypeB = (ViewHolderTypeB) holder;
+                configureViewHolderTypeB(viewHolderTypeB, position);
+                break;
+            case VIEW_TYPE_C:
+                ViewHolderTypeC viewHolderTypeC = (ViewHolderTypeC) holder;
+                configureViewHolderTypeC(viewHolderTypeC, position);
+                break;
+        }
+    }
+
+    private void configureViewHolderTypeA(ViewHolderTypeA holder, int position) {
+        ModelA modelA = (ModelA) items.get(position);
+        holder.NamaProduk.setText(modelA.getNamaProduk());
+        holder.Harga.setText(modelA.getHargaProduk());
+        holder.PotonganHarga.setText(modelA.getPotonganDiskon());
+        holder.value.setText(modelA.getValueProduk());
+    }
+
+    private void configureViewHolderTypeB(ViewHolderTypeB holder, int position) {
+        ModelB modelB = (ModelB) items.get(position);
+        holder.NamaProduk.setText(modelB.getNamaProduk());
+        holder.Harga.setText(modelB.getHargaProduk());
+        holder.value.setText(modelB.getValueProduk());
+    }
+    private void configureViewHolderTypeC(ViewHolderTypeC holder, int position) {
+        ModelC modelC = (ModelC) items.get(position);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        holder.NamaProduk.setText(modelC.getNamaProduk());
+        holder.Harga.setText(modelC.getHargaProduk());
+        holder.listProdukFree.setLayoutManager(layoutManager);
+        holder.listProdukFree.setAdapter(new AdapterListProdukFree(PembayaranActivity.arrayList));
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public static class ViewHolderTypeA extends RecyclerView.ViewHolder {
+        public TextView NamaProduk, Harga, PotonganHarga, value, JumlahHargaProduk, JumlahHargaProduk2, totalSeluruhHargaBarang;
+
+        public ViewHolderTypeA(View itemView) {
+            super(itemView);
+            NamaProduk = itemView.findViewById(R.id.barang_pesan);
+            Harga = itemView.findViewById(R.id.harga_barang_pesan);
+            PotonganHarga = itemView.findViewById(R.id.total_potongan_voucher);
+            value = itemView.findViewById(R.id.jum_barang_pesan);
+//            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
+//            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
+            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
+        }
+    }
+
+    public static class ViewHolderTypeB extends RecyclerView.ViewHolder {
+        public TextView NamaProduk, Harga, value, totalSeluruhHargaBarang;
+
+        public ViewHolderTypeB(View itemView) {
+            super(itemView);
+            NamaProduk = itemView.findViewById(R.id.barang_pesan);
+            Harga = itemView.findViewById(R.id.harga_barang_pesan);
+            value = itemView.findViewById(R.id.jum_barang_pesan);
+//            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
+        }
+    }
+
+    public static class ViewHolderTypeC extends RecyclerView.ViewHolder {
+        public TextView NamaProduk, Harga, value, JumlahHargaProduk, JumlahHargaProduk2, totalSeluruhHargaBarang;
+        public RecyclerView listProdukFree;
+
+        public ViewHolderTypeC(View itemView) {
+            super(itemView);
+            NamaProduk = itemView.findViewById(R.id.barang_pesan);
+            Harga = itemView.findViewById(R.id.harga_barang_pesan);
+            value = itemView.findViewById(R.id.jum_barang_pesan);
+            listProdukFree = itemView.findViewById(R.id.rincian_barang_free);
+//            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
+//            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
+            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
+        }
+    }
+}
+
+class AdapterPembayaran extends RecyclerView.Adapter<AdapterPembayaran.PembayaranViewHolder>{
+    private ArrayList<ModelPembayaran> datalist;
+
+    public AdapterPembayaran(ArrayList<ModelPembayaran> datalist, Context applicationContext){
         this.datalist = datalist;
     }
 
     @NonNull
     @Override
-    public MahasiswaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PembayaranViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.content_rincian_barang, parent, false);
-        return new MahasiswaViewHolder(view);
+        return new PembayaranViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MahasiswaViewHolder holder, int position) {
-        holder.txtNamaProduk.setText(datalist.get(position).getNama_produk());
-        holder.txtHarga.setText(datalist.get(position).getHarga());
-        holder.potonganHarga.setText(datalist.get(position).getPotongan_harga());
-        holder.value.setText(datalist.get(position).getValue());
-        holder.txtSubHarga.setText(datalist.get(position).getSub_harga());
-        holder.hargaTotalProduk.setText(datalist.get(position).getjumlahBarangPilih());
-        holder.totalVoucher.setText(datalist.get(position).getTotal_harga_barang());
+    public void onBindViewHolder(@NonNull PembayaranViewHolder holder, int position) {
+        holder.NamaProduk.setText(datalist.get(position).getNamaProdukDeal());
+        holder.Harga.setText(datalist.get(position).getHargaProdukDeal());
+        holder.value.setText(datalist.get(position).getTotalProdukDeal());
+//        System.out.println(PembayaranActivity.listProdukFree.length()+"freProd");
+//        System.out.println(PembayaranActivity.diskonProduk.length()+"dis");
+        System.out.println("asasaaa");
+
+        if (PembayaranActivity.diskonProduk == null && PembayaranActivity.listProdukFree.length() > 0){
+
+            System.out.println("FreProd");
+            holder.KalkulasiDiskon.setVisibility(View.INVISIBLE);
+            holder.listProdukFree.setVisibility(View.VISIBLE);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.HORIZONTAL, false);
+            holder.listProdukFree.setLayoutManager(layoutManager);
+            holder.listProdukFree.setAdapter(new AdapterListProdukFree(PembayaranActivity.arrayList));
+        }else if (PembayaranActivity.listProdukFree == null && PembayaranActivity.diskonProduk.length() > 0){
+
+            System.out.println("dis");
+            holder.KalkulasiDiskon.setVisibility(View.VISIBLE);
+            holder.listProdukFree.setVisibility(View.INVISIBLE);
+//                holder.ListProdukFree.set(datalist.get(position).getListProdukFreeDeal());
+        }
+//        else {
+//            holder.ListProdukFree.setVisibility(View.GONE);
+//            holder.PotonganHarga.setText(datalist.get(position).getPotonganHargaProdukDeal());
+//            holder.JumlahHargaProduk.setText(datalist.get(position).getJumlahKalkulasiHarga());
+//            holder.JumlahHargaProduk2.setText(datalist.get(position).getJumlahKalkulasiHarga());
+//            holder.totalSeluruhHargaBarang.setText(datalist.get(position).getJumlahHargaAkhirBarang());
+//        }
+        //
     }
 
     @Override
     public int getItemCount() {
-        return (datalist != null) ? datalist.size() :0;
+//        return (datalist != null) ? datalist.size() :0;
+        return datalist.size();
     }
 
-    public class MahasiswaViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtNamaProduk, txtHarga, potonganHarga, value, txtSubHarga, hargaTotalProduk, totalVoucher;
+    public class PembayaranViewHolder extends RecyclerView.ViewHolder {
+        private TextView NamaProduk, Harga, PotonganHarga, value, JumlahHargaProduk, JumlahHargaProduk2, totalSeluruhHargaBarang;
+        private RecyclerView listProdukFree;
+        private LinearLayout KalkulasiDiskon;
 
-        public MahasiswaViewHolder(@NonNull View itemView) {
+        public PembayaranViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtNamaProduk = itemView.findViewById(R.id.barang_pesan);
-            txtHarga = itemView.findViewById(R.id.harga_barang_pesan);
-            potonganHarga = itemView.findViewById(R.id.total_harga_barang_pesan);
+            NamaProduk = itemView.findViewById(R.id.barang_pesan);
+            Harga = itemView.findViewById(R.id.harga_barang_pesan);
+            PotonganHarga = itemView.findViewById(R.id.total_potongan_voucher);
             value = itemView.findViewById(R.id.jum_barang_pesan);
-            txtSubHarga = itemView.findViewById(R.id.total_seluruh_harga_barang);
-            hargaTotalProduk = itemView.findViewById(R.id.total_harga_barang_akhir);
-            totalVoucher = itemView.findViewById(R.id.total_potongan_voucher);
+            KalkulasiDiskon = itemView.findViewById(R.id.kalkulasi_diskon);
+            listProdukFree = itemView.findViewById(R.id.rincian_barang_free);
+            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
+            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
+            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
         }
     }
 
@@ -145,10 +312,55 @@ class AdapterPembayaran extends RecyclerView.Adapter<AdapterPembayaran.Mahasiswa
 //    }
 }
 
+class AdapterListProdukFree extends RecyclerView.Adapter<AdapterListProdukFree.PembayaranViewHolder>{
+    private ArrayList<ModelProdukFree> datalist;
+
+    public AdapterListProdukFree(ArrayList<ModelProdukFree> datalist){
+        this.datalist = datalist;
+    }
+
+    @NonNull
+    @Override
+    public PembayaranViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.content_rincian_barang_free, parent, false);
+        return new PembayaranViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull PembayaranViewHolder holder, int position) {
+        ModelProdukFree modelProdukFree = datalist.get(position);
+        holder.NamaProduk.setText(modelProdukFree.getNamaProduk());
+        holder.value.setText(modelProdukFree.getValueProduk());
+//
+    }
+
+    @Override
+    public int getItemCount() {
+        return datalist.size();
+    }
+
+    public class PembayaranViewHolder extends RecyclerView.ViewHolder {
+        private TextView NamaProduk, value;
+
+        public PembayaranViewHolder(@NonNull View itemView) {
+            super(itemView);
+            NamaProduk = itemView.findViewById(R.id.nama_barang_free);
+            value = itemView.findViewById(R.id.jum_barang_free);
+        }
+    }
+}
+
 public class PembayaranActivity extends AppCompatActivity {
-    ArrayList<ModelTransaksi> dataModels;
-    RecyclerView materi;
+    ArrayList<Object> dataModels;
+    ArrayList<ModelPembayaran> dataModels2;
+    static ArrayList<ModelProdukFree> arrayList;
+    static RecyclerView materi, materi2;
+    static JSONObject jsonObject, jsonObject2;
+    static JSONArray listProdukFree;
+    static String diskonProduk;
     private static AdapterPembayaran adapterPembayaran;
+    private static AdapterListProdukFree adapterListProdukFree;
     ImageView button_voucher, backTOMainTransaksi;
 
 
@@ -156,6 +368,68 @@ public class PembayaranActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pembayaran);
+
+        dataModels = new ArrayList<>();
+
+        button_voucher= findViewById(R.id.pilih_voucher);
+        materi = findViewById(R.id.rincian_barang);
+
+        try {
+            for (int i = 0; i < Transaksi.jsonArray.length(); i++){
+
+                jsonObject = Transaksi.jsonArray.getJSONObject(i);
+
+                if (jsonObject.getString("diskonProduk").equals(" ")){
+
+                    String namaProduk = jsonObject.getString("namaProduk");
+                    String hargaProduk = jsonObject.getString("hargaProduk");
+                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+                    listProdukFree = jsonObject.getJSONArray("dataProdukFree");
+                    System.out.println(listProdukFree);
+
+                    arrayList = new ArrayList<>();
+                    JSONObject jsonObject1 = new JSONObject();
+                    try {
+//                        JSONArray jsonArray = new JSONArray(listProdukFree);
+                        for (int j = 0; j < listProdukFree.length(); j++) {
+                            JSONObject jsonObject = listProdukFree.getJSONObject(j);
+                            String name = jsonObject.getString("nama");
+                            String age = jsonObject.getString("value");
+
+                            arrayList.add(new ModelProdukFree(name, age));
+                        }
+                        System.out.println(arrayList.size()+"sjkd");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("aaa");
+                    dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, listProdukFree));
+                } else {
+
+                    String namaProduk = jsonObject.getString("namaProduk");
+                    String hargaProduk = jsonObject.getString("hargaProduk");
+                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+                    diskonProduk = jsonObject.getString("diskonProduk");
+
+                    System.out.println("bbb");
+                    dataModels.add(new ModelA(namaProduk, jumlahPesanan, hargaProduk, diskonProduk));
+                }
+//
+            }
+
+            System.out.println("ccc");
+            AdapterListProdukPembayaran adapter = new AdapterListProdukPembayaran(dataModels);
+            RecyclerView recyclerView = findViewById(R.id.rincian_barang);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            adapterPembayaran = new AdapterPembayaran(dataModels, getApplicationContext());
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PembayaranActivity.this);
+//            materi.setLayoutManager(layoutManager);
+//            materi.setAdapter(adapterPembayaran);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 //
 //        dataModels = new ArrayList<>();
 //
@@ -180,8 +454,6 @@ public class PembayaranActivity extends AppCompatActivity {
 //            }
 //        });
 
-        button_voucher= findViewById(R.id.pilih_voucher);
-
         button_voucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -189,5 +461,169 @@ public class PembayaranActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+}
+
+class ModelPembayaran{
+
+    String namaProdukDeal;
+    String potonganHargaProdukDeal;
+    String totalProdukDeal;
+    String hargaProdukDeal;
+    int jumlahKalkulasiHarga, jumlahHargaAkhirBarang;
+    JSONArray listProdukFreeDeal;
+
+    public ModelPembayaran(String namaProdukDeal, @Nullable String potonganHargaProdukDeal, String totalProdukDeal, String hargaProdukDeal, @Nullable JSONArray listProdukFreeDeal) {
+        this.namaProdukDeal = namaProdukDeal;
+        this.potonganHargaProdukDeal = potonganHargaProdukDeal;
+        this.totalProdukDeal = totalProdukDeal;
+        this.hargaProdukDeal = hargaProdukDeal;
+        this.listProdukFreeDeal = listProdukFreeDeal;
+    }
+
+    public void setJumlahKalkulasiHarga(int jumlahKalkulasiHarga) {
+        this.jumlahKalkulasiHarga = jumlahKalkulasiHarga;
+    }
+
+    public void setJumlahHargaAkhirBarang(int jumlahHargaAkhirBarang) {
+        this.jumlahHargaAkhirBarang = jumlahHargaAkhirBarang;
+    }
+
+    public String getNamaProdukDeal() {
+        return namaProdukDeal;
+    }
+
+    public int getJumlahHargaAkhirBarang() {
+//        jumlahHargaAkhirBarang = jumlahKalkulasiHarga - potonganHargaProdukDeal;
+        setJumlahHargaAkhirBarang(300000);
+        return jumlahHargaAkhirBarang;
+    }
+
+    public int getJumlahKalkulasiHarga() {
+//        jumlahKalkulasiHarga = hargaProdukDeal + totalProdukDeal;
+        setJumlahKalkulasiHarga(25000);
+        return jumlahKalkulasiHarga;
+    }
+
+    public String getPotonganHargaProdukDeal() {
+        return potonganHargaProdukDeal;
+    }
+
+    public String getTotalProdukDeal() {
+        return totalProdukDeal;
+    }
+
+    public String getHargaProdukDeal() {
+        return hargaProdukDeal;
+    }
+
+    public JSONArray getListProdukFreeDeal() {
+        return listProdukFreeDeal;
+    }
+}
+
+class ModelProdukFree{
+
+    String namaProduk;
+    String valueProduk;
+
+    public ModelProdukFree(String namaProduk, String valueProduk) {
+        this.namaProduk = namaProduk;
+        this.valueProduk = valueProduk;
+    }
+
+    public String getNamaProduk() {
+        return namaProduk;
+    }
+
+    public String getValueProduk() {
+        return valueProduk;
+    }
+}
+
+class ModelA{
+
+    String namaProduk;
+    String valueProduk;
+    String hargaProduk;
+    String potonganDiskon;
+
+    public ModelA(String namaProduk, String valueProduk, String hargaProduk, String potonganDiskon) {
+        this.namaProduk = namaProduk;
+        this.valueProduk = valueProduk;
+        this.hargaProduk = hargaProduk;
+        this.potonganDiskon = potonganDiskon;
+    }
+
+    public String getHargaProduk() {
+        return hargaProduk;
+    }
+
+    public String getPotonganDiskon() {
+        return potonganDiskon;
+    }
+
+    public String getNamaProduk() {
+        return namaProduk;
+    }
+
+    public String getValueProduk() {
+        return valueProduk;
+    }
+}
+
+class ModelB{
+
+    String namaProduk;
+    String valueProduk;
+    String hargaProduk;
+
+    public ModelB(String namaProduk, String valueProduk, String hargaProduk) {
+        this.namaProduk = namaProduk;
+        this.valueProduk = valueProduk;
+        this.hargaProduk = hargaProduk;
+    }
+
+    public String getNamaProduk() {
+        return namaProduk;
+    }
+
+    public String getHargaProduk() {
+        return hargaProduk;
+    }
+
+    public String getValueProduk() {
+        return valueProduk;
+    }
+}
+
+class ModelC{
+
+    String namaProduk;
+    String valueProduk;
+    String hargaProduk;
+    JSONArray listProdukFreeDeal;
+
+    public ModelC(String namaProduk, String valueProduk, String hargaProduk, JSONArray listProdukFreeDeal) {
+        this.namaProduk = namaProduk;
+        this.valueProduk = valueProduk;
+        this.hargaProduk = hargaProduk;
+        this.listProdukFreeDeal = listProdukFreeDeal;
+    }
+
+    public String getNamaProduk() {
+        return namaProduk;
+    }
+
+    public String getHargaProduk() {
+        return hargaProduk;
+    }
+
+    public JSONArray getListProdukFreeDeal() {
+        return listProdukFreeDeal;
+    }
+
+    public String getValueProduk() {
+        return valueProduk;
     }
 }
