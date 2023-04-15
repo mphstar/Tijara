@@ -101,11 +101,11 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
     }
     private void configureViewHolderTypeC(ViewHolderTypeC holder, int position) {
         ModelC modelC = (ModelC) items.get(position);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.VERTICAL, false);
         holder.NamaProduk.setText(modelC.getNamaProduk());
         holder.Harga.setText(modelC.getHargaProduk());
         holder.listProdukFree.setLayoutManager(layoutManager);
-        holder.listProdukFree.setAdapter(new AdapterListProdukFree(PembayaranActivity.arrayList));
+        holder.listProdukFree.setAdapter(new AdapterListProdukFree(modelC.getListProdukFreeDeal()));
     }
 
     @Override
@@ -150,6 +150,7 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
             Harga = itemView.findViewById(R.id.harga_barang_pesan);
             value = itemView.findViewById(R.id.jum_barang_pesan);
             listProdukFree = itemView.findViewById(R.id.rincian_barang_free);
+//            listProdukFree.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
 //            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
 //            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
             totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
@@ -394,9 +395,9 @@ public class PembayaranActivity extends AppCompatActivity {
                         for (int j = 0; j < listProdukFree.length(); j++) {
                             JSONObject jsonObject = listProdukFree.getJSONObject(j);
                             String name = jsonObject.getString("nama");
-                            String age = jsonObject.getString("value");
+                            String value = jsonObject.getString("value");
 
-                            arrayList.add(new ModelProdukFree(name, age));
+                            arrayList.add(new ModelProdukFree(name, value));
                         }
                         System.out.println(arrayList.size()+"sjkd");
                     } catch (Exception e) {
@@ -404,7 +405,7 @@ public class PembayaranActivity extends AppCompatActivity {
                     }
 
                     System.out.println("aaa");
-                    dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, listProdukFree));
+                    dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, arrayList));
                 } else {
 
                     String namaProduk = jsonObject.getString("namaProduk");
@@ -602,9 +603,9 @@ class ModelC{
     String namaProduk;
     String valueProduk;
     String hargaProduk;
-    JSONArray listProdukFreeDeal;
+    ArrayList<ModelProdukFree> listProdukFreeDeal;
 
-    public ModelC(String namaProduk, String valueProduk, String hargaProduk, JSONArray listProdukFreeDeal) {
+    public ModelC(String namaProduk, String valueProduk, String hargaProduk, ArrayList<ModelProdukFree> listProdukFreeDeal) {
         this.namaProduk = namaProduk;
         this.valueProduk = valueProduk;
         this.hargaProduk = hargaProduk;
@@ -619,7 +620,7 @@ class ModelC{
         return hargaProduk;
     }
 
-    public JSONArray getListProdukFreeDeal() {
+    public ArrayList<ModelProdukFree> getListProdukFreeDeal() {
         return listProdukFreeDeal;
     }
 

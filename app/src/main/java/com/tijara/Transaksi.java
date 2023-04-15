@@ -83,7 +83,7 @@ class AdapterTransaksi extends RecyclerView.Adapter<AdapterTransaksi.TransaksiVi
             potonganHarga = itemView.findViewById(R.id.potongan_harga);
             value = itemView.findViewById(R.id.value);
             txtSubHarga = itemView.findViewById(R.id.harga_total);
-            img = itemView.findViewById(R.id.img);
+            img = itemView.findViewById(R.id.img_keranjang);
             trush = itemView.findViewById(R.id.icon_sampah);
         }
     }
@@ -103,44 +103,71 @@ public class Transaksi extends AppCompatActivity {
     void loadProduct(){
 
         if (addProductUsing == 1){
-            dataModels.add(new ModelTransaksi(ambilValues.namaProduk, " ", ambilValues.hargaProduk, "Rp.150.000", "0"," ", ambilValues.jumlahPesanan, ambilValues.dataProdukFree, R.drawable.trush, R.drawable.trush));
-            adapterTransaksi = new AdapterTransaksi(dataModels, getApplicationContext());
+            if (ambilValues.namaProduk.equals("")){
+                System.out.println("No products selected");
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
+                materi.setLayoutManager(layoutManager);
+                materi.setAdapter(adapterTransaksi);
+            }else {
+                dataModels.add(new ModelTransaksi(ambilValues.namaProduk, " ", ambilValues.hargaProduk, "Rp.150.000", "0"," ", ambilValues.jumlahPesanan, ambilValues.dataProdukFree, ambilValues.image_produk, R.drawable.trush));
+                adapterTransaksi = new AdapterTransaksi(dataModels, getApplicationContext());
 
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
-            materi.setLayoutManager(layoutManager);
-            materi.setAdapter(adapterTransaksi);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
+                materi.setLayoutManager(layoutManager);
+                materi.setAdapter(adapterTransaksi);
 
-            try {
-                for (int i = 0; i < dataModels.size(); i++){
-                    jsonObject.put("hargaProduk", dataModels.get(i).getHarga());
-                    jsonObject.put("jumlahPesanan", dataModels.get(i).getValue());
-                    jsonObject.put("namaProduk", dataModels.get(i).getNama_produk());
-                    jsonObject.put("diskonProduk", dataModels.get(i).getPotongan_harga());
-                    jsonObject.put("dataProdukFree", dataModels.get(i).getListProdukFree());
+                try {
+                    for (int i = 0; i < dataModels.size(); i++){
+                        jsonObject.put("hargaProduk", dataModels.get(i).getHarga());
+                        jsonObject.put("jumlahPesanan", dataModels.get(i).getValue());
+                        jsonObject.put("namaProduk", dataModels.get(i).getNama_produk());
+                        jsonObject.put("diskonProduk", dataModels.get(i).getPotongan_harga());
+                        jsonObject.put("dataProdukFree", dataModels.get(i).getListProdukFree());
+                    }
+                    jsonArray.put(jsonObject);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
-                jsonArray.put(jsonObject);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                ambilValues.namaProduk = "";
+                ambilValues.hargaProduk = "";
+                ambilValues.dataProdukFree = null;
+                ambilValues.jumlahPesanan = "";
+                ambilValues.image_produk = 0;
+                view = 1;
             }
         }else if (addProductUsing == 2){
-            dataModels.add(new ModelTransaksi(ambilValues.nama_produk, ambilValues.diskon_produk, ambilValues.harga_produk, "Rp.150.000", "0"," ",ambilValues.jumlah_pesanan, nonProdukFree, R.drawable.trush, R.drawable.trush));
-            adapterTransaksi = new AdapterTransaksi(dataModels, getApplicationContext());
+            if (ambilValues.nama_produk.equals("")){
+                System.out.println("No Products selected");
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
+                materi.setLayoutManager(layoutManager);
+                materi.setAdapter(adapterTransaksi);
+            }else {
+                dataModels.add(new ModelTransaksi(ambilValues.nama_produk, ambilValues.diskon_produk, ambilValues.harga_produk, "Rp.150.000", "0"," ",ambilValues.jumlah_pesanan, nonProdukFree, ambilValues.image_produk, R.drawable.trush));
+                adapterTransaksi = new AdapterTransaksi(dataModels, getApplicationContext());
 
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
-            materi.setLayoutManager(layoutManager);
-            materi.setAdapter(adapterTransaksi);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
+                materi.setLayoutManager(layoutManager);
+                materi.setAdapter(adapterTransaksi);
 
-            try {
-                for (int i = 0; i < dataModels.size(); i++){
-                    jsonObject.put("hargaProduk", dataModels.get(i).getHarga());
-                    jsonObject.put("jumlahPesanan", dataModels.get(i).getValue());
-                    jsonObject.put("namaProduk", dataModels.get(i).getNama_produk());
-                    jsonObject.put("diskonProduk", dataModels.get(i).getPotongan_harga());
-                    jsonObject.put("dataProdukFree", dataModels.get(i).getListProdukFree());
+                try {
+                    for (int i = 0; i < dataModels.size(); i++){
+                        jsonObject.put("hargaProduk", dataModels.get(i).getHarga());
+                        jsonObject.put("jumlahPesanan", dataModels.get(i).getValue());
+                        jsonObject.put("namaProduk", dataModels.get(i).getNama_produk());
+                        jsonObject.put("diskonProduk", dataModels.get(i).getPotongan_harga());
+                        jsonObject.put("dataProdukFree", dataModels.get(i).getListProdukFree());
+                    }
+                    jsonArray.put(jsonObject);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
-                jsonArray.put(jsonObject);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+
+                ambilValues.nama_produk = "";
+                ambilValues.harga_produk = "";
+                ambilValues.diskon_produk = "";
+                ambilValues.jumlah_pesanan = "";
+                ambilValues.image_produk = 0;
+                view = 1;
             }
         }
     }
@@ -166,11 +193,10 @@ public class Transaksi extends AppCompatActivity {
                 System.out.println("b");
                 loadProduct();
             } else if (view == 2){
-                System.out.println("b2");
+
                 jsonObject = new JSONObject();
-//                materi.setVisibility(View.VISIBLE);
-//                System.out.println(ambilValues.jsonData);
                 loadProduct();
+                System.out.println("b2");
                 System.out.println("b3");
             }
         }

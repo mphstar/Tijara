@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="#000000"
-            android:text="Dress Panjang Kondangan"/>
+            android:text="Dress Panjang Kondangan"
+            android:textSize="@dimen/_11ssp"/>
         <TextView
             android:id="@+id/harga_barang_pesan"
             android:gravity="right"
@@ -26,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textSize="@dimen/_11ssp"
             android:textColor="#000000"
             android:text="Rp. 120.000"/>
 
@@ -39,12 +41,14 @@
             android:id="@+id/jum_barang_pesan"
             android:textColor="#747474"
             android:text="2"
+            android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_marginStart="5dp"
             android:textColor="#747474"
             android:text="X"
+            android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -52,6 +56,7 @@
             android:layout_marginStart="5dp"
             android:textColor="#747474"
             android:text="Rp. 240.000"
+            android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -72,23 +77,27 @@
                 <TextView
                     android:textColor="#747474"
                     android:text="Diskon : "
+                    android:textSize="@dimen/_10ssp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/total_harga_barang_akhir"
                     android:textColor="#747474"
                     android:text="Rp. 240.000"
+                    android:textSize="@dimen/_10ssp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:textColor="#747474"
                     android:text=" - "
+                    android:textSize="@dimen/_10ssp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/total_potongan_voucher"
                     android:textColor="#747474"
                     android:text="Rp. 12.000"
+                    android:textSize="@dimen/_10ssp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -97,6 +106,7 @@
                 android:gravity="right"
                 android:textColor="#000000"
                 android:text="Rp. 228.000"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

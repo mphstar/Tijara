@@ -20,7 +20,7 @@
                 android:layout_height="match_parent"
                 app:flexDirection="row"
                 app:justifyContent="space_between"
-                android:paddingHorizontal="30dp">
+                android:paddingHorizontal="@dimen/_25sdp">
                 <ImageView
                     android:id="@+id/back_to_view_transaksi"
                     app:layout_alignSelf="center"
@@ -34,7 +34,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:text="Scan Untuk Mencari"
-                    android:textSize="20dp"/>
+                    android:textSize="@dimen/_15ssp"/>
                 <ImageView
                     app:layout_alignSelf="center"
                     android:layout_width="wrap_content"
@@ -51,20 +51,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="7dp">
+                android:paddingVertical="@dimen/_5sdp">
 
                 <LinearLayout
-                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginHorizontal="@dimen/_25sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="@dimen/_270sdp"
                     android:orientation="vertical"
                     android:background="@drawable/shape4">
                     <TextView
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:text="Rincian Barang"/>
@@ -74,13 +74,13 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginTop="20dp"
-                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginHorizontal="@dimen/_25sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="@dimen/_35sdp">
 
                     <com.google.android.flexbox.FlexboxLayout
-                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginHorizontal="@dimen/_15sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:alignContent="center"
@@ -94,7 +94,7 @@
                             app:layout_alignSelf="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="25dp"
+                            android:textSize="@dimen/_13ssp"
                             android:textStyle="bold"
                             android:textColor="@color/black"
                             android:text="Pilih Voucher" />
@@ -116,16 +116,16 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <com.google.android.flexbox.FlexboxLayout
-                    android:layout_marginTop="20dp"
-                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginHorizontal="@dimen/_25sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="@dimen/_35sdp">
 
                     <FrameLayout
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         app:layout_flexBasisPercent="50%"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="@dimen/_35sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="MissingConstraints">
@@ -138,7 +138,7 @@
                         <com.google.android.flexbox.FlexboxLayout
                             app:justifyContent="space_between"
                             app:alignItems="center"
-                            android:layout_marginHorizontal="30dp"
+                            android:layout_marginHorizontal="@dimen/_25sdp"
                             android:layout_gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -151,6 +151,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="TUNAI"
+                                android:textSize="@dimen/_13ssp"
                                 android:textColor="@color/white"
                                 android:textStyle="bold"/>
 
@@ -161,10 +162,10 @@
                         </com.google.android.flexbox.FlexboxLayout>
                     </FrameLayout>
                     <FrameLayout
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="@dimen/_5sdp"
                         app:layout_flexBasisPercent="50%"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="@dimen/_35sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="MissingConstraints">
@@ -176,7 +177,7 @@
                         <com.google.android.flexbox.FlexboxLayout
                             app:justifyContent="space_between"
                             app:alignItems="center"
-                            android:layout_marginHorizontal="30dp"
+                            android:layout_marginHorizontal="@dimen/_25sdp"
                             android:layout_gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -189,6 +190,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="QRIS"
+                                android:textSize="@dimen/_13ssp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold"/>
 
@@ -203,18 +205,19 @@
                 <EditText
                     android:hint="Total Bayar"
                     android:textColor="@color/black"
-                    android:paddingStart="20dp"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:textSize="@dimen/_13ssp"
                     android:background="@drawable/shape4"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginHorizontal="@dimen/_25sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="@dimen/_35sdp">
 
 
                 </EditText>
                 <LinearLayout
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginHorizontal="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -223,18 +226,20 @@
                         android:layout_height="wrap_content"
                         android:textStyle="normal"
                         android:textColor="@color/black"
-                        android:text="Kurang Bayar : "/>
+                        android:text="Kurang Bayar : "
+                        android:textSize="@dimen/_10ssp"/>
                     <TextView
                         android:id="@+id/kurang_bayar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textColor="#FF0000"/>
+                        android:textColor="#FF0000"
+                        android:textSize="@dimen/_13ssp"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
         <com.google.android.flexbox.FlexboxLayout
-            android:layout_marginHorizontal="30dp"
+            android:layout_marginHorizontal="@dimen/_25sdp"
             app:layout_flexBasisPercent="14%"
             android:layout_width="match_parent"
             android:layout_height="0dp">
@@ -249,10 +254,10 @@
                     app:layout_flexBasisPercent="60%"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="10dp"
+                    android:layout_marginVertical="@dimen/_5sdp"
                     android:orientation="vertical">
                     <com.google.android.flexbox.FlexboxLayout
-                        android:layout_marginVertical="10dp"
+                        android:layout_marginVertical="@dimen/_5sdp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:flexDirection="column"
@@ -263,7 +268,7 @@
                             android:text="Kode Barang"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:textSize="15dp"
+                            android:textSize="@dimen/_10ssp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -272,7 +277,7 @@
                             android:text="Kode Barang"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:textSize="20dp"
+                            android:textSize="@dimen/_17ssp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </com.google.android.flexbox.FlexboxLayout>
@@ -287,23 +292,23 @@
                         android:orientation="horizontal"
                         android:id="@+id/scan_produk"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:paddingVertical="15dp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:paddingVertical="@dimen/_10sdp"
                         android:background="@drawable/shape2_1">
                         <ImageView
-                            android:paddingStart="30dp"
+                            android:paddingStart="@dimen/_25sdp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/bayar"/>
 
                         <TextView
-                            android:paddingStart="10dp"
-                            android:paddingEnd="30dp"
+                            android:paddingStart="@dimen/_5sdp"
+                            android:paddingEnd="@dimen/_25sdp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Bayar"
                             android:textColor="@color/black"
-                            android:textSize="15dp"/>
+                            android:textSize="@dimen/_10ssp"/>
                     </LinearLayout>
                 </LinearLayout>
 

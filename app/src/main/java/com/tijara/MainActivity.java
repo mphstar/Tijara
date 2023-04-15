@@ -26,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Transaksi.class);
                 startActivity(intent);
+                if (Transaksi.dataModels != null){
+                } else if (ambilValues.namaProduk == null){
+                    Transaksi.dataModels = null;
+                    System.out.println("bbbbbbbbbbbbb");
+                }
             }
         });
     }
