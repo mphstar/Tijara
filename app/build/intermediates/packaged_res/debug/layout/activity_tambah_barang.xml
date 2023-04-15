@@ -67,7 +67,7 @@
                                 android:text="Kode Barang"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_10ssp"
+                                android:textSize="@dimen/_11ssp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <ScrollView
@@ -82,7 +82,7 @@
                                     android:background="@color/white"
                                     android:layout_gravity="center"
                                     android:hint="Kode Barang"
-                                    android:textSize="@dimen/_12ssp"
+                                    android:textSize="@dimen/_13ssp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"/>
                             </ScrollView>
@@ -112,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/_5sdp">
                 <androidx.recyclerview.widget.RecyclerView
+                    android:paddingStart="@dimen/_22sdp"
                     android:id="@+id/list_barang"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

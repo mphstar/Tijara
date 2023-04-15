@@ -17,8 +17,11 @@ drawable add_2
 drawable background_rounded
 drawable bayar
 drawable bottom_sheet
+drawable celana_chinos
 drawable circle
 drawable close
+drawable dress_casual_pink
+drawable dress_purple
 drawable giphy
 drawable ic_arrow
 drawable ic_cart
@@ -72,7 +75,6 @@ id back_to_main_transaksi
 id back_to_pembayaran
 id back_to_view_transaksi
 id barang_pesan
-id bg
 id bottom_navigationbar
 id button_back_to_transaksi
 id button_close
@@ -93,7 +95,9 @@ id harga_total
 id home_konten
 id icon_sampah
 id image_no_value
-id img
+id img_free_produk
+id img_keranjang
+id img_tambah_barang
 id info
 id info_pesanan
 id jum_barang_free

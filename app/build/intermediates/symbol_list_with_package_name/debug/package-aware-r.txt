@@ -3542,6 +3542,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable celana_chinos
 drawable circle
 drawable close
 drawable design_fab_background
@@ -3549,6 +3550,8 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable dress_casual_pink
+drawable dress_purple
 drawable giphy
 drawable ic_arrow
 drawable ic_arrow_back_black_24
@@ -3781,7 +3784,6 @@ id baseline
 id beginOnFirstDraw
 id beginning
 id bestChoice
-id bg
 id blocking
 id bottom
 id bottom_navigationbar
@@ -3936,7 +3938,9 @@ id ignore
 id ignoreRequest
 id image
 id image_no_value
-id img
+id img_free_produk
+id img_keranjang
+id img_tambah_barang
 id immediateStop
 id included
 id indeterminate

@@ -28,7 +28,7 @@ android:paddingVertical="7dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/img"/>
+                android:id="@+id/img_free_produk"/>
         </androidx.cardview.widget.CardView>
 <!--        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->

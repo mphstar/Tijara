@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="#000000"
+            android:textSize="@dimen/_11ssp"
             android:text="Dress Panjang Kondangan"/>
         <TextView
             android:id="@+id/harga_barang_pesan"
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="#000000"
+            android:textSize="@dimen/_11ssp"
             android:text="Rp. 120.000"/>
 
     </com.google.android.flexbox.FlexboxLayout>
@@ -39,12 +41,14 @@
             android:id="@+id/jum_barang_pesan"
             android:textColor="#747474"
             android:text="2"
+            android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_marginStart="5dp"
             android:textColor="#747474"
             android:text="X"
+            android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -52,6 +56,7 @@
             android:layout_marginStart="5dp"
             android:textColor="#747474"
             android:text="Rp. 240.000"
+            android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -61,7 +66,8 @@
         android:layout_marginHorizontal="20dp"
         android:id="@+id/rincian_barang_free"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="true">
 
     </androidx.recyclerview.widget.RecyclerView>
     <View
