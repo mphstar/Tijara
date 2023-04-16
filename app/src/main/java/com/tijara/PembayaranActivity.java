@@ -373,6 +373,7 @@ public class PembayaranActivity extends AppCompatActivity {
         dataModels = new ArrayList<>();
 
         button_voucher= findViewById(R.id.pilih_voucher);
+        backTOMainTransaksi = findViewById(R.id.back_to_view_transaksi);
         materi = findViewById(R.id.rincian_barang);
 
         try {
@@ -454,6 +455,13 @@ public class PembayaranActivity extends AppCompatActivity {
 //                finish();
 //            }
 //        });
+
+        backTOMainTransaksi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         button_voucher.setOnClickListener(new View.OnClickListener() {
             @Override

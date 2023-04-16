@@ -27,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Transaksi.class);
                 startActivity(intent);
                 if (Transaksi.dataModels != null){
+                    if (ambilValues.namaProduk != null){
+                        System.out.println("adadad");
+                        Transaksi.view = 2;
+                    } else if (ambilValues.nama_produk == null){
+                        Transaksi.dataModels = null;
+                    }
                 } else if (ambilValues.namaProduk == null){
                     Transaksi.dataModels = null;
                     System.out.println("bbbbbbbbbbbbb");

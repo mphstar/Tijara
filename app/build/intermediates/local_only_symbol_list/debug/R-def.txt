@@ -71,6 +71,7 @@ font poppins_tintitalic
 id add_jumlah
 id add_product
 id appbar_home
+id backTOMainDashboard
 id back_to_main_transaksi
 id back_to_pembayaran
 id back_to_view_transaksi
@@ -104,6 +105,7 @@ id jum_barang_free
 id jum_barang_pesan
 id jumlah_nominal
 id jumlah_pcs
+id jumlah_persentase
 id kalkulasi_diskon
 id kode_produk
 id kurang_bayar
@@ -154,6 +156,8 @@ layout scan_barcode
 layout voucher_nominal
 layout voucher_persentase
 mipmap ic_launcher
+raw circle
+raw circle_blink
 raw no_values
 string app_name
 string welcome

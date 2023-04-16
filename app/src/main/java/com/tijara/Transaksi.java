@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -92,6 +93,7 @@ class AdapterTransaksi extends RecyclerView.Adapter<AdapterTransaksi.TransaksiVi
 public class Transaksi extends AppCompatActivity {
     RecyclerView materi;
     TextView kode_produk;
+    ImageView button_add, backTOMainDashboard;
     static JSONObject jsonObject;
     static JSONArray jsonArray;
     JSONArray nonProdukFree = null;
@@ -172,6 +174,7 @@ public class Transaksi extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +183,8 @@ public class Transaksi extends AppCompatActivity {
 
         materi = findViewById(R.id.list_pesanan);
         kode_produk = findViewById(R.id.result_kode);
-        ImageView button_add = findViewById(R.id.add_product);
+        button_add = findViewById(R.id.add_product);
+        backTOMainDashboard = findViewById(R.id.backTOMainDashboard);
         LinearLayout button_lanjut = findViewById(R.id.button_lanjut);
 
         if (dataModels == null){
@@ -248,6 +252,13 @@ public class Transaksi extends AppCompatActivity {
                 });
 //                Intent intent = new Intent(Transaksi.this, TambahBarangActivity.class);
 //                startActivity(intent);
+            }
+        });
+
+        backTOMainDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
