@@ -3775,6 +3775,7 @@ id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
 id automatic
+id backTOMainDashboard
 id back_to_main_transaksi
 id back_to_pembayaran
 id back_to_view_transaksi
@@ -3954,6 +3955,7 @@ id jum_barang_free
 id jum_barang_pesan
 id jumlah_nominal
 id jumlah_pcs
+id jumlah_persentase
 id jumpToEnd
 id jumpToStart
 id kalkulasi_diskon
@@ -4485,6 +4487,8 @@ layout zxing_barcode_scanner
 layout zxing_capture
 mipmap ic_launcher
 plurals mtrl_badge_content_description
+raw circle
+raw circle_blink
 raw no_values
 raw zxing_beep
 string abc_action_bar_home_description

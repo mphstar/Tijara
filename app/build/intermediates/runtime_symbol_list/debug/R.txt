@@ -3774,6 +3774,7 @@ int id autoComplete 0x7f090057
 int id autoCompleteToEnd 0x7f090058
 int id autoCompleteToStart 0x7f090059
 int id automatic 0x7f09005a
+int id backTOMainDashboard 0x7f090250
 int id back_to_main_transaksi 0x7f09005b
 int id back_to_pembayaran 0x7f09005c
 int id back_to_view_transaksi 0x7f09005d
@@ -3953,6 +3954,7 @@ int id jum_barang_free 0x7f09010a
 int id jum_barang_pesan 0x7f09010b
 int id jumlah_nominal 0x7f09010c
 int id jumlah_pcs 0x7f09010d
+int id jumlah_persentase 0x7f090251
 int id jumpToEnd 0x7f09010e
 int id jumpToStart 0x7f09010f
 int id kalkulasi_diskon 0x7f090110
@@ -4484,6 +4486,8 @@ int layout zxing_barcode_scanner 0x7f0c007f
 int layout zxing_capture 0x7f0c0080
 int mipmap ic_launcher 0x7f0e0000
 int plurals mtrl_badge_content_description 0x7f0f0000
+int raw circle 0x7f100002
+int raw circle_blink 0x7f100003
 int raw no_values 0x7f100000
 int raw zxing_beep 0x7f100001
 int string abc_action_bar_home_description 0x7f110000

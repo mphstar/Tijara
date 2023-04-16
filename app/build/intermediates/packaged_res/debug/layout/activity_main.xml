@@ -207,7 +207,7 @@
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:paddingTop="@dimen/_10sdp"
             app:justifyContent="center"
             app:flexDirection="row"
             tools:ignore="MissingClass">
@@ -222,15 +222,24 @@
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:paddingBottom="@dimen/_10sdp"
             app:justifyContent="center"
             app:flexDirection="row"
             tools:ignore="MissingClass">
-            <ImageView
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:src="@drawable/circle"
-                app:tint="@color/colorPrimary" />
+            <com.airbnb.lottie.LottieAnimationView
+                app:layout_flexBasisPercent="65%"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_colorFilter="@color/colorPrimary"
+                app:lottie_rawRes="@raw/circle_blink"
+                />
+<!--            <ImageView-->
+<!--                android:layout_width="9dp"-->
+<!--                android:layout_height="9dp"-->
+<!--                android:src="@drawable/circle"-->
+<!--                app:tint="@color/colorPrimary" />-->
         </com.google.android.flexbox.FlexboxLayout>
 
 
