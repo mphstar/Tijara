@@ -98,8 +98,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"/>
                             <TextView
+                                android:id="@+id/jumlahList"
                                 android:gravity="bottom"
-                                android:hint="anu"
+                                android:hint="0"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_13ssp"

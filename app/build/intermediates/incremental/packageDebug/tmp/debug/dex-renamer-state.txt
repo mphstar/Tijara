@@ -1,4 +1,4 @@
-#Sun Apr 16 14:44:41 WIB 2023
+#Wed Apr 19 00:41:30 WIB 2023
 base.2=/home/Tryit/Project Tijara/app/build/intermediates/dex/debug/mergeProjectDexDebug/12/classes.dex
 path.2=12/classes.dex
 base.1=/home/Tryit/Project Tijara/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex

@@ -103,6 +103,7 @@ id info
 id info_pesanan
 id jum_barang_free
 id jum_barang_pesan
+id jumlahList
 id jumlah_nominal
 id jumlah_pcs
 id jumlah_persentase
@@ -125,6 +126,7 @@ id result_kode
 id rincian_barang
 id rincian_barang_free
 id scan_produk
+id sub_total
 id tambah_produk
 id to_detail
 id to_return
@@ -156,7 +158,6 @@ layout scan_barcode
 layout voucher_nominal
 layout voucher_persentase
 mipmap ic_launcher
-raw circle
 raw circle_blink
 raw no_values
 string app_name

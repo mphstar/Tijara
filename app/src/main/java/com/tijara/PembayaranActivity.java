@@ -89,6 +89,9 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         ModelA modelA = (ModelA) items.get(position);
         holder.NamaProduk.setText(modelA.getNamaProduk());
         holder.Harga.setText(modelA.getHargaProduk());
+        holder.JumlahHargaProduk.setText(modelA.getSubHargaProduk());
+        holder.JumlahHargaProduk2.setText(modelA.getSubHargaProduk());
+        holder.nominalVoucher.setText(modelA.getNoiminalDiskon());
         holder.PotonganHarga.setText(modelA.getPotonganDiskon());
         holder.value.setText(modelA.getValueProduk());
     }
@@ -103,7 +106,9 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         ModelC modelC = (ModelC) items.get(position);
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.VERTICAL, false);
         holder.NamaProduk.setText(modelC.getNamaProduk());
+        holder.value.setText(modelC.getValueProduk());
         holder.Harga.setText(modelC.getHargaProduk());
+        holder.totalSeluruhHargaBarang.setText(modelC.getTotalHargaBarang());
         holder.listProdukFree.setLayoutManager(layoutManager);
         holder.listProdukFree.setAdapter(new AdapterListProdukFree(modelC.getListProdukFreeDeal()));
     }
@@ -114,16 +119,17 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public static class ViewHolderTypeA extends RecyclerView.ViewHolder {
-        public TextView NamaProduk, Harga, PotonganHarga, value, JumlahHargaProduk, JumlahHargaProduk2, totalSeluruhHargaBarang;
+        public TextView NamaProduk, Harga, PotonganHarga, value, JumlahHargaProduk, JumlahHargaProduk2, totalSeluruhHargaBarang, nominalVoucher;
 
         public ViewHolderTypeA(View itemView) {
             super(itemView);
             NamaProduk = itemView.findViewById(R.id.barang_pesan);
             Harga = itemView.findViewById(R.id.harga_barang_pesan);
-            PotonganHarga = itemView.findViewById(R.id.total_potongan_voucher);
+            PotonganHarga = itemView.findViewById(R.id.total_seluruh_harga_barang);
+            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
+            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
             value = itemView.findViewById(R.id.jum_barang_pesan);
-//            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
-//            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
+            nominalVoucher = itemView.findViewById(R.id.total_potongan_voucher);
             totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
         }
     }
@@ -153,165 +159,165 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
 //            listProdukFree.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
 //            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
 //            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
-            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
+            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_harga_barang_pesan);
         }
     }
 }
 
-class AdapterPembayaran extends RecyclerView.Adapter<AdapterPembayaran.PembayaranViewHolder>{
-    private ArrayList<ModelPembayaran> datalist;
-
-    public AdapterPembayaran(ArrayList<ModelPembayaran> datalist, Context applicationContext){
-        this.datalist = datalist;
-    }
-
-    @NonNull
-    @Override
-    public PembayaranViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.content_rincian_barang, parent, false);
-        return new PembayaranViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull PembayaranViewHolder holder, int position) {
-        holder.NamaProduk.setText(datalist.get(position).getNamaProdukDeal());
-        holder.Harga.setText(datalist.get(position).getHargaProdukDeal());
-        holder.value.setText(datalist.get(position).getTotalProdukDeal());
-//        System.out.println(PembayaranActivity.listProdukFree.length()+"freProd");
-//        System.out.println(PembayaranActivity.diskonProduk.length()+"dis");
-        System.out.println("asasaaa");
-
-        if (PembayaranActivity.diskonProduk == null && PembayaranActivity.listProdukFree.length() > 0){
-
-            System.out.println("FreProd");
-            holder.KalkulasiDiskon.setVisibility(View.INVISIBLE);
-            holder.listProdukFree.setVisibility(View.VISIBLE);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.HORIZONTAL, false);
-            holder.listProdukFree.setLayoutManager(layoutManager);
-            holder.listProdukFree.setAdapter(new AdapterListProdukFree(PembayaranActivity.arrayList));
-        }else if (PembayaranActivity.listProdukFree == null && PembayaranActivity.diskonProduk.length() > 0){
-
-            System.out.println("dis");
-            holder.KalkulasiDiskon.setVisibility(View.VISIBLE);
-            holder.listProdukFree.setVisibility(View.INVISIBLE);
-//                holder.ListProdukFree.set(datalist.get(position).getListProdukFreeDeal());
-        }
-//        else {
-//            holder.ListProdukFree.setVisibility(View.GONE);
-//            holder.PotonganHarga.setText(datalist.get(position).getPotonganHargaProdukDeal());
-//            holder.JumlahHargaProduk.setText(datalist.get(position).getJumlahKalkulasiHarga());
-//            holder.JumlahHargaProduk2.setText(datalist.get(position).getJumlahKalkulasiHarga());
-//            holder.totalSeluruhHargaBarang.setText(datalist.get(position).getJumlahHargaAkhirBarang());
-//        }
-        //
-    }
-
-    @Override
-    public int getItemCount() {
-//        return (datalist != null) ? datalist.size() :0;
-        return datalist.size();
-    }
-
-    public class PembayaranViewHolder extends RecyclerView.ViewHolder {
-        private TextView NamaProduk, Harga, PotonganHarga, value, JumlahHargaProduk, JumlahHargaProduk2, totalSeluruhHargaBarang;
-        private RecyclerView listProdukFree;
-        private LinearLayout KalkulasiDiskon;
-
-        public PembayaranViewHolder(@NonNull View itemView) {
-            super(itemView);
-            NamaProduk = itemView.findViewById(R.id.barang_pesan);
-            Harga = itemView.findViewById(R.id.harga_barang_pesan);
-            PotonganHarga = itemView.findViewById(R.id.total_potongan_voucher);
-            value = itemView.findViewById(R.id.jum_barang_pesan);
-            KalkulasiDiskon = itemView.findViewById(R.id.kalkulasi_diskon);
-            listProdukFree = itemView.findViewById(R.id.rincian_barang_free);
-            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
-            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
-            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
-        }
-    }
-
-//    private ArrayList<ModelTransaksi> dataSet;
-//    Context mContext;
+//class AdapterPembayaran extends RecyclerView.Adapter<AdapterPembayaran.PembayaranViewHolder>{
+//    private ArrayList<ModelPembayaran> datalist;
 //
-//    // View lookup cache
-//    private static class ViewHolder {
-//
-//        TextView txtNamaProduk, txtHarga, potonganHarga, value, txtSubHarga, hargaTotalProduk, totalVoucher;
+//    public AdapterPembayaran(ArrayList<ModelPembayaran> datalist, Context applicationContext){
+//        this.datalist = datalist;
 //    }
 //
-//    public AdapterPembayaran(ArrayList<ModelTransaksi> data, Context context) {
-//        super(context, R.layout.activity_content, data);
-//        this.dataSet = data;
-//        this.mContext=context;
-//
+//    @NonNull
+//    @Override
+//    public PembayaranViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+//        View view = layoutInflater.inflate(R.layout.content_rincian_barang, parent, false);
+//        return new PembayaranViewHolder(view);
 //    }
-//
-//    private int lastPosition = -1;
 //
 //    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        // Get the data item for this position
-//        ModelTransaksi model = getItem(position);
-//        // Check if an existing view is being reused, otherwise inflate the view
-//        ViewHolder viewHolder; // view lookup cache stored in tag
+//    public void onBindViewHolder(@NonNull PembayaranViewHolder holder, int position) {
+//        holder.NamaProduk.setText(datalist.get(position).getNamaProdukDeal());
+//        holder.Harga.setText(datalist.get(position).getHargaProdukDeal());
+//        holder.value.setText(datalist.get(position).getTotalProdukDeal());
+////        System.out.println(PembayaranActivity.listProdukFree.length()+"freProd");
+////        System.out.println(PembayaranActivity.diskonProduk.length()+"dis");
+//        System.out.println("asasaaa");
 //
-//        final View result;
+//        if (PembayaranActivity.diskonProduk == null && PembayaranActivity.listProdukFree.length() > 0){
 //
-//        if (convertView == null) {
+//            System.out.println("FreProd");
+//            holder.KalkulasiDiskon.setVisibility(View.INVISIBLE);
+//            holder.listProdukFree.setVisibility(View.VISIBLE);
+//            LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.HORIZONTAL, false);
+//            holder.listProdukFree.setLayoutManager(layoutManager);
+//            holder.listProdukFree.setAdapter(new AdapterListProdukFree(PembayaranActivity.arrayList));
+//        }else if (PembayaranActivity.listProdukFree == null && PembayaranActivity.diskonProduk.length() > 0){
 //
-//            viewHolder = new ViewHolder();
-//            LayoutInflater inflater = LayoutInflater.from(getContext());
-//            convertView = inflater.inflate(R.layout.detail_rincian_barang, parent, false);
-//            viewHolder.txtNamaProduk = (TextView) convertView.findViewById(R.id.name_product);
-//            viewHolder.txtHarga = (TextView) convertView.findViewById(R.id.harga_pcs);
-//            viewHolder.potonganHarga = (TextView) convertView.findViewById(R.id.potongan_harga);
-//            viewHolder.value = (TextView) convertView.findViewById(R.id.value);
-//            viewHolder.txtSubHarga = (TextView) convertView.findViewById(R.id.harga_total);
-//            viewHolder.hargaTotalProduk = (TextView) convertView.findViewById(R.id.total_harga_barang_akhir);
-//            viewHolder.totalVoucher = (TextView) convertView.findViewById(R.id.total_potongan_voucher);
-//
-//            result=convertView;
-//
-//            convertView.setTag(viewHolder);
-//        } else {
-//            viewHolder = (ViewHolder) convertView.getTag();
-//            result=convertView;
+//            System.out.println("dis");
+//            holder.KalkulasiDiskon.setVisibility(View.VISIBLE);
+//            holder.listProdukFree.setVisibility(View.INVISIBLE);
+////                holder.ListProdukFree.set(datalist.get(position).getListProdukFreeDeal());
 //        }
-//
-////        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
-////        result.startAnimation(animation);
-////        lastPosition = position;
-//
-//        viewHolder.txtNamaProduk.setText(model.getNama_produk());
-//        viewHolder.txtHarga.setText(model.getHarga());
-//        viewHolder.potonganHarga.setText(model.getHarga());
-//        viewHolder.value.setText(model.getHarga());
-//        viewHolder.txtSubHarga.setText(model.getSub_harga());
-//        viewHolder.hargaTotalProduk.setText(model.getjumlahBarangPilih());
-//        viewHolder.totalVoucher.setText(model.getTotal_harga_barang());
-////        viewHolder.img.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                AlertDialog.Builder builder = new AlertDialog.Builder(view.getRootView().getContext(), R.style.dialog);
-////                View diaView1 = LayoutInflater.from(view.getRootView().getContext()).inflate(R.layout.activity_dialog, null);
-////                TextView textLorem;
-////                ImageView ImageProfile;
-//////                textLorem = (TextView) diaView1.findViewById(R.id.text_lorem);
-////                ImageProfile = (ImageView) diaView1.findViewById(R.id.pop_up_image);
-//////                textLorem.setText(model.getMessage());
-////                ImageProfile.setImageResource(model.getImgs());
-////                builder.setView(diaView1);
-////                builder.setCancelable(true);
-////                builder.show();
-////            }
-////        });
-////        viewHolder.img.setTag(position);
-//        // Return the completed view to render on screen
-//        return convertView;
+////        else {
+////            holder.ListProdukFree.setVisibility(View.GONE);
+////            holder.PotonganHarga.setText(datalist.get(position).getPotonganHargaProdukDeal());
+////            holder.JumlahHargaProduk.setText(datalist.get(position).getJumlahKalkulasiHarga());
+////            holder.JumlahHargaProduk2.setText(datalist.get(position).getJumlahKalkulasiHarga());
+////            holder.totalSeluruhHargaBarang.setText(datalist.get(position).getJumlahHargaAkhirBarang());
+////        }
+//        //
 //    }
-}
+//
+//    @Override
+//    public int getItemCount() {
+////        return (datalist != null) ? datalist.size() :0;
+//        return datalist.size();
+//    }
+//
+//    public class PembayaranViewHolder extends RecyclerView.ViewHolder {
+//        private TextView NamaProduk, Harga, PotonganHarga, value, JumlahHargaProduk, JumlahHargaProduk2, totalSeluruhHargaBarang;
+//        private RecyclerView listProdukFree;
+//        private LinearLayout KalkulasiDiskon;
+//
+//        public PembayaranViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            NamaProduk = itemView.findViewById(R.id.barang_pesan);
+//            Harga = itemView.findViewById(R.id.harga_barang_pesan);
+//            PotonganHarga = itemView.findViewById(R.id.total_potongan_voucher);
+//            value = itemView.findViewById(R.id.jum_barang_pesan);
+//            KalkulasiDiskon = itemView.findViewById(R.id.kalkulasi_diskon);
+//            listProdukFree = itemView.findViewById(R.id.rincian_barang_free);
+//            JumlahHargaProduk = itemView.findViewById(R.id.total_harga_barang_pesan);
+//            JumlahHargaProduk2 = itemView.findViewById(R.id.total_harga_barang_akhir);
+//            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
+//        }
+//    }
+//
+////    private ArrayList<ModelTransaksi> dataSet;
+////    Context mContext;
+////
+////    // View lookup cache
+////    private static class ViewHolder {
+////
+////        TextView txtNamaProduk, txtHarga, potonganHarga, value, txtSubHarga, hargaTotalProduk, totalVoucher;
+////    }
+////
+////    public AdapterPembayaran(ArrayList<ModelTransaksi> data, Context context) {
+////        super(context, R.layout.activity_content, data);
+////        this.dataSet = data;
+////        this.mContext=context;
+////
+////    }
+////
+////    private int lastPosition = -1;
+////
+////    @Override
+////    public View getView(int position, View convertView, ViewGroup parent) {
+////        // Get the data item for this position
+////        ModelTransaksi model = getItem(position);
+////        // Check if an existing view is being reused, otherwise inflate the view
+////        ViewHolder viewHolder; // view lookup cache stored in tag
+////
+////        final View result;
+////
+////        if (convertView == null) {
+////
+////            viewHolder = new ViewHolder();
+////            LayoutInflater inflater = LayoutInflater.from(getContext());
+////            convertView = inflater.inflate(R.layout.detail_rincian_barang, parent, false);
+////            viewHolder.txtNamaProduk = (TextView) convertView.findViewById(R.id.name_product);
+////            viewHolder.txtHarga = (TextView) convertView.findViewById(R.id.harga_pcs);
+////            viewHolder.potonganHarga = (TextView) convertView.findViewById(R.id.potongan_harga);
+////            viewHolder.value = (TextView) convertView.findViewById(R.id.value);
+////            viewHolder.txtSubHarga = (TextView) convertView.findViewById(R.id.harga_total);
+////            viewHolder.hargaTotalProduk = (TextView) convertView.findViewById(R.id.total_harga_barang_akhir);
+////            viewHolder.totalVoucher = (TextView) convertView.findViewById(R.id.total_potongan_voucher);
+////
+////            result=convertView;
+////
+////            convertView.setTag(viewHolder);
+////        } else {
+////            viewHolder = (ViewHolder) convertView.getTag();
+////            result=convertView;
+////        }
+////
+//////        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+//////        result.startAnimation(animation);
+//////        lastPosition = position;
+////
+////        viewHolder.txtNamaProduk.setText(model.getNama_produk());
+////        viewHolder.txtHarga.setText(model.getHarga());
+////        viewHolder.potonganHarga.setText(model.getHarga());
+////        viewHolder.value.setText(model.getHarga());
+////        viewHolder.txtSubHarga.setText(model.getSub_harga());
+////        viewHolder.hargaTotalProduk.setText(model.getjumlahBarangPilih());
+////        viewHolder.totalVoucher.setText(model.getTotal_harga_barang());
+//////        viewHolder.img.setOnClickListener(new View.OnClickListener() {
+//////            @Override
+//////            public void onClick(View view) {
+//////                AlertDialog.Builder builder = new AlertDialog.Builder(view.getRootView().getContext(), R.style.dialog);
+//////                View diaView1 = LayoutInflater.from(view.getRootView().getContext()).inflate(R.layout.activity_dialog, null);
+//////                TextView textLorem;
+//////                ImageView ImageProfile;
+////////                textLorem = (TextView) diaView1.findViewById(R.id.text_lorem);
+//////                ImageProfile = (ImageView) diaView1.findViewById(R.id.pop_up_image);
+////////                textLorem.setText(model.getMessage());
+//////                ImageProfile.setImageResource(model.getImgs());
+//////                builder.setView(diaView1);
+//////                builder.setCancelable(true);
+//////                builder.show();
+//////            }
+//////        });
+//////        viewHolder.img.setTag(position);
+////        // Return the completed view to render on screen
+////        return convertView;
+////    }
+//}
 
 class AdapterListProdukFree extends RecyclerView.Adapter<AdapterListProdukFree.PembayaranViewHolder>{
     private ArrayList<ModelProdukFree> datalist;
@@ -360,7 +366,6 @@ public class PembayaranActivity extends AppCompatActivity {
     static JSONObject jsonObject, jsonObject2;
     static JSONArray listProdukFree;
     static String diskonProduk;
-    private static AdapterPembayaran adapterPembayaran;
     private static AdapterListProdukFree adapterListProdukFree;
     ImageView button_voucher, backTOMainTransaksi;
 
@@ -381,11 +386,12 @@ public class PembayaranActivity extends AppCompatActivity {
 
                 jsonObject = Transaksi.jsonArray.getJSONObject(i);
 
-                if (jsonObject.getString("diskonProduk").equals(" ")){
+                if (jsonObject.getString("nominalDiskon").equals("0")){
 
                     String namaProduk = jsonObject.getString("namaProduk");
                     String hargaProduk = jsonObject.getString("hargaProduk");
                     String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+                    String totalHargaProduk = jsonObject.getString("diskonProduk");
                     listProdukFree = jsonObject.getJSONArray("dataProdukFree");
                     System.out.println(listProdukFree);
 
@@ -406,16 +412,18 @@ public class PembayaranActivity extends AppCompatActivity {
                     }
 
                     System.out.println("aaa");
-                    dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, arrayList));
+                    dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, totalHargaProduk, arrayList));
                 } else {
 
                     String namaProduk = jsonObject.getString("namaProduk");
                     String hargaProduk = jsonObject.getString("hargaProduk");
                     String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+                    String subHargaProduk = jsonObject.getString("subHarga");
+                    String nominalDiskon = jsonObject.getString("nominalDiskon");
                     diskonProduk = jsonObject.getString("diskonProduk");
 
                     System.out.println("bbb");
-                    dataModels.add(new ModelA(namaProduk, jumlahPesanan, hargaProduk, diskonProduk));
+                    dataModels.add(new ModelA(namaProduk, jumlahPesanan, hargaProduk, diskonProduk, subHargaProduk, nominalDiskon));
                 }
 //
             }
@@ -556,26 +564,33 @@ class ModelA{
     String valueProduk;
     String hargaProduk;
     String potonganDiskon;
+    String subHargaProduk;
+    String noiminalDiskon;
 
-    public ModelA(String namaProduk, String valueProduk, String hargaProduk, String potonganDiskon) {
+    public ModelA(String namaProduk, String valueProduk, String hargaProduk, String potonganDiskon, String subHargaProduk, String noiminalDiskon) {
         this.namaProduk = namaProduk;
         this.valueProduk = valueProduk;
         this.hargaProduk = hargaProduk;
         this.potonganDiskon = potonganDiskon;
+        this.subHargaProduk = subHargaProduk;
+        this.noiminalDiskon = noiminalDiskon;
     }
 
+    public String getNoiminalDiskon() {
+        return noiminalDiskon;
+    }
+    public String getSubHargaProduk() {
+        return subHargaProduk;
+    }
     public String getHargaProduk() {
         return hargaProduk;
     }
-
     public String getPotonganDiskon() {
         return potonganDiskon;
     }
-
     public String getNamaProduk() {
         return namaProduk;
     }
-
     public String getValueProduk() {
         return valueProduk;
     }
@@ -596,11 +611,9 @@ class ModelB{
     public String getNamaProduk() {
         return namaProduk;
     }
-
     public String getHargaProduk() {
         return hargaProduk;
     }
-
     public String getValueProduk() {
         return valueProduk;
     }
@@ -611,27 +624,29 @@ class ModelC{
     String namaProduk;
     String valueProduk;
     String hargaProduk;
+    String totalHargaBarang;
     ArrayList<ModelProdukFree> listProdukFreeDeal;
 
-    public ModelC(String namaProduk, String valueProduk, String hargaProduk, ArrayList<ModelProdukFree> listProdukFreeDeal) {
+    public ModelC(String namaProduk, String valueProduk, String hargaProduk, String totalHargaBarang, ArrayList<ModelProdukFree> listProdukFreeDeal) {
         this.namaProduk = namaProduk;
         this.valueProduk = valueProduk;
         this.hargaProduk = hargaProduk;
+        this.totalHargaBarang = totalHargaBarang;
         this.listProdukFreeDeal = listProdukFreeDeal;
     }
 
+    public String getTotalHargaBarang() {
+        return totalHargaBarang;
+    }
     public String getNamaProduk() {
         return namaProduk;
     }
-
     public String getHargaProduk() {
         return hargaProduk;
     }
-
     public ArrayList<ModelProdukFree> getListProdukFreeDeal() {
         return listProdukFreeDeal;
     }
-
     public String getValueProduk() {
         return valueProduk;
     }

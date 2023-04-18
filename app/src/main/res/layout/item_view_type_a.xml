@@ -8,32 +8,32 @@
 
     <com.google.android.flexbox.FlexboxLayout
         app:flexDirection="row"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        app:justifyContent="space_between"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/barang_pesan"
-            app:layout_flexBasisPercent="65%"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="#000000"
             android:text="Dress Panjang Kondangan"
-            android:textSize="@dimen/_11ssp"/>
+            android:textSize="@dimen/_12ssp"/>
         <TextView
             android:id="@+id/harga_barang_pesan"
             android:gravity="right"
-            app:layout_flexBasisPercent="35%"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_12ssp"
             android:textColor="#000000"
             android:text="Rp. 120.000"/>
 
     </com.google.android.flexbox.FlexboxLayout>
     <LinearLayout
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_3sdp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:textColor="#747474"
             android:text="X"
             android:textSize="@dimen/_10ssp"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/total_harga_barang_pesan"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:textColor="#747474"
             android:text="Rp. 240.000"
             android:textSize="@dimen/_10ssp"
@@ -62,7 +62,7 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/kalkulasi_diskon"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.flexbox.FlexboxLayout

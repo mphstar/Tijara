@@ -286,6 +286,7 @@
                             app:layout_alignSelf="flex_end" />
 
                         <TextView
+                            android:id="@+id/sub_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Rp.430.000"
