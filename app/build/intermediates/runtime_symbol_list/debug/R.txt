@@ -3903,6 +3903,7 @@ int id flip 0x7f0900d7
 int id floating 0x7f0900d8
 int id forever 0x7f0900d9
 int id fragment_container_view_tag 0x7f0900da
+int id free_produk_didapat 0x7f090255
 int id frost 0x7f0900db
 int id fullscreen_header 0x7f0900dc
 int id ghost_view 0x7f0900dd
@@ -3954,6 +3955,7 @@ int id jum_barang_free 0x7f09010a
 int id jum_barang_pesan 0x7f09010b
 int id jumlahList 0x7f090254
 int id jumlah_nominal 0x7f09010c
+int id jumlah_nominal_harga 0x7f090256
 int id jumlah_pcs 0x7f09010d
 int id jumlah_persentase 0x7f090251
 int id jumpToEnd 0x7f09010e
@@ -4039,6 +4041,7 @@ int id mtrl_view_tag_bottom_padding 0x7f09015d
 int id multiply 0x7f09015e
 int id nama_barang_free 0x7f09015f
 int id nama_produk 0x7f090160
+int id nama_produk_free 0x7f090257
 int id name_product 0x7f090161
 int id navigation_bar_item_active_indicator_view 0x7f090162
 int id navigation_bar_item_icon_container 0x7f090163
@@ -4396,6 +4399,7 @@ int layout content_rincian_barang 0x7f0c0023
 int layout content_rincian_barang_free 0x7f0c0024
 int layout content_tambah_barang 0x7f0c0025
 int layout custom_dialog 0x7f0c0026
+int layout custom_toast 0x7f0c0081
 int layout design_bottom_navigation_item 0x7f0c0027
 int layout design_bottom_sheet_dialog 0x7f0c0028
 int layout design_layout_snackbar 0x7f0c0029
@@ -4488,6 +4492,7 @@ int layout zxing_barcode_scanner 0x7f0c007f
 int layout zxing_capture 0x7f0c0080
 int mipmap ic_launcher 0x7f0e0000
 int plurals mtrl_badge_content_description 0x7f0f0000
+int raw add_product 0x7f100004
 int raw circle_blink 0x7f100003
 int raw no_values 0x7f100000
 int raw zxing_beep 0x7f100001

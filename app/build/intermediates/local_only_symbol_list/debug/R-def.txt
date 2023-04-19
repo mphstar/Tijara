@@ -88,6 +88,7 @@ id detail_dialog
 id diskon_produk
 id field_isi_jumlah_barang
 id field_kode_product
+id free_produk_didapat
 id harga_barang_free
 id harga_barang_pesan
 id harga_pcs
@@ -105,6 +106,7 @@ id jum_barang_free
 id jum_barang_pesan
 id jumlahList
 id jumlah_nominal
+id jumlah_nominal_harga
 id jumlah_pcs
 id jumlah_persentase
 id kalkulasi_diskon
@@ -117,6 +119,7 @@ id list_produk_gratis
 id min_jumlah
 id nama_barang_free
 id nama_produk
+id nama_produk_free
 id name_product
 id pilih_voucher
 id plus_minus_values
@@ -149,6 +152,7 @@ layout content_produk_free
 layout content_rincian_barang
 layout content_rincian_barang_free
 layout content_tambah_barang
+layout custom_toast
 layout item_view_type_a
 layout item_view_type_b
 layout item_view_type_c
@@ -158,6 +162,7 @@ layout scan_barcode
 layout voucher_nominal
 layout voucher_persentase
 mipmap ic_launcher
+raw add_product
 raw circle_blink
 raw no_values
 string app_name

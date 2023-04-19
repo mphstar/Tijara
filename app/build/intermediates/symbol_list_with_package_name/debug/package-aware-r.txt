@@ -3904,6 +3904,7 @@ id flip
 id floating
 id forever
 id fragment_container_view_tag
+id free_produk_didapat
 id frost
 id fullscreen_header
 id ghost_view
@@ -3955,6 +3956,7 @@ id jum_barang_free
 id jum_barang_pesan
 id jumlahList
 id jumlah_nominal
+id jumlah_nominal_harga
 id jumlah_pcs
 id jumlah_persentase
 id jumpToEnd
@@ -4040,6 +4042,7 @@ id mtrl_view_tag_bottom_padding
 id multiply
 id nama_barang_free
 id nama_produk
+id nama_produk_free
 id name_product
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
@@ -4397,6 +4400,7 @@ layout content_rincian_barang
 layout content_rincian_barang_free
 layout content_tambah_barang
 layout custom_dialog
+layout custom_toast
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
 layout design_layout_snackbar
@@ -4489,6 +4493,7 @@ layout zxing_barcode_scanner
 layout zxing_capture
 mipmap ic_launcher
 plurals mtrl_badge_content_description
+raw add_product
 raw circle_blink
 raw no_values
 raw zxing_beep

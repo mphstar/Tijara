@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +39,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 class allTypeData{
 
     static TextView sub_total_harga;
     static int jenisProduk;
+    static String jumlah_barang;
+    static NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
     public int imageProduk, priceProduct, potonganHarga, subHarga, totalHarga, totalKaliJumBarang;
     int view2 = 2, view1 = 1;
     String json, aa;
@@ -73,6 +78,7 @@ class ambilValues{
 class AdapterProdukFree extends RecyclerView.Adapter<AdapterProdukFree.ViewHolder> {
 
     private ArrayList<modelProdukFree> datalist;
+    private int nilai = 0;
 
     public AdapterProdukFree(ArrayList<modelProdukFree> datalist){
         this.datalist = datalist;
@@ -88,9 +94,26 @@ class AdapterProdukFree extends RecyclerView.Adapter<AdapterProdukFree.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtNamaProduk.setText(datalist.get(position).getName_product());
-        holder.txtValues.setText(datalist.get(position).getValues());
+        modelProdukFree jumlah = datalist.get(position);
 
+        holder.txtNamaProduk.setText(datalist.get(position).getName_product());
+        holder.txtValues.setText(String.valueOf(datalist.get(position).getValues()));
+        holder.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jumlah.setValues(jumlah.getValues() + 1);
+                holder.txtValues.setText(String.valueOf(jumlah.getValues()));
+            }
+        });
+        holder.minButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (jumlah.getValues() > 0) {
+                    jumlah.setValues(jumlah.getValues() - 1);
+                    holder.txtValues.setText(String.valueOf(jumlah.getValues()));
+                }
+            }
+        });
     }
 
     @Override
@@ -101,9 +124,12 @@ class AdapterProdukFree extends RecyclerView.Adapter<AdapterProdukFree.ViewHolde
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtNamaProduk, txtValues;
+        private ImageView addButton, minButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            addButton = itemView.findViewById(R.id.add_jumlah);
+            minButton = itemView.findViewById(R.id.min_jumlah);
             txtNamaProduk = itemView.findViewById(R.id.name_product);
             txtValues = itemView.findViewById(R.id.jumlah_pcs);
         }
@@ -140,11 +166,28 @@ class AdapterProdukFree2 extends RecyclerView.Adapter<AdapterProdukFree2.ViewHol
         return new ViewHolder(view);
     }
 
+    public void showToast(Context context, String message) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.custom_toast, null);
+
+//        ImageView imageView = (ImageView) layout.findViewById(R.id.imageView);
+//        imageView.setImageResource(R.drawable.ic_info);
+
+        TextView textView = (TextView) layout.findViewById(R.id.nama_produk_free);
+        textView.setText(message);
+
+        Toast toast = new Toast(context);
+        toast.setGravity(Gravity.TOP, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String nama_produk_dipilih = datalist.get(position).getName_product();
         holder.txtNamaProduk.setText(datalist.get(position).getName_product());
-        holder.txtValues.setText(datalist.get(position).getValues());
+        holder.txtValues.setText(String.valueOf(datalist.get(position).getValues()));
         holder.plus_minus_values.setVisibility(View.GONE);
 
         holder.content_pilih_produk_free.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +195,8 @@ class AdapterProdukFree2 extends RecyclerView.Adapter<AdapterProdukFree2.ViewHol
             public void onClick(View view) {
                 dataNamaProduk = nama_produk_dipilih;
                 System.out.println(nama_produk_dipilih);
-                Toast.makeText(view.getContext(), "Produk "+dataNamaProduk, Toast.LENGTH_SHORT).show();
+                showToast(view.getContext(), dataNamaProduk);
+//                Toast.makeText(view.getContext(), "Produk "+dataNamaProduk, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -231,8 +275,6 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         int diskon = allTypeData.datalist.get(position).getPotongan_harga();
         int image_produk = allTypeData.datalist.get(position).getImgs();
         holder.txtNamaProduk.setText(allTypeData.datalist.get(position).getNama_produk());
-        holder.txtHarga.setText(String.valueOf(allTypeData.datalist.get(position).getHarga()));
-        holder.potonganHarga.setText(String.valueOf(allTypeData.datalist.get(position).getPotongan_harga()));
         holder.value.setText(allTypeData.datalist.get(position).getValue());
         holder.img.setImageResource(allTypeData.datalist.get(position).getImgs());
         holder.trush.setImageResource(allTypeData.datalist.get(position).getTrush());
@@ -241,7 +283,11 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         holder.txtSubHarga.setVisibility(View.GONE);
         if (allTypeData.datalist.get(position).getPotongan_harga() == 0){
             holder.potonganHarga.setVisibility(View.GONE);
+            holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
+            holder.potonganHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getPotongan_harga()));
         } else {
+            holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga() - allTypeData.datalist.get(position).getPotongan_harga()));
+            holder.potonganHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
             holder.potonganHarga.setPaintFlags(holder.potonganHarga.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
         allTypeData.modelDataSetGet = new ArrayList<>();
@@ -275,9 +321,9 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
     private void GetProdukFree(View view){
 
         allTypeData.dataModel = new ArrayList<>();
-        allTypeData.dataModel.add(new modelProdukFree("Dress Panjang Kondangan K..", "1"));
-        allTypeData.dataModel.add(new modelProdukFree("Dress Casual Pink", "2"));
-        allTypeData.dataModel.add(new modelProdukFree("Celana Chinos Buat Perang ...", "4"));
+        allTypeData.dataModel.add(new modelProdukFree("Dress Panjang Kondangan K..", 1));
+        allTypeData.dataModel.add(new modelProdukFree("Dress Casual Pink", 2));
+        allTypeData.dataModel.add(new modelProdukFree("Celana Chinos Buat Perang ...", 4));
 
         allTypeData.adapterProdukFree2 = new AdapterProdukFree2(allTypeData.dataModel);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -315,7 +361,6 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         allTypeData.materi = allTypeData.bottomSheetDialog.findViewById(R.id.produk_gratis);
         allTypeData.detail_dialog = allTypeData.bottomSheetDialog.findViewById(R.id.detail_dialog);
         allTypeData.field_isi_jumlah_barang2 = allTypeData.bottomSheetDialog.findViewById(R.id.field_isi_jumlah_barang);
-        allTypeData.field_isi_jumlah_barang2 = allTypeData.bottomSheetDialog.findViewById(R.id.field_isi_jumlah_barang);
         allTypeData.sub_total_harga = allTypeData.bottomSheetDialog.findViewById(R.id.sub_total);
         allTypeData.sub_total_harga.setText(String.valueOf(0));
         button_back_to_transaksi = allTypeData.bottomSheetDialog.findViewById(R.id.button_back_to_transaksi);
@@ -326,7 +371,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         list_produk_gratis = allTypeData.bottomSheetDialog.findViewById(R.id.list_produk_gratis);
 
         nama_produk.setText(allTypeData.nameProduct);
-        harga_produk.setText(String.valueOf(allTypeData.priceProduct));
+        harga_produk.setText(allTypeData.format.format(allTypeData.priceProduct));
         diskon_produk.setVisibility(View.GONE);
 
         allTypeData.materi = allTypeData.bottomSheetDialog.findViewById(R.id.produk_gratis);
@@ -339,9 +384,10 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
             allTypeData.materi = allTypeData.bottomSheetDialog.findViewById(R.id.produk_gratis);
             allTypeData.materi.setVisibility(View.VISIBLE);
 
-            allTypeData.modelDataSetGet.add(new modelProdukFree(allTypeData.adapterProdukFree2.dataNamaProduk,"1"));
+            allTypeData.modelDataSetGet.add(new modelProdukFree(allTypeData.adapterProdukFree2.dataNamaProduk,1));
             allTypeData.adapterProdukFree = new AdapterProdukFree(allTypeData.modelDataSetGet);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+            allTypeData.adapterProdukFree.notifyDataSetChanged();
             allTypeData.materi.setLayoutManager(layoutManager);
             allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
             allTypeData.json = gson.toJson(allTypeData.modelDataSetGet);
@@ -376,6 +422,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().length() != 0){
                     allTypeData.jenisProduk = 2;
+                    allTypeData.jumlah_barang = editable.toString();
                     eksekusi_jumlah_barang(editable.toString());
                 }else if (editable.toString().length() == 0){
                     allTypeData.jenisProduk = 2;
@@ -427,7 +474,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
 
 
                 try {
-                    jsonObject.put("hargaProduk", String.valueOf(harga_produk.getText()));
+                    jsonObject.put("hargaProduk", String.valueOf(allTypeData.priceProduct));
                     jsonObject.put("hargaSetelahDikaliPerpcs", allTypeData.totalKaliJumBarang);
                     jsonObject.put("jumlahPesanan", String.valueOf(allTypeData.field_isi_jumlah_barang2.getText()));
                     jsonObject.put("namaProduk", String.valueOf(nama_produk.getText()));
@@ -481,6 +528,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
             public void onClick(View view) {
                 builder.dismiss();
                 showBottomSheet(view);
+                allTypeData.field_isi_jumlah_barang2.setText(allTypeData.jumlah_barang);
             }
         });
 
@@ -490,6 +538,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
                 builder.dismiss();
                 allTypeData.view1 = 2;
                 showBottomSheet(view);
+                allTypeData.field_isi_jumlah_barang2.setText(allTypeData.jumlah_barang);
             }
         });
 
@@ -534,9 +583,9 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         allTypeData.totalKaliJumBarang = allTypeData.priceProduct * Integer.parseInt(jumlah);
         allTypeData.totalHarga = allTypeData.totalKaliJumBarang - allTypeData.potonganHarga;
         if (allTypeData.jenisProduk == 1){
-            allTypeData.sub_total_harga.setText(String.valueOf(allTypeData.totalHarga));
+            allTypeData.sub_total_harga.setText(allTypeData.format.format(allTypeData.totalHarga));
         }else {
-            allTypeData.sub_total_harga.setText(String.valueOf(allTypeData.totalKaliJumBarang));
+            allTypeData.sub_total_harga.setText(allTypeData.format.format(allTypeData.totalKaliJumBarang));
         }
         System.out.println(allTypeData.totalHarga);
     }
@@ -564,8 +613,8 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
 
         values.setVisibility(View.GONE);
         nama_produk.setText(allTypeData.nameProduct);
-        harga_produk.setText(String.valueOf(allTypeData.priceProduct));
-        diskon_produk.setText(String.valueOf(allTypeData.potonganHarga));
+        harga_produk.setText(allTypeData.format.format(allTypeData.priceProduct));
+        diskon_produk.setText(allTypeData.format.format(allTypeData.potonganHarga));
         System.out.println(allTypeData.totalHarga);
 
         allTypeData.field_isi_jumlah_barang.addTextChangedListener(new TextWatcher() {
@@ -853,9 +902,9 @@ public class TambahBarangActivity extends AppCompatActivity {
 
 class modelProdukFree {
     String name_product;
-    String values;
+    int values;
 
-    public modelProdukFree(String name_product, String values) {
+    public modelProdukFree(String name_product, int values) {
         this.name_product = name_product;
         this.values = values;
     }
@@ -868,11 +917,11 @@ class modelProdukFree {
         this.name_product = name_product;
     }
 
-    public String getValues() {
+    public int getValues() {
         return values;
     }
 
-    public void setValues(String values) {
+    public void setValues(int values) {
         this.values = values;
     }
 }

@@ -34,7 +34,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:text="Scan Untuk Mencari"
-                    android:textSize="@dimen/_15ssp"/>
+                    android:textSize="@dimen/_18ssp"/>
                 <ImageView
                     app:layout_alignSelf="center"
                     android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                         android:layout_marginTop="@dimen/_15sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_11ssp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:text="Rincian Barang"/>
