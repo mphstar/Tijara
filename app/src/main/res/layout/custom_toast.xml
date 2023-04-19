@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/_5sdp"
+    android:paddingHorizontal="@dimen/_10sdp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:elevation="@dimen/_10sdp"
+    android:background="@drawable/shape_white">
+
+    <com.airbnb.lottie.LottieAnimationView
+        app:layout_flexBasisPercent="65%"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/add_product"
+        />
+    <LinearLayout
+        android:layout_marginStart="@dimen/_7sdp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/nama_produk_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/_11ssp"
+            android:text="Nama : "/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:text="Barang Berhasil Ditambahkan"/>
+    </LinearLayout>
+
+</LinearLayout>

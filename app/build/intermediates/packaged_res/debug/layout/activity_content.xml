@@ -50,46 +50,53 @@
                     android:layout_height="match_parent"
                     app:layout_alignSelf="center">
                     <com.google.android.flexbox.FlexboxLayout
-                        android:layout_marginVertical="5dp"
+                        android:layout_marginVertical="@dimen/_5sdp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:justifyContent="space_between"
                         app:flexDirection="column">
                         <TextView
-                            app:layout_flexBasisPercent="30%"
                             android:id="@+id/name_product"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingStart="15dp"
+                            android:paddingStart="@dimen/_13sdp"
                             android:text="June 10"
                             android:textColor="#000000"
-                            android:textSize="15dp"
+                            android:textSize="@dimen/_11ssp"
                             android:textStyle="normal" />
                         <com.google.android.flexbox.FlexboxLayout
-                            app:layout_flexBasisPercent="40%"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:justifyContent="space_between">
-                            <TextView
-                                app:layout_flexBasisPercent="50%"
-                                android:id="@+id/harga_pcs"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingStart="15dp"
-                                android:text="10:00"
-                                android:textColor="#000000"
-                                android:textStyle="bold"
-                                android:textSize="17dp"
-                                tools:ignore="MissingConstraints" />
-                            <TextView
-                                app:layout_flexBasisPercent="40%"
-                                android:id="@+id/potongan_harga"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="10:00"
-                                android:textColor="#000000"
-                                android:textSize="15dp"
-                                tools:ignore="MissingConstraints" />
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_gravity="center"
+                                    app:layout_flexBasisPercent="50%"
+                                    android:id="@+id/potongan_harga"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/_13sdp"
+                                    android:text="10:00"
+                                    android:textColor="#000000"
+                                    android:textStyle="bold"
+                                    android:textSize="@dimen/_12ssp"
+                                    tools:ignore="MissingConstraints" />
+                                <TextView
+                                    android:layout_gravity="center"
+                                    app:layout_flexBasisPercent="40%"
+                                    android:id="@+id/harga_total"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="10:00"
+                                    android:textColor="#FF0000"
+                                    android:textSize="@dimen/_9ssp"
+                                    android:layout_marginStart="@dimen/_13sdp"
+                                    tools:ignore="MissingConstraints" />
+                            </LinearLayout>
                             <ImageView
                                 app:layout_alignSelf="center"
                                 app:layout_flexBasisPercent="20%"
@@ -97,32 +104,36 @@
                                 android:id="@+id/icon_sampah"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10:00"
-                                android:textColor="#000000"
-                                android:textSize="12dp"
                                 tools:ignore="MissingConstraints" />
                         </com.google.android.flexbox.FlexboxLayout>
                         <LinearLayout
-                            app:layout_flexBasisPercent="30%"
-                                android:paddingStart="15dp"
+                                android:paddingStart="@dimen/_13sdp"
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView
                                     app:layout_alignSelf="center"
-                                    android:id="@+id/harga_total"
+                                    android:id="@+id/harga_pcs"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="June 10"
-                                    android:textSize="13dp" />
+                                    android:textSize="@dimen/_9ssp" />
 
-                                <TextView
-                                    android:layout_marginStart="30dp"
-                                    android:id="@+id/value"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:layout_alignSelf="center"
-                                    android:text="10"/>
+                            <TextView
+                                android:layout_marginStart="@dimen/_3sdp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_alignSelf="center"
+                                android:textSize="@dimen/_9ssp"
+                                android:text="x"/>
+                            <TextView
+                                android:layout_marginStart="@dimen/_2ssp"
+                                android:id="@+id/value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_alignSelf="center"
+                                android:textSize="@dimen/_9ssp"
+                                android:text="10"/>
                             </LinearLayout>
                     </com.google.android.flexbox.FlexboxLayout>
                 </LinearLayout>

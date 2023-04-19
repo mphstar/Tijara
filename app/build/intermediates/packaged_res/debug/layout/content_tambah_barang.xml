@@ -98,6 +98,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent">
                                 <TextView
+                                    android:layout_gravity="center"
                                     android:layout_marginEnd="@dimen/_5ssp"
                                     android:id="@+id/harga_pcs"
                                     android:layout_width="wrap_content"
@@ -109,12 +110,13 @@
                                     android:textSize="@dimen/_14ssp"
                                     tools:ignore="MissingConstraints" />
                                 <TextView
+                                    android:layout_gravity="center"
                                     android:id="@+id/potongan_harga"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="10:00"
-                                    android:textColor="#000000"
-                                    android:textSize="@dimen/_12ssp"
+                                    android:textColor="#FF0000"
+                                    android:textSize="@dimen/_10ssp"
                                     tools:ignore="MissingConstraints" />
                             </LinearLayout>
                             <ImageView

@@ -94,22 +94,24 @@
                                 android:text="Jumlah : "
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_13ssp"
+                                android:textSize="@dimen/_11ssp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"/>
                             <TextView
+                                android:id="@+id/jumlahList"
                                 android:gravity="bottom"
-                                android:hint="anu"
+                                android:hint="0"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_13ssp"
+                                android:textSize="@dimen/_11ssp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"/>
                         </LinearLayout>
                         <TextView
+                            android:id="@+id/jumlah_nominal_harga"
                             app:layout_flexBasisPercent="50%"
                             android:gravity="top"
-                            android:text="Rp.430.000"
+                            android:hint="Rp.0"
                             android:textSize="@dimen/_18ssp"
                             android:textColor="@color/black"
                             android:textStyle="bold"
