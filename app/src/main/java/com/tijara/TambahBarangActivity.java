@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
@@ -46,7 +47,7 @@ import java.util.Locale;
 class allTypeData{
 
     static TextView sub_total_harga;
-    static int jenisProduk;
+    static int jenisProduk, isDuplicateData = 1;;
     static String jumlah_barang;
     static NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
     public int imageProduk, priceProduct, potonganHarga, subHarga, totalHarga, totalKaliJumBarang;
@@ -148,6 +149,10 @@ class AdapterProdukFree2 extends RecyclerView.Adapter<AdapterProdukFree2.ViewHol
         this.datalist = datalist;
     }
 
+    public ArrayList<modelProdukFree> getData() {
+        return datalist;
+    }
+
     public void filterList(ArrayList<modelProdukFree> filterdNames, LinearLayout linearLayout, RecyclerView materi) {
         this.datalist = filterdNames;;
         if (datalist.isEmpty()){
@@ -166,19 +171,44 @@ class AdapterProdukFree2 extends RecyclerView.Adapter<AdapterProdukFree2.ViewHol
         return new ViewHolder(view);
     }
 
-    public void showToast(Context context, String message) {
+    static public void showToast(Context context, String message) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.custom_toast, null);
 
+        Toast toast = new Toast(context);
+
 //        ImageView imageView = (ImageView) layout.findViewById(R.id.imageView);
 //        imageView.setImageResource(R.drawable.ic_info);
+        if (message == "Produk yang sama sudah terdaftar dalam list"){
+            LottieAnimationView lottieAnimationView = (LottieAnimationView) layout.findViewById(R.id.image_json);
+            lottieAnimationView.setAnimation(R.raw.failed_add);
+            TextView Message = (TextView) layout.findViewById(R.id.message_toast);
+            Message.setText(message);
+            TextView Title = (TextView) layout.findViewById(R.id.title_toast);
+            Title.setVisibility(View.GONE);
+            toast.setGravity(Gravity.TOP, 0, 0);
 
-        TextView textView = (TextView) layout.findViewById(R.id.nama_produk_free);
-        textView.setText(message);
+        }else if (message == "Tidak ada Produk yang dipilih"){
+            LottieAnimationView lottieAnimationView = (LottieAnimationView) layout.findViewById(R.id.image_json);
+            lottieAnimationView.setAnimation(R.raw.failed_add);
+            TextView Message = (TextView) layout.findViewById(R.id.message_toast);
+            Message.setText(message);
+            TextView Title = (TextView) layout.findViewById(R.id.title_toast);
+            Title.setVisibility(View.GONE);
+            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 
-        Toast toast = new Toast(context);
-        toast.setGravity(Gravity.TOP, 0, 0);
-        toast.setDuration(Toast.LENGTH_SHORT);
+        }else {
+            LottieAnimationView lottieAnimationView = (LottieAnimationView) layout.findViewById(R.id.image_json);
+            lottieAnimationView.setAnimation(R.raw.add_product);
+            TextView Title = (TextView) layout.findViewById(R.id.title_toast);
+            Title.setText(message);
+            toast.setGravity(Gravity.TOP, 0, 0);
+        }
+
+
+
+
+        toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(layout);
         toast.show();
     }
@@ -347,6 +377,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
 //        JSONObject obj = new JSONObject();
         kirimValues kirimValues = new kirimValues();
         Transaksi mainActivity = new Transaksi();
+
         allTypeData.bottomSheetDialog = new BottomSheetDialog(view.getRootView().getContext(), R.style.BottomSheetDialogTheme);
         allTypeData.bottomSheetDialog.setContentView(R.layout.bottom_sheet_product);
         allTypeData.bottomSheetDialog.show();
@@ -384,18 +415,38 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
             allTypeData.materi = allTypeData.bottomSheetDialog.findViewById(R.id.produk_gratis);
             allTypeData.materi.setVisibility(View.VISIBLE);
 
-            allTypeData.modelDataSetGet.add(new modelProdukFree(allTypeData.adapterProdukFree2.dataNamaProduk,1));
-            allTypeData.adapterProdukFree = new AdapterProdukFree(allTypeData.modelDataSetGet);
+//            if (allTypeData.adapterProdukFree2.dataNamaProduk != null){
+//
+//                boolean Datas = TambahBarangActivity.arr.contains(allTypeData.adapterProdukFree2.dataNamaProduk);
+//                System.out.println(Datas);
+//
+//                if (Datas){
+//                    System.out.println("sudah ada data");
+//                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+//                    allTypeData.materi.setLayoutManager(layoutManager);
+//                    allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
+//                }else {
+//                    allTypeData.modelDataSetGet.add(new modelProdukFree(allTypeData.adapterProdukFree2.dataNamaProduk,1));
+//                    allTypeData.adapterProdukFree = new AdapterProdukFree(allTypeData.modelDataSetGet);
+//                    allTypeData.adapterProdukFree.notifyDataSetChanged();
+//                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+//                    allTypeData.materi.setLayoutManager(layoutManager);
+//                    allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
+//                }
+//            }else {
+//                System.out.println("fffff");
+//            }
+
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-            allTypeData.adapterProdukFree.notifyDataSetChanged();
             allTypeData.materi.setLayoutManager(layoutManager);
             allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
+
             allTypeData.json = gson.toJson(allTypeData.modelDataSetGet);
             allTypeData.aa = "\"nama_produk\":\""+allTypeData.adapterProdukFree2.dataNamaProduk+"\", \"jumlah_pesanan\":\"1\"";
 //            System.out.println(arr);
             allTypeData.dataModel2.add(allTypeData.json);
             System.out.println(allTypeData.aa+ "kon");
-            System.out.println(allTypeData.modelDataSetGet);
+            System.out.println(allTypeData.modelDataSetGet.toArray().toString());
             System.out.println(allTypeData.json+"tol");
         }else if (allTypeData.view1 == 3){
             System.out.println("c");
@@ -519,7 +570,6 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         allTypeData.button_lanjut_transaksi = dialogView.findViewById(R.id.button_lanjut_transaksi);
         allTypeData.detail_dialog_free = dialogView.findViewById(R.id.detail_dialog);
 
-
         allTypeData.imageNoProduk.setVisibility(View.GONE);
         allTypeData.materi2.setVisibility(View.GONE);
 
@@ -535,10 +585,34 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         allTypeData.button_lanjut_transaksi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                builder.dismiss();
-                allTypeData.view1 = 2;
-                showBottomSheet(view);
-                allTypeData.field_isi_jumlah_barang2.setText(allTypeData.jumlah_barang);
+
+                if (allTypeData.adapterProdukFree2.dataNamaProduk != null){
+
+                    boolean Datas = TambahBarangActivity.arr.contains(allTypeData.adapterProdukFree2.dataNamaProduk);
+                    System.out.println(Datas);
+
+                    if (Datas){
+                        System.out.println("sudah ada data");
+                        AdapterProdukFree2.showToast(view.getContext(), "Produk yang sama sudah terdaftar dalam list");
+//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+//                        allTypeData.materi.setLayoutManager(layoutManager);
+//                        allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
+                    }else {
+                        allTypeData.modelDataSetGet.add(new modelProdukFree(allTypeData.adapterProdukFree2.dataNamaProduk,1));
+                        allTypeData.adapterProdukFree = new AdapterProdukFree(allTypeData.modelDataSetGet);
+                        allTypeData.adapterProdukFree.notifyDataSetChanged();
+
+                        builder.dismiss();
+                        allTypeData.view1 = 2;
+                        showBottomSheet(view);
+                        TambahBarangActivity.arr.add(allTypeData.adapterProdukFree2.dataNamaProduk);
+                        allTypeData.field_isi_jumlah_barang2.setText(allTypeData.jumlah_barang);
+                    }
+                }else {
+                    System.out.println("fffff");
+                }
+
+
             }
         });
 
@@ -745,6 +819,8 @@ public class TambahBarangActivity extends AppCompatActivity {
     TextView anu;
     String setKEY_KODE;
     private String getKEY_KODE, KEY_KODE = "KODE_BARANG";
+
+    static ArrayList<String> arr = new ArrayList<>();
     private static AdapterAddBarang adapterTransaksi;
 
     public void toMain(){
@@ -912,18 +988,29 @@ class modelProdukFree {
     public String getName_product() {
         return name_product;
     }
-
     public void setName_product(String name_product) {
         this.name_product = name_product;
     }
-
     public int getValues() {
         return values;
     }
-
     public void setValues(int values) {
         this.values = values;
     }
+//    @Override
+//    public boolean equals(Object obj) {
+//        modelProdukFree other = null;
+//        if (obj == null) return false;
+//        if (!(obj instanceof modelProdukFree)) return false;
+//
+//        other = (modelProdukFree) obj;
+//
+//        if (name_product == null) {
+//            return other.getName_product() == null;
+//        } else {
+//            return name_product.equals(other.getName_product());
+//        }
+//    }
 }
 
 class ModelAddBarang {

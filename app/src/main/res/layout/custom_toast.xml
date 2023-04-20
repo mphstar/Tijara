@@ -11,12 +11,12 @@
     android:background="@drawable/shape_white">
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/image_json"
         app:layout_flexBasisPercent="65%"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/add_product"
         />
     <LinearLayout
         android:layout_marginStart="@dimen/_7sdp"
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/nama_produk_free"
+            android:id="@+id/title_toast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -33,6 +33,7 @@
             android:textSize="@dimen/_11ssp"
             android:text="Nama : "/>
         <TextView
+            android:id="@+id/message_toast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
