@@ -153,6 +153,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/field_isi_jumlah_barang"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

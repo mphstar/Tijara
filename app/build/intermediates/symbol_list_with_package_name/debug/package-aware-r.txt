@@ -3939,6 +3939,7 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
+id image_json
 id image_no_value
 id img_free_produk
 id img_keranjang
@@ -4006,6 +4007,7 @@ id material_timepicker_view
 id material_value_index
 id matrix
 id message
+id message_toast
 id middle
 id min_jumlah
 id mini
@@ -4042,7 +4044,6 @@ id mtrl_view_tag_bottom_padding
 id multiply
 id nama_barang_free
 id nama_produk
-id nama_produk_free
 id name_product
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
@@ -4223,6 +4224,7 @@ id time
 id title
 id titleDividerNoCustom
 id title_template
+id title_toast
 id to_detail
 id to_return
 id to_transaksi
@@ -4495,6 +4497,7 @@ mipmap ic_launcher
 plurals mtrl_badge_content_description
 raw add_product
 raw circle_blink
+raw failed_add
 raw no_values
 raw zxing_beep
 string abc_action_bar_home_description

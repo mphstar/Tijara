@@ -168,6 +168,10 @@
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/font/poppins_lightitalic.ttf"
     },
     {
+        "merged": "com.tijara.app-merged_res-34:/raw_failed_add.json.flat",
+        "source": "com.tijara.app-main-36:/raw/failed_add.json"
+    },
+    {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/layout_activity_tambah_barang.xml.flat",
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/layout/activity_tambah_barang.xml"
     },

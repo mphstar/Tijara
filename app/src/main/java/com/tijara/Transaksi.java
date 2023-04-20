@@ -285,10 +285,15 @@ public class Transaksi extends AppCompatActivity {
         button_lanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Transaksi.this, PembayaranActivity.class);
-                startActivity(intent);
-                System.out.println(jsonArray.toString() + " ini data JSONarray");
-            }
+                if (dataModels.isEmpty()){
+                    AdapterProdukFree2.showToast(view.getContext(), "Tidak ada Produk yang dipilih");
+                }else if (dataModels != null){
+                    Intent intent = new Intent(Transaksi.this, PembayaranActivity.class);
+                    startActivity(intent);
+                    System.out.println(jsonArray.toString() + " ini data JSONarray");
+                }
+                }
+
         });
     }
 

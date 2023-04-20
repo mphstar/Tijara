@@ -91,7 +91,7 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         holder.Harga.setText(allTypeData.format.format(Integer.valueOf(modelA.getHargaProduk())));
         holder.JumlahHargaProduk.setText(allTypeData.format.format(Integer.valueOf(modelA.getSubHargaProduk())));
         holder.JumlahHargaProduk2.setText(allTypeData.format.format(Integer.valueOf(modelA.getSubHargaProduk())));
-        holder.nominalVoucher.setText(allTypeData.format.format(Integer.valueOf(modelA.getNoiminalDiskon())));
+        holder.nominalVoucher.setText(modelA.getNoiminalDiskon());
         holder.PotonganHarga.setText(allTypeData.format.format(Integer.valueOf(modelA.getPotonganDiskon())));
         holder.value.setText(modelA.getValueProduk());
     }
@@ -106,7 +106,7 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         ModelC modelC = (ModelC) items.get(position);
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.listProdukFree.getContext(), LinearLayoutManager.VERTICAL, false);
         holder.NamaProduk.setText(modelC.getNamaProduk());
-        holder.value.setText(allTypeData.format.format(Integer.valueOf(modelC.getValueProduk())));
+        holder.value.setText(modelC.getValueProduk());
         holder.Harga.setText(allTypeData.format.format(Integer.valueOf(modelC.getHargaProduk())));
         holder.totalSeluruhHargaBarang.setText(allTypeData.format.format(Integer.valueOf(modelC.getTotalHargaBarang())));
         holder.listProdukFree.setLayoutManager(layoutManager);

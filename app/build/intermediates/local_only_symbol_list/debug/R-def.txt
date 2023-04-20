@@ -96,6 +96,7 @@ id harga_produk
 id harga_total
 id home_konten
 id icon_sampah
+id image_json
 id image_no_value
 id img_free_produk
 id img_keranjang
@@ -116,10 +117,10 @@ id line_diskon
 id list_barang
 id list_pesanan
 id list_produk_gratis
+id message_toast
 id min_jumlah
 id nama_barang_free
 id nama_produk
-id nama_produk_free
 id name_product
 id pilih_voucher
 id plus_minus_values
@@ -131,6 +132,7 @@ id rincian_barang_free
 id scan_produk
 id sub_total
 id tambah_produk
+id title_toast
 id to_detail
 id to_return
 id to_transaksi
@@ -164,6 +166,7 @@ layout voucher_persentase
 mipmap ic_launcher
 raw add_product
 raw circle_blink
+raw failed_add
 raw no_values
 string app_name
 string welcome
