@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
@@ -46,15 +55,22 @@ import java.util.Locale;
 
 class allTypeData{
 
-    static TextView sub_total_harga;
-    static int jenisProduk, isDuplicateData = 1;;
-    static String jumlah_barang;
+    static TextView sub_total_harga, free_didapat;
+    static int jenisProduk, isDuplicateData = 1, nominal;;
+    static String jumlah_barang, free_produk, buy, gratis, jum_product;
     static NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
-    public int imageProduk, priceProduct, potonganHarga, subHarga, totalHarga, totalKaliJumBarang;
+    public int imageProduk;
+    public int subHarga;
+    public static int totalHarga, totalKaliJumBarang, potonganHarga, priceProduct, totalAkhirPalingakhir;
     int view2 = 2, view1 = 1;
     String json, aa;
-    public String nameProduct, Values;
+    static String KodeBarang, NamaBarang, Diskon;
+    static int HargaBarang, StokBarang;
+    public String nameProduct, kodeProduct;
+    static JSONObject Values, freeProduk, varian_diskon;
+    static ArrayList<modelProdukFree> modelDataSetGet;
     public ArrayList<ModelAddBarang> datalist;
+    public static String BASE_URL = "http://tijara.mphstar.tech/api/product";
     LinearLayout detail_dialog, imageNoProduk, button_lanjut_transaksi, detail_dialog_free;
     EditText searchProdukFree, field_isi_jumlah_barang, field_isi_jumlah_barang2;
     ImageView buttonClose;
@@ -64,7 +80,6 @@ class allTypeData{
     RecyclerView materi, materi2;
     AdapterProdukFree adapterProdukFree;
     AdapterProdukFree2 adapterProdukFree2;
-    ArrayList<modelProdukFree> modelDataSetGet;
     BottomSheetDialog bottomSheetDialog;
 }
 
@@ -102,8 +117,12 @@ class AdapterProdukFree extends RecyclerView.Adapter<AdapterProdukFree.ViewHolde
         holder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jumlah.setValues(jumlah.getValues() + 1);
-                holder.txtValues.setText(String.valueOf(jumlah.getValues()));
+                if (Integer.parseInt(allTypeData.gratis) == allTypeData.modelDataSetGet.size()){
+                    AdapterProdukFree2.showToast(view.getContext(), "Produk yang dipilih melebihi batas");
+                }else {
+                    jumlah.setValues(jumlah.getValues() + 1);
+                    holder.txtValues.setText(String.valueOf(jumlah.getValues()));
+                }
             }
         });
         holder.minButton.setOnClickListener(new View.OnClickListener() {
@@ -197,6 +216,32 @@ class AdapterProdukFree2 extends RecyclerView.Adapter<AdapterProdukFree2.ViewHol
             Title.setVisibility(View.GONE);
             toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 
+        }else if (message == "Produk yang dipilih melebihi batas"){
+            LottieAnimationView lottieAnimationView = (LottieAnimationView) layout.findViewById(R.id.image_json);
+            lottieAnimationView.setAnimation(R.raw.failed_add);
+            TextView Message = (TextView) layout.findViewById(R.id.message_toast);
+            Message.setText(message);
+            TextView Title = (TextView) layout.findViewById(R.id.title_toast);
+            Title.setVisibility(View.GONE);
+            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+
+        }else if (message == "Isikan jumlah barang terlebih dahulu"){
+            LottieAnimationView lottieAnimationView = (LottieAnimationView) layout.findViewById(R.id.image_json);
+            lottieAnimationView.setAnimation(R.raw.failed_add);
+            TextView Message = (TextView) layout.findViewById(R.id.message_toast);
+            Message.setText(message);
+            TextView Title = (TextView) layout.findViewById(R.id.title_toast);
+            Title.setVisibility(View.GONE);
+            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+
+        }else if (message == "Pembayaran Berhasil"){
+            LottieAnimationView lottieAnimationView = (LottieAnimationView) layout.findViewById(R.id.image_json);
+            lottieAnimationView.setAnimation(R.raw.add_product);
+            TextView Message = (TextView) layout.findViewById(R.id.message_toast);
+            Message.setText(message);
+            TextView Title = (TextView) layout.findViewById(R.id.title_toast);
+            Title.setText(message);
+            toast.setGravity(Gravity.TOP, 0, 0);
         }else {
             LottieAnimationView lottieAnimationView = (LottieAnimationView) layout.findViewById(R.id.image_json);
             lottieAnimationView.setAnimation(R.raw.add_product);
@@ -204,8 +249,6 @@ class AdapterProdukFree2 extends RecyclerView.Adapter<AdapterProdukFree2.ViewHol
             Title.setText(message);
             toast.setGravity(Gravity.TOP, 0, 0);
         }
-
-
 
 
         toast.setDuration(Toast.LENGTH_LONG);
@@ -289,6 +332,14 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         notifyDataSetChanged();
     }
 
+//    public int getNominalDiskon(JSONObject jsonObject) throws JSONException{
+//        return jsonObject.getInt("nominal");
+//    }
+//
+//    public JSONObject getProdukFree(JSONObject jsonObject) throws JSONException{
+//        return jsonObject.getJSONObject("free_product");
+//    }
+
     @NonNull
     @Override
     public MahasiswaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -300,34 +351,98 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
     @Override
     public void onBindViewHolder(@NonNull MahasiswaViewHolder holder, int position) {
         String name_product = allTypeData.datalist.get(position).getNama_produk();
+        String kode_product = allTypeData.datalist.get(position).getKode_produk();
         int price_product = allTypeData.datalist.get(position).getHarga();
-        String value = allTypeData.datalist.get(position).getValue();
-        int diskon = allTypeData.datalist.get(position).getPotongan_harga();
+        String value = allTypeData.datalist.get(position).getStok_barang();
+        int diskon = allTypeData.datalist.get(position).getNominal_diskon();
         int image_produk = allTypeData.datalist.get(position).getImgs();
+//        JSONObject varian_diskon = allTypeData.datalist.get(position).getDiskon();
+        JSONObject varian_diskon = allTypeData.datalist.get(position).getDiskon();
+        allTypeData.varian_diskon = allTypeData.datalist.get(position).getDiskon();
+
+
+//        if (allTypeData.varian_diskon == null){
+//            System.out.println("ini json null");
+//        }else{
+//            try {
+//                if (allTypeData.varian_diskon.getString("kategori").equals(null)){
+//                    System.out.println("ini kategori kosong");
+//                } else if (allTypeData.varian_diskon.getString("kategori").equals("nominal")) {
+//                    allTypeData.nominal = allTypeData.varian_diskon.getInt("nominal");
+//                } else if (allTypeData.varian_diskon.getString("free_product") == null) {
+//                    System.out.println("non produk free");
+//                } else if (allTypeData.varian_diskon.getString("free_product") != null) {
+//                    allTypeData.free_produk = allTypeData.varian_diskon.getString("free_product");
+//                    if (allTypeData.free_produk.equals("null")){
+//                        System.out.println("ini json kosong");
+//                    }else {
+//                        allTypeData.freeProduk = new JSONObject(allTypeData.free_produk);
+//                        System.out.println(allTypeData.freeProduk);
+//                    }
+//                }
+//            } catch (JSONException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+
+
+
+        int nominalDiskon;
+
+//        try {
+//            nominalDiskon = getNominalDiskon(varian_diskon);
+//            freeProduk = getProdukFree(varian_diskon);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
         holder.txtNamaProduk.setText(allTypeData.datalist.get(position).getNama_produk());
-        holder.value.setText(allTypeData.datalist.get(position).getValue());
+        holder.value.setText(allTypeData.datalist.get(position).getStok_barang());
         holder.img.setImageResource(allTypeData.datalist.get(position).getImgs());
         holder.trush.setImageResource(allTypeData.datalist.get(position).getTrush());
         holder.value.setVisibility(View.GONE);
         holder.trush.setVisibility(View.GONE);
         holder.txtSubHarga.setVisibility(View.GONE);
-        if (allTypeData.datalist.get(position).getPotongan_harga() == 0){
-            holder.potonganHarga.setVisibility(View.GONE);
+
+        if (diskon == 0 && allTypeData.varian_diskon == null){
             holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
-            holder.potonganHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getPotongan_harga()));
-        } else {
-            holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga() - allTypeData.datalist.get(position).getPotongan_harga()));
+            holder.potonganHarga.setVisibility(View.GONE);
+        }else if (diskon != 0 && allTypeData.varian_diskon == null){
+            holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga() - allTypeData.datalist.get(position).getNominal_diskon()));
             holder.potonganHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
             holder.potonganHarga.setPaintFlags(holder.potonganHarga.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else if (diskon == 0 && allTypeData.varian_diskon != null) {
+            System.out.println(allTypeData.varian_diskon);
+            holder.potonganHarga.setVisibility(View.GONE);
+            holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
+        }else {
+            System.out.println("ini ngga usah ");
         }
+//        if (allTypeData.varian_diskon == null){
+//            holder.potonganHarga.setVisibility(View.GONE);
+//            holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
+//        } else {
+//            try {
+//                if (allTypeData.varian_diskon.getString("kategori").equals("nominal")){
+//                    holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga() - allTypeData.nominal));
+//                    holder.potonganHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
+//                    holder.potonganHarga.setPaintFlags(holder.potonganHarga.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//                }else {
+//                    holder.potonganHarga.setVisibility(View.GONE);
+//                    holder.txtHarga.setText(allTypeData.format.format(allTypeData.datalist.get(position).getHarga()));
+//                }
+//            } catch (JSONException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
         allTypeData.modelDataSetGet = new ArrayList<>();
         allTypeData.dataModel2 = new ArrayList<>();
         holder.to_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                allTypeData.kodeProduct = kode_product;
                 allTypeData.nameProduct = name_product;
                 allTypeData.priceProduct = price_product;
-                allTypeData.Values = value;
+                allTypeData.Values = varian_diskon;
                 allTypeData.potonganHarga = diskon;
                 allTypeData.imageProduk = image_produk;
 //                allTypeData.subHarga = sub_harga;
@@ -336,30 +451,74 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         });
     }
 
-    private void BottomSheet(View view){
-
-        if (allTypeData.Values == "2"){
-            produkFree(view);
-            System.out.println("gratis produk");
-        }else if (allTypeData.Values == "1") {
-            non_produkFree(view);
-            System.out.println("no gratis");
-        }
-
-    }
-
     private void GetProdukFree(View view){
 
+        // Akses API
+        RequestQueue Queue;
         allTypeData.dataModel = new ArrayList<>();
-        allTypeData.dataModel.add(new modelProdukFree("Dress Panjang Kondangan K..", 1));
-        allTypeData.dataModel.add(new modelProdukFree("Dress Casual Pink", 2));
-        allTypeData.dataModel.add(new modelProdukFree("Celana Chinos Buat Perang ...", 4));
+        Queue = Volley.newRequestQueue(view.getContext());
 
-        allTypeData.adapterProdukFree2 = new AdapterProdukFree2(allTypeData.dataModel);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-        allTypeData.materi2.setLayoutManager(layoutManager);
-        allTypeData.materi2.setAdapter(allTypeData.adapterProdukFree2);
+        String url = "http://tijara.mphstar.tech/api/product";
 
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                    JSONObject productObject, valueDiskon, valueProdukFreeJson;
+                    String valueProdukFreeString;
+                    System.out.println(response.length());
+                    for (int i = 0; i < response.length(); i++) {
+                        System.out.println(response.getJSONObject(i));
+                        productObject = response.getJSONObject(i);
+                        if (productObject.getString("jenis").equals("free")){
+                            allTypeData.dataModel.add(new modelProdukFree(productObject.getString("nama_br"), 1));
+                        } else {
+                            System.out.println("ini produk Frew");
+                        }
+                    }
+                    allTypeData.adapterProdukFree2 = new AdapterProdukFree2(allTypeData.dataModel);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+                    allTypeData.materi2.setLayoutManager(layoutManager);
+                    allTypeData.materi2.setAdapter(allTypeData.adapterProdukFree2);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // error dalam mengambil data JSON
+                Log.e("Error", "Error: " + error.getMessage());
+            }});
+
+        Queue.add(jsonArrayRequest);
+
+        //Akhir Akses Api
+
+//        allTypeData.dataModel = new ArrayList<>();
+//        allTypeData.dataModel.add(new modelProdukFree("Dress Panjang Kondangan K..", 1));
+//        allTypeData.dataModel.add(new modelProdukFree("Dress Casual Pink", 2));
+//        allTypeData.dataModel.add(new modelProdukFree("Celana Chinos Buat Perang ...", 4));
+//
+//        allTypeData.adapterProdukFree2 = new AdapterProdukFree2(allTypeData.dataModel);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+//        allTypeData.materi2.setLayoutManager(layoutManager);
+//        allTypeData.materi2.setAdapter(allTypeData.adapterProdukFree2);
+    }
+
+    private void BottomSheet(View view){
+
+        if (allTypeData.potonganHarga == 0 && allTypeData.Values == null){
+            System.out.println("no gratis produk");
+            non_produkFree(view);
+        }else if (allTypeData.potonganHarga != 0 && allTypeData.Values == null){
+            System.out.println("no gratis produk");
+            non_produkFree(view);
+        } else if (allTypeData.potonganHarga == 0 && allTypeData.Values != null) {
+            System.out.println("gratis produk");
+            produkFree(view);
+        }
     }
 
     void produkFree(View view){
@@ -383,8 +542,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         allTypeData.bottomSheetDialog.show();
         allTypeData.bottomSheetDialog.create();
 
-        TextView kode_produk, nama_produk, harga_produk;
-        TextView tambah_barang;
+        TextView kode_produk, nama_produk, harga_produk, tambah_barang;
         LinearLayout button_back_to_transaksi;
         FlexboxLayout diskon_produk;
         RecyclerView list_produk_gratis;
@@ -393,16 +551,20 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         allTypeData.detail_dialog = allTypeData.bottomSheetDialog.findViewById(R.id.detail_dialog);
         allTypeData.field_isi_jumlah_barang2 = allTypeData.bottomSheetDialog.findViewById(R.id.field_isi_jumlah_barang);
         allTypeData.sub_total_harga = allTypeData.bottomSheetDialog.findViewById(R.id.sub_total);
-        allTypeData.sub_total_harga.setText(String.valueOf(0));
+        allTypeData.free_didapat = allTypeData.bottomSheetDialog.findViewById(R.id.free_produk_didapat);
         button_back_to_transaksi = allTypeData.bottomSheetDialog.findViewById(R.id.button_back_to_transaksi);
         tambah_barang = allTypeData.bottomSheetDialog.findViewById(R.id.tambah_produk);
+        kode_produk = allTypeData.bottomSheetDialog.findViewById(R.id.kode_produk);
         nama_produk = allTypeData.bottomSheetDialog.findViewById(R.id.nama_produk);
         harga_produk = allTypeData.bottomSheetDialog.findViewById(R.id.harga_produk);
         diskon_produk = allTypeData.bottomSheetDialog.findViewById(R.id.line_diskon);
         list_produk_gratis = allTypeData.bottomSheetDialog.findViewById(R.id.list_produk_gratis);
 
+        kode_produk.setText(allTypeData.kodeProduct);
         nama_produk.setText(allTypeData.nameProduct);
         harga_produk.setText(allTypeData.format.format(allTypeData.priceProduct));
+        allTypeData.free_didapat.setText(String.valueOf(0));
+        allTypeData.sub_total_harga.setText(String.valueOf(0));
         diskon_produk.setVisibility(View.GONE);
 
         allTypeData.materi = allTypeData.bottomSheetDialog.findViewById(R.id.produk_gratis);
@@ -445,9 +607,9 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
             allTypeData.aa = "\"nama_produk\":\""+allTypeData.adapterProdukFree2.dataNamaProduk+"\", \"jumlah_pesanan\":\"1\"";
 //            System.out.println(arr);
             allTypeData.dataModel2.add(allTypeData.json);
-            System.out.println(allTypeData.aa+ "kon");
+            System.out.println(allTypeData.aa+ "a");
             System.out.println(allTypeData.modelDataSetGet.toArray().toString());
-            System.out.println(allTypeData.json+"tol");
+            System.out.println(allTypeData.json+"b");
         }else if (allTypeData.view1 == 3){
             System.out.println("c");
             if (allTypeData.modelDataSetGet != null){
@@ -481,12 +643,28 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
                 }
             }
         });
+        allTypeData.field_isi_jumlah_barang2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allTypeData.field_isi_jumlah_barang2.setText("");
+            }
+        });
 
         tambah_barang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAlernDialog(view);
-                allTypeData.bottomSheetDialog.dismiss();
+
+                if (Integer.parseInt(allTypeData.gratis) == allTypeData.modelDataSetGet.size()){
+                    AdapterProdukFree2.showToast(view.getContext(), "Produk yang dipilih melebihi batas");
+                }else if (Integer.parseInt(allTypeData.buy) == Integer.parseInt(allTypeData.jum_product) || Integer.parseInt(allTypeData.jum_product) > Integer.parseInt(allTypeData.buy)  ){
+                    showAlernDialog(view);
+                    allTypeData.bottomSheetDialog.dismiss();
+                }else if (Integer.parseInt(allTypeData.gratis) != allTypeData.modelDataSetGet.size()){
+                    AdapterProdukFree2.showToast(view.getContext(), "Isikan jumlah barang terlebih dahulu");
+                }else {
+                    showAlernDialog(view);
+                    allTypeData.bottomSheetDialog.dismiss();
+                }
             }
         });
 
@@ -594,9 +772,9 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
                     if (Datas){
                         System.out.println("sudah ada data");
                         AdapterProdukFree2.showToast(view.getContext(), "Produk yang sama sudah terdaftar dalam list");
-//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-//                        allTypeData.materi.setLayoutManager(layoutManager);
-//                        allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+                        allTypeData.materi.setLayoutManager(layoutManager);
+                        allTypeData.materi.setAdapter(allTypeData.adapterProdukFree);
                     }else {
                         allTypeData.modelDataSetGet.add(new modelProdukFree(allTypeData.adapterProdukFree2.dataNamaProduk,1));
                         allTypeData.adapterProdukFree = new AdapterProdukFree(allTypeData.modelDataSetGet);
@@ -659,6 +837,24 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         if (allTypeData.jenisProduk == 1){
             allTypeData.sub_total_harga.setText(allTypeData.format.format(allTypeData.totalHarga));
         }else {
+            JSONObject value = allTypeData.Values.optJSONObject("value");
+            allTypeData.buy = value.optString("buy");
+            allTypeData.gratis = value.optString("gratis");
+            int free_plus = Integer.parseInt(allTypeData.gratis)+1;
+            int num= Integer.parseInt(jumlah);
+            int faktor = 4;
+            if (Integer.parseInt(jumlah) == Integer.parseInt(allTypeData.buy)){
+                allTypeData.free_didapat.setText(allTypeData.gratis);
+                allTypeData.jum_product = jumlah;
+            }else if (Integer.parseInt(jumlah) < Integer.parseInt(allTypeData.buy)){
+                allTypeData.free_didapat.setText("0");
+                allTypeData.jum_product = jumlah;
+            }else if (Integer.parseInt(jumlah) > Integer.parseInt(allTypeData.buy)){
+                if (num % faktor == 0){
+                    allTypeData.free_didapat.setText(String.valueOf(free_plus));
+                    allTypeData.jum_product = jumlah;
+                }
+            }
             allTypeData.sub_total_harga.setText(allTypeData.format.format(allTypeData.totalKaliJumBarang));
         }
         System.out.println(allTypeData.totalHarga);
@@ -680,12 +876,14 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         allTypeData.sub_total_harga = bottomSheetDialog.findViewById(R.id.sub_total);
         allTypeData.sub_total_harga.setText(String.valueOf(0));
         values = bottomSheetDialog.findViewById(R.id.info_pesanan);
+        kode_produk = bottomSheetDialog.findViewById(R.id.kode_produk);
         nama_produk = bottomSheetDialog.findViewById(R.id.nama_produk);
         diskon_produk = bottomSheetDialog.findViewById(R.id.diskon_produk);
         harga_produk = bottomSheetDialog.findViewById(R.id.harga_produk);
         list_produk_gratis = bottomSheetDialog.findViewById(R.id.list_produk_gratis);
 
         values.setVisibility(View.GONE);
+        kode_produk.setText(allTypeData.kodeProduct);
         nama_produk.setText(allTypeData.nameProduct);
         harga_produk.setText(allTypeData.format.format(allTypeData.priceProduct));
         diskon_produk.setText(allTypeData.format.format(allTypeData.potonganHarga));
@@ -708,7 +906,7 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
                     allTypeData.jenisProduk = 1;
                     eksekusi_jumlah_barang(editable.toString());
                 }else if (editable.toString().length() == 0){
-                    allTypeData.jenisProduk = 1;
+                    allTypeData.jenisProduk = 2;
                     eksekusi_jumlah_barang(String.valueOf(0));
                 }
 
@@ -818,8 +1016,9 @@ public class TambahBarangActivity extends AppCompatActivity {
     static ImageView backTOMainTransaksi;
     TextView anu;
     String setKEY_KODE;
+    ModelAddBarang modelAddBarang;
     private String getKEY_KODE, KEY_KODE = "KODE_BARANG";
-
+    private RequestQueue mQueue;
     static ArrayList<String> arr = new ArrayList<>();
     private static AdapterAddBarang adapterTransaksi;
 
@@ -827,17 +1026,191 @@ public class TambahBarangActivity extends AppCompatActivity {
         backTOMainTransaksi.performClick();
     }
 
-    void loadProduct(){
+    private void loadProduct(){
+
+        // Akses API
+        mQueue = Volley.newRequestQueue(TambahBarangActivity.this);
+
+        String url = "http://tijara.mphstar.tech/api/product";
 
         dataModels = new ArrayList<>();
-        dataModels.add(new ModelAddBarang("Dress Panjang Kondangan K..", 15000, 150000, "1", R.drawable.dress_purple, R.drawable.shape_white));
-        dataModels.add(new ModelAddBarang("Dress Casual Pink", 0, 210000, "2", R.drawable.dress_casual_pink, R.drawable.shape_white));
-        dataModels.add(new ModelAddBarang("Celana Chinos Buat Perang ...", 7000, 70000,"1", R.drawable.celana_chinos, R.drawable.shape_white));
-        adapterTransaksi = new AdapterAddBarang(dataModels, getApplicationContext());
-        materi = findViewById(R.id.list_barang);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TambahBarangActivity.this);
-        materi.setLayoutManager(layoutManager);
-        materi.setAdapter(adapterTransaksi);
+//        StringRequest strinRequest = new StringRequest(Request.Method.GET, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            JSONArray jsonArray = new JSONArray(response);
+//                            dataModels = new ArrayList<>();
+//                            for (int i = 0; i < jsonArray.length(); i++){
+//                                JSONObject productObject = jsonArray.getJSONObject(i);
+//                                dataModels.add(new ModelAddBarang(productObject.getString("kode_br"), productObject.getString("nama_br"), productObject.getInt("harga"), productObject.getString("stok"), R.drawable.dress_purple, R.drawable.shape_white, productObject.getJSONObject("diskon")));
+////                                modelAddBarang = new ModelAddBarang();
+////                                modelAddBarang.setKode_produk(productObject.getString("kode_br"));
+////                                modelAddBarang.setNama_produk(productObject.getString("nama_br"));
+////                                modelAddBarang.setHarga(productObject.getInt("harga"));
+////                                modelAddBarang.setStok_barang(productObject.getString("stok"));
+////                                modelAddBarang.setDiskon(productObject.getJSONObject("diskon"));
+////                                ModelAddBarang product = new ModelAddBarang(
+////                                        productObject.getString("kode_br"),
+////                                        productObject.getString("nama_br"),
+////                                        productObject.getInt("harga"),
+////                                        productObject.getString("stok"),
+////                                        productObject.getInt("gambar"),
+////                                        productObject.getInt("gambar"),
+////                                        productObject.optJSONObject("diskon")
+////                                );
+////                                dataModels.add(modelAddBarang);
+//                            }
+//                            adapterTransaksi = new AdapterAddBarang(dataModels, TambahBarangActivity.this);
+//                            materi = findViewById(R.id.list_barang);
+//                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TambahBarangActivity.this, LinearLayoutManager.VERTICAL, false);
+//                            materi.setLayoutManager(layoutManager);
+//                            materi.setAdapter(adapterTransaksi);
+//                            mQueue.getCache().clear();
+//                        }catch (JSONException e) {
+////                                Toast.makeText(SendNotificationActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+////                    Toast.makeText(SendNotificationActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//        mQueue.add(strinRequest);
+
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                    JSONObject productObject, valueDiskon, valueProdukFreeJson;
+                    String valueProdukFreeString;
+                    System.out.println(response.length());
+                    for (int i = 0; i < response.length(); i++) {
+                        System.out.println(response.getJSONObject(i));
+                        productObject = response.getJSONObject(i);
+                        if (productObject.getString("jenis").equals("jual")){
+                            if (productObject.isNull("diskon")){
+                                System.out.println("ini produk tanpa diskon");
+                                dataModels.add(new ModelAddBarang(productObject.getString("kode_br"), productObject.getString("nama_br"),  productObject.getString("stok"), productObject.getInt("harga"), R.drawable.dress_purple, R.drawable.shape_white, 0, null));
+                            }else {
+                                System.out.println("produk dengan diskon");
+                                valueDiskon = productObject.getJSONObject("diskon");
+                                if (valueDiskon.getString("kategori").equals("nominal")){
+                                    System.out.println("ini produk diskon nominal");
+                                    dataModels.add(new ModelAddBarang(productObject.getString("kode_br"), productObject.getString("nama_br"),  productObject.getString("stok"), productObject.getInt("harga"), R.drawable.dress_purple, R.drawable.shape_white, valueDiskon.getInt("nominal"), null));
+                                } else if (valueDiskon.getString("free_product") != null && valueDiskon.getString("kategori").equals("free")){
+                                    System.out.println("ini produk diskon produk free");
+                                    valueProdukFreeString = valueDiskon.getString("free_product");
+                                    valueProdukFreeJson = new JSONObject(valueProdukFreeString);
+                                    dataModels.add(new ModelAddBarang(productObject.getString("kode_br"), productObject.getString("nama_br"),  productObject.getString("stok"), productObject.getInt("harga"), R.drawable.dress_purple, R.drawable.shape_white, 0, valueProdukFreeJson));
+                                } else {
+                                    System.out.println("ini produk dengan diskon lainnya");
+                                }
+                            }
+                        } else {
+                            System.out.println("ini produk Frew");
+                        }
+                    }
+                    adapterTransaksi = new AdapterAddBarang(dataModels, TambahBarangActivity.this);
+                    materi = findViewById(R.id.list_barang);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TambahBarangActivity.this);
+                    materi.setLayoutManager(layoutManager);
+                    materi.setAdapter(adapterTransaksi);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // error dalam mengambil data JSON
+                Log.e("Error", "Error: " + error.getMessage());
+            }});
+
+        mQueue.add(jsonArrayRequest);
+
+
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//
+//                try {
+//                    JSONArray data = response.getJSONArray("results");
+//                    for (int i = 0; i < data.length(); i++) {
+//                        JSONObject productObject = data.getJSONObject(i);
+//                        dataModels.add(new ModelAddBarang(productObject.getString("title"), productObject.getString("title"), productObject.getInt("vote_count"), productObject.getString("title"), R.drawable.dress_purple, R.drawable.shape_white));
+////                        String email = jsonObject.getString("kode_br");
+////                        String firstName = jsonObject.getString("nama_br");
+////                        String lastName = jsonObject.getString("stok");
+//
+//                        // tampilkan data di dalam array
+////                        Log.d("Data Array", "email: " + email + ", first_name: " + firstName + ", last_name: " + lastName );
+//
+//
+//                    }
+//                    adapterTransaksi = new AdapterAddBarang(dataModels, TambahBarangActivity.this);
+//                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TambahBarangActivity.this, LinearLayoutManager.VERTICAL, false);
+//                    materi.setLayoutManager(layoutManager);
+//                    materi.setAdapter(adapterTransaksi);
+//                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // error dalam mengambil data JSON
+//                Log.e("Error", "Error: " + error.getMessage());
+//            }});
+//
+//        mQueue.add(jsonObjectRequest);
+
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                try {
+//                    JSONArray data = response.getJSONArray();
+//                    JSONObject users;
+//                    for (int i = 0; i < data.length(); i++) {
+//                        users = data.getJSONObject(i);
+//                        System.out.println(users.getString("email"));
+//                        dataModels.add(new ModelAddBarang(users.getString("id"), users.getString("name"), 100000, "10",  R.drawable.dress_purple, R.drawable.dress_purple));
+//                    }
+//                    adapterTransaksi = new AdapterAddBarang(dataModels, TambahBarangActivity.this);
+//                    materi = findViewById(R.id.list_barang);
+//                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TambahBarangActivity.this);
+//                    materi.setLayoutManager(layoutManager);
+//                    materi.setAdapter(adapterTransaksi);
+//                } catch (JSONException e) {
+//                    Toast.makeText(TambahBarangActivity.this, " You clicked Cancel ", Toast.LENGTH_LONG).show();
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(TambahBarangActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+////                Toast.makeText(RestApiActivity.this, "Tidak Ada Koneksi", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//        );
+//
+//        mQueue.add(jsonObjectRequest);
+
+        //Akhir Akses Api
+
+//        dataModels.add(new ModelAddBarang("","Dress Panjang Kondangan K..",150000, "1", R.drawable.dress_purple, R.drawable.shape_white, null));
+//        dataModels.add(new ModelAddBarang("","Dress Casual Pink",210000, "2", R.drawable.dress_casual_pink, R.drawable.shape_white,null));
+//        dataModels.add(new ModelAddBarang("","Celana Chinos Buat Perang ...", 70000,"1", R.drawable.celana_chinos, R.drawable.shape_white,null));
+//        adapterTransaksi = new AdapterAddBarang(dataModels, this);
+//        materi = findViewById(R.id.list_barang);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TambahBarangActivity.this);
+//        materi.setLayoutManager(layoutManager);
+//        materi.setAdapter(adapterTransaksi);
     }
 
     private void filter(String teks) {
@@ -873,6 +1246,7 @@ public class TambahBarangActivity extends AppCompatActivity {
         searchScanKode = findViewById(R.id.scan_produk);
         backTOMainTransaksi = findViewById(R.id.back_to_main_transaksi);
         searchView = findViewById(R.id.field_kode_product);
+        materi = findViewById(R.id.list_barang);
 
         loadProduct();
 
@@ -892,6 +1266,7 @@ public class TambahBarangActivity extends AppCompatActivity {
         backTOMainTransaksi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (ambilValues.namaProduk != null){
                     System.out.println("adadad");
                     Transaksi.view = 2;
@@ -1015,44 +1390,217 @@ class modelProdukFree {
 
 class ModelAddBarang {
 
+    String kode_produk;
     String nama_produk;
-    int potongan_harga;
-    int harga;
     String stok_barang;
+    int harga;
     int img;
     int trush;
-    String feature;
+    int nominal_diskon;
+    JSONObject listProdukFree;
 
-    public ModelAddBarang(String nama_produk, @Nullable int potongan_harga, int harga, String stok_barang, int img, int trush) {
-        this.nama_produk=nama_produk;
-        this.potongan_harga=potongan_harga;
-        this.harga=harga;
-        this.stok_barang=stok_barang;
-        this.img=img;
-        this.trush=trush;
-
+    public ModelAddBarang(String kode_produk, String nama_produk, String stok_barang, int harga, int img, int trush, @Nullable int nominal_diskon, @Nullable JSONObject listProdukFree) {
+        this.kode_produk = kode_produk;
+        this.nama_produk = nama_produk;
+        this.stok_barang = stok_barang;
+        this.harga = harga;
+        this.img = img;
+        this.trush = trush;
+        this.nominal_diskon = nominal_diskon;
+        this.listProdukFree = listProdukFree;
     }
 
+    //    public ModelAddBarang(String kode_produk, String nama_produk, int harga, String stok_barang, int img, int trush, @Nullable JSONObject listProdukFree) {
+//        this.kode_produk = kode_produk;
+//        this.nama_produk = nama_produk;
+//        this.harga = harga;
+//        this.stok_barang = stok_barang;
+//        this.img = img;
+//        this.trush = trush;
+//        this.listProdukFree = listProdukFree;
+//    }
+
+//    public ModelAddBarang(String kode_produk, String nama_produk, int harga, String stok_barang, int img, int trush) {
+//        this.kode_produk = kode_produk;
+//        this.nama_produk = nama_produk;
+//        this.harga = harga;
+//        this.stok_barang = stok_barang;
+//        this.img = img;
+//        this.trush = trush;
+//        this.listProdukFree = listProdukFree;
+//    }
+
+    public void setKode_produk(String kode_produk) {
+        this.kode_produk = kode_produk;
+    }
+
+    public void setNama_produk(String nama_produk) {
+        this.nama_produk = nama_produk;
+    }
+
+    public void setStok_barang(String stok_barang) {
+        this.stok_barang = stok_barang;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
+    }
+
+    public void setImg(int img) {
+        this.img = img;
+    }
+
+    public void setTrush(int trush) {
+        this.trush = trush;
+    }
+
+    public void setDiskon(JSONObject listProdukFree) {
+        this.listProdukFree = listProdukFree;
+    }
+
+    public String getKode_produk() {
+        return kode_produk;
+    }
+    public String getStok_barang() {
+        return stok_barang;
+    }
     public String getNama_produk() {
         return nama_produk;
-    }
-    public int getPotongan_harga() {
-        return potongan_harga;
     }
     public int getHarga() {
         return harga;
     }
-
-    public String getValue() {
-        return stok_barang;
-    }
-
     public int getImgs() {
         return img;
     }
-
     public int getTrush() {
         return trush;
     }
+    public int getNominal_diskon() {
+        return nominal_diskon;
+    }
+    public JSONObject getDiskon() {
+        return listProdukFree;
+    }
 
+}
+
+class Product {
+    private String kode_br;
+    private String kategori;
+    private String kode_barang_tag;
+    private String nama_br;
+    private int stok;
+    private String gambar;
+    private int harga;
+    private String ukuran;
+    private String warna;
+    private String jenis;
+    private String created_at;
+    private String updated_at;
+    private String diskon;
+
+    public String getKode_br() {
+        return kode_br;
+    }
+
+    public void setKode_br(String kode_br) {
+        this.kode_br = kode_br;
+    }
+
+    public String getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
+    }
+
+    public String getKode_barang_tag() {
+        return kode_barang_tag;
+    }
+
+    public void setKode_barang_tag(String kode_barang_tag) {
+        this.kode_barang_tag = kode_barang_tag;
+    }
+
+    public String getNama_br() {
+        return nama_br;
+    }
+
+    public void setNama_br(String nama_br) {
+        this.nama_br = nama_br;
+    }
+
+    public int getStok() {
+        return stok;
+    }
+
+    public void setStok(int stok) {
+        this.stok = stok;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
+    }
+
+    public String getUkuran() {
+        return ukuran;
+    }
+
+    public void setUkuran(String ukuran) {
+        this.ukuran = ukuran;
+    }
+
+    public String getWarna() {
+        return warna;
+    }
+
+    public void setWarna(String warna) {
+        this.warna = warna;
+    }
+
+    public String getJenis() {
+        return jenis;
+    }
+
+    public void setJenis(String jenis) {
+        this.jenis = jenis;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public String getDiskon() {
+        return diskon;
+    }
+
+    public void setDiskon(String diskon) {
+        this.diskon = diskon;
+    }
 }

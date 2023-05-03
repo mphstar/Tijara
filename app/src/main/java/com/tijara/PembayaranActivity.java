@@ -6,12 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,7 +24,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Object> items;
@@ -99,8 +106,9 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
     private void configureViewHolderTypeB(ViewHolderTypeB holder, int position) {
         ModelB modelB = (ModelB) items.get(position);
         holder.NamaProduk.setText(modelB.getNamaProduk());
-        holder.Harga.setText(modelB.getHargaProduk());
+        holder.Harga.setText(allTypeData.format.format(Integer.valueOf(modelB.getHargaProduk())));
         holder.value.setText(modelB.getValueProduk());
+        holder.totalSeluruhHargaBarang.setText(allTypeData.format.format(Integer.valueOf(modelB.getValueProduk()) * Integer.valueOf(modelB.getHargaProduk())));
     }
     private void configureViewHolderTypeC(ViewHolderTypeC holder, int position) {
         ModelC modelC = (ModelC) items.get(position);
@@ -142,7 +150,7 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
             NamaProduk = itemView.findViewById(R.id.barang_pesan);
             Harga = itemView.findViewById(R.id.harga_barang_pesan);
             value = itemView.findViewById(R.id.jum_barang_pesan);
-//            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_seluruh_harga_barang);
+            totalSeluruhHargaBarang = itemView.findViewById(R.id.total_harga_barang_pesan);
         }
     }
 
@@ -358,18 +366,80 @@ class AdapterListProdukFree extends RecyclerView.Adapter<AdapterListProdukFree.P
     }
 }
 
+
+
 public class PembayaranActivity extends AppCompatActivity {
     ArrayList<Object> dataModels;
     ArrayList<ModelPembayaran> dataModels2;
+    static int a = 0, hasil_hasil;
+    static TextView totalAkhirPalingAkhir, kurangBayar;
+    static EditText field_total_bayar;
     static ArrayList<ModelProdukFree> arrayList;
     static RecyclerView materi, materi2;
     static JSONObject jsonObject, jsonObject2;
     static JSONArray listProdukFree;
     static String diskonProduk;
+    static LinearLayout pembayaran_akhir;
     private static AdapterListProdukFree adapterListProdukFree;
     ImageView button_voucher, backTOMainTransaksi;
 
+    static void eksekusi_field_total_akhir(String jumlah){
 
+//        PembayaranActivity.field_total_bayar.setText(allTypeData.format.format(jumlah));
+        allTypeData.totalAkhirPalingakhir = kirimValues.total;
+        hasil_hasil = a - Integer.parseInt(jumlah);
+        if (allTypeData.jenisProduk == 1){
+//            PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(hasil_hasil));
+            PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+        }else {
+            PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(PembayaranActivity.a));
+        }
+    }
+
+    private static class CurrencyTextWatcher implements TextWatcher {
+
+        private final EditText editText;
+        private String previousValue = "";
+
+        public CurrencyTextWatcher(EditText editText) {
+            this.editText = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            previousValue = s.toString();
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            if (!s.toString().equals(previousValue)) {
+//                editText.removeTextChangedListener(this);
+//
+//                String cleanString = s.toString().replaceAll("[Rp,. ]", "");
+//                double parsed = Double.parseDouble(cleanString);
+//                String formatted = "Rp " + new DecimalFormat("###,###,###,###.##").format(parsed);
+//
+//                editText.setText(formatted);
+//                editText.setSelection(formatted.length());
+//
+//                editText.addTextChangedListener(this);
+//            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if (s.toString().length() != 0){
+                allTypeData.jenisProduk = 1;
+                PembayaranActivity.eksekusi_field_total_akhir(s.toString());
+            }else if (s.toString().length() == 0){
+                allTypeData.jenisProduk = 2;
+                PembayaranActivity.eksekusi_field_total_akhir(String.valueOf(0));
+            }
+        }
+    }
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -380,13 +450,17 @@ public class PembayaranActivity extends AppCompatActivity {
         button_voucher= findViewById(R.id.pilih_voucher);
         backTOMainTransaksi = findViewById(R.id.back_to_view_transaksi);
         materi = findViewById(R.id.rincian_barang);
+        totalAkhirPalingAkhir = findViewById(R.id.total_akhir_palihAkhir);
+        kurangBayar = findViewById(R.id.kurang_bayar);
+        pembayaran_akhir = findViewById(R.id.pembayaran_paling_akhir);
+        field_total_bayar = findViewById(R.id.field_total_bayar);
 
         try {
             for (int i = 0; i < Transaksi.jsonArray.length(); i++){
 
                 jsonObject = Transaksi.jsonArray.getJSONObject(i);
 
-                if (jsonObject.getString("nominalDiskon").equals("0")){
+                 if (jsonObject.getString("nominalDiskon").equals("0")){
 
                     String namaProduk = jsonObject.getString("namaProduk");
                     String hargaProduk = jsonObject.getString("hargaProduk");
@@ -413,7 +487,18 @@ public class PembayaranActivity extends AppCompatActivity {
 
                     System.out.println("aaa");
                     dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, totalHargaProduk, arrayList));
-                } else {
+                }else if (jsonObject.getString("nominalDiskon").equals("null")){
+
+                    String namaProduk = jsonObject.getString("namaProduk");
+                    String hargaProduk = jsonObject.getString("hargaProduk");
+                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+                    String subHargaProduk = jsonObject.getString("subHarga");
+                    String nominalDiskon = jsonObject.getString("nominalDiskon");
+                    diskonProduk = jsonObject.getString("diskonProduk");
+
+                    System.out.println("bbb");
+                    dataModels.add(new ModelB(namaProduk, jumlahPesanan, hargaProduk));
+                }else {
 
                     String namaProduk = jsonObject.getString("namaProduk");
                     String hargaProduk = jsonObject.getString("hargaProduk");
@@ -433,6 +518,22 @@ public class PembayaranActivity extends AppCompatActivity {
             RecyclerView recyclerView = findViewById(R.id.rincian_barang);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            try {
+
+
+                for (int i = 0; i < Transaksi.jsonArray.length(); i++) {
+                    JSONObject jsonObject = Transaksi.jsonArray.getJSONObject(i);
+                    String diskon = jsonObject.getString("diskonProduk");
+                    a = Integer.valueOf(diskon) + a;
+                    System.out.println(a);
+                }
+
+                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(a - 0));
+                PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(a));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 //            adapterPembayaran = new AdapterPembayaran(dataModels, getApplicationContext());
 //            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PembayaranActivity.this);
 //            materi.setLayoutManager(layoutManager);
@@ -463,6 +564,14 @@ public class PembayaranActivity extends AppCompatActivity {
 //                finish();
 //            }
 //        });
+        pembayaran_akhir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AdapterProdukFree2.showToast(view.getContext(), "Pembayaran Berhasil");
+            }
+        });
+
+        field_total_bayar.addTextChangedListener(new CurrencyTextWatcher(field_total_bayar));
 
         backTOMainTransaksi.setOnClickListener(new View.OnClickListener() {
             @Override

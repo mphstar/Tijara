@@ -203,6 +203,8 @@
 
                 </com.google.android.flexbox.FlexboxLayout>
                 <EditText
+                    android:inputType="numberDecimal"
+                    android:id="@+id/field_total_bayar"
                     android:hint="Total Bayar"
                     android:textColor="@color/black"
                     android:paddingStart="@dimen/_15sdp"
@@ -265,13 +267,14 @@
                         <TextView
                             app:layout_flexBasisPercent="45%"
                             android:gravity="bottom"
-                            android:text="Kode Barang"
+                            android:text="Total Tagihan"
                             android:textStyle="bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
+                            android:id="@+id/total_akhir_palihAkhir"
                             app:layout_flexBasisPercent="55%"
                             android:gravity="top"
                             android:text="Kode Barang"
@@ -290,7 +293,7 @@
                     <LinearLayout
                         android:elevation="4dp"
                         android:orientation="horizontal"
-                        android:id="@+id/scan_produk"
+                        android:id="@+id/pembayaran_paling_akhir"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_35sdp"
                         android:paddingVertical="@dimen/_10sdp"

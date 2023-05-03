@@ -76,6 +76,10 @@
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/font/poppins_bold.ttf"
     },
     {
+        "merged": "com.tijara.app-merged_res-34:/layout_pembayaran.xml.flat",
+        "source": "com.tijara.app-main-36:/layout/pembayaran.xml"
+    },
+    {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/font_poppins_semibold.ttf.flat",
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/font/poppins_semibold.ttf"
     },
@@ -168,16 +172,16 @@
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/font/poppins_lightitalic.ttf"
     },
     {
-        "merged": "com.tijara.app-merged_res-34:/raw_failed_add.json.flat",
-        "source": "com.tijara.app-main-36:/raw/failed_add.json"
-    },
-    {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/layout_activity_tambah_barang.xml.flat",
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/layout/activity_tambah_barang.xml"
     },
     {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/font_poppins_extrabold.ttf.flat",
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/font/poppins_extrabold.ttf"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/xml_network_security_config.xml.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/xml/network_security_config.xml"
     },
     {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/drawable_ic_menu.png.flat",
@@ -264,10 +268,6 @@
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/layout/voucher_persentase.xml"
     },
     {
-        "merged": "com.tijara.app-merged_res-34:/layout_custom_toast.xml.flat",
-        "source": "com.tijara.app-main-36:/layout/custom_toast.xml"
-    },
-    {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/drawable_circle.xml.flat",
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/drawable/circle.xml"
     },
@@ -330,6 +330,10 @@
     {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/drawable_bayar.png.flat",
         "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/drawable/bayar.png"
+    },
+    {
+        "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/raw_failed_add.json.flat",
+        "source": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-main-36:/raw/failed_add.json"
     },
     {
         "merged": "/home/Tryit/.gradle/daemon/7.5/com.tijara.app-merged_res-34:/layout_activity_transaksi.xml.flat",

@@ -88,6 +88,7 @@ id detail_dialog
 id diskon_produk
 id field_isi_jumlah_barang
 id field_kode_product
+id field_total_bayar
 id free_produk_didapat
 id harga_barang_free
 id harga_barang_pesan
@@ -122,6 +123,7 @@ id min_jumlah
 id nama_barang_free
 id nama_produk
 id name_product
+id pembayaran_paling_akhir
 id pilih_voucher
 id plus_minus_values
 id potongan_harga
@@ -136,6 +138,7 @@ id title_toast
 id to_detail
 id to_return
 id to_transaksi
+id total_akhir_palihAkhir
 id total_harga_barang_akhir
 id total_harga_barang_pesan
 id total_potongan_voucher
@@ -176,3 +179,4 @@ style Theme.Tijara
 style dialog
 xml backup_rules
 xml data_extraction_rules
+xml network_security_config
