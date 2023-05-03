@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
+INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
+INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
+INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
 MERGED from [com.google.android.material:material:1.8.0] /home/Tryit/.gradle/caches/transforms-3/dfe455107600617cfcbe36a5c8cee19f/transformed/material-1.8.0/AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/Tryit/.gradle/caches/transforms-3/ddf83f750e2b46d45c980e431ca0a682/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
 MERGED from [com.airbnb.android:lottie:6.0.0] /home/Tryit/.gradle/caches/transforms-3/dc6493ec740ebc4b6825c706d2e80821/transformed/lottie-6.0.0/AndroidManifest.xml:2:1-11:12
@@ -34,6 +34,7 @@ MERGED from [androidx.cardview:cardview:1.0.0] /home/Tryit/.gradle/caches/transf
 MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/fedd695ea3ff2a7c371452ad835e8d68/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:17:1-56:12
 MERGED from [com.intuit.sdp:sdp-android:1.1.0] /home/Tryit/.gradle/caches/transforms-3/45e9e7335e0d5112be07b482b7f15ec8/transformed/sdp-android-1.1.0/AndroidManifest.xml:2:1-11:12
 MERGED from [com.intuit.ssp:ssp-android:1.1.0] /home/Tryit/.gradle/caches/transforms-3/ac2b4dbb04fc5c077ac5a17a77bf056c/transformed/ssp-android-1.1.0/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.volley:volley:1.2.1] /home/Tryit/.gradle/caches/transforms-3/b7d0ca859f61c10cb7344845f6e0d23a/transformed/volley-1.2.1/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/Tryit/.gradle/caches/transforms-3/92dbb525ace016fe3f791d4316ca6187/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] /home/Tryit/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:17:1-37:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] /home/Tryit/.gradle/caches/transforms-3/b27e62dc621b1294b7f65008fe732148/transformed/lifecycle-runtime-2.5.1/AndroidManifest.xml:17:1-24:12
@@ -49,22 +50,22 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] /home/Tryit/.gradle/cache
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/Tryit/.gradle/caches/transforms-3/ba26b032571efe3047e393aed466c638/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] /home/Tryit/.gradle/caches/transforms-3/8d866ddde2cdf8a7053c54c56694d22e/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /home/Tryit/.gradle/caches/transforms-3/728ab5a088fb13b3bd2d361b8ab1f5a8/transformed/annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
-INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
+INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
+INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
+INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
 	package
 		INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
 		INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
 		INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml
 	xmlns:tools
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-54:12
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:1-57:12
 		INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:2:11-69
@@ -74,8 +75,12 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/c
 MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] /home/Tryit/.gradle/caches/transforms-3/fedd695ea3ff2a7c371452ad835e8d68/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:22:5-65
 	android:name
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:5:22-62
+uses-permission#android.permission.INTERNET
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:6:5-67
+	android:name
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:6:22-64
 application
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:7:5-52:19
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:9:5-55:19
 MERGED from [com.google.android.material:material:1.8.0] /home/Tryit/.gradle/caches/transforms-3/dfe455107600617cfcbe36a5c8cee19f/transformed/material-1.8.0/AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.8.0] /home/Tryit/.gradle/caches/transforms-3/dfe455107600617cfcbe36a5c8cee19f/transformed/material-1.8.0/AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/Tryit/.gradle/caches/transforms-3/ddf83f750e2b46d45c980e431ca0a682/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -97,91 +102,93 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/Tryit
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] /home/Tryit/.gradle/caches/transforms-3/48da4d468f697fb0fb5d56e4c7c822b9/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:13:9-35
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:16:9-35
 	android:label
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:12:9-41
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:15:9-41
 	android:fullBackupContent
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:10:9-54
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:13:9-54
 	tools:targetApi
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:15:9-29
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:18:9-29
 	android:icon
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:11:9-43
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:14:9-43
 	android:allowBackup
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:8:9-35
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:10:9-35
 	android:theme
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:14:9-44
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:17:9-44
 	android:dataExtractionRules
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:9:9-65
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:12:9-65
+	android:usesCleartextTraffic
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:11:9-44
 activity#com.tijara.ScanBarcodeActivity
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:16:9-21:40
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:19:9-24:40
 	android:screenOrientation
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:18:13-49
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:21:13-49
 	android:stateNotNeeded
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:19:13-42
-	android:exported
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:21:13-37
-	android:theme
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:20:13-54
-	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:17:13-48
-activity#com.tijara.ContentProdukFreeActivity
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:22:9-24:40
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:22:13-42
 	android:exported
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:24:13-37
-	android:name
+	android:theme
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:23:13-54
-activity#com.tijara.DetailRincianBarangActivity
+	android:name
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:20:13-48
+activity#com.tijara.ContentProdukFreeActivity
 ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:25:9-27:40
 	android:exported
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:27:13-37
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:26:13-56
-activity#com.tijara.PilihVoucherActivity
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:26:13-54
+activity#com.tijara.DetailRincianBarangActivity
 ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:28:9-30:40
 	android:exported
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:30:13-37
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:29:13-49
-activity#com.tijara.PembayaranActivity
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:29:13-56
+activity#com.tijara.PilihVoucherActivity
 ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:31:9-33:40
 	android:exported
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:33:13-37
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:32:13-47
-activity#com.tijara.BottonSheetProductActivity
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:32:13-49
+activity#com.tijara.PembayaranActivity
 ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:34:9-36:40
 	android:exported
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:36:13-37
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:35:13-55
-activity#com.tijara.TambahBarangActivity
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:35:13-47
+activity#com.tijara.BottonSheetProductActivity
 ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:37:9-39:40
 	android:exported
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:39:13-37
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:38:13-49
-activity#com.tijara.Transaksi
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:38:13-55
+activity#com.tijara.TambahBarangActivity
 ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:40:9-42:40
 	android:exported
 		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:42:13-37
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:41:13-38
-activity#com.tijara.MainActivity
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:43:9-51:20
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:41:13-49
+activity#com.tijara.Transaksi
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:43:9-45:40
 	android:exported
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:45:13-36
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:45:13-37
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:44:13-41
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:44:13-38
+activity#com.tijara.MainActivity
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:46:9-54:20
+	android:exported
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:48:13-36
+	android:name
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:47:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:46:13-50:29
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:49:13-53:29
 action#android.intent.action.MAIN
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:47:17-69
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:50:17-69
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:47:25-66
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:50:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:49:17-77
+ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:52:17-77
 	android:name
-		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:49:27-74
+		ADDED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml:52:27-74
 uses-sdk
 INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/Tryit/Project Tijara/app/src/main/AndroidManifest.xml
@@ -246,6 +253,8 @@ MERGED from [com.intuit.sdp:sdp-android:1.1.0] /home/Tryit/.gradle/caches/transf
 MERGED from [com.intuit.sdp:sdp-android:1.1.0] /home/Tryit/.gradle/caches/transforms-3/45e9e7335e0d5112be07b482b7f15ec8/transformed/sdp-android-1.1.0/AndroidManifest.xml:7:5-9:41
 MERGED from [com.intuit.ssp:ssp-android:1.1.0] /home/Tryit/.gradle/caches/transforms-3/ac2b4dbb04fc5c077ac5a17a77bf056c/transformed/ssp-android-1.1.0/AndroidManifest.xml:7:5-9:41
 MERGED from [com.intuit.ssp:ssp-android:1.1.0] /home/Tryit/.gradle/caches/transforms-3/ac2b4dbb04fc5c077ac5a17a77bf056c/transformed/ssp-android-1.1.0/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.volley:volley:1.2.1] /home/Tryit/.gradle/caches/transforms-3/b7d0ca859f61c10cb7344845f6e0d23a/transformed/volley-1.2.1/AndroidManifest.xml:5:5-43
+MERGED from [com.android.volley:volley:1.2.1] /home/Tryit/.gradle/caches/transforms-3/b7d0ca859f61c10cb7344845f6e0d23a/transformed/volley-1.2.1/AndroidManifest.xml:5:5-43
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/Tryit/.gradle/caches/transforms-3/92dbb525ace016fe3f791d4316ca6187/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/Tryit/.gradle/caches/transforms-3/92dbb525ace016fe3f791d4316ca6187/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] /home/Tryit/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:21:5-23:41

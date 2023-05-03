@@ -170,7 +170,13 @@ public class Transaksi extends AppCompatActivity {
                         jsonObject.put("jumlahPesanan", dataModels.get(i).getValue());
                         jsonObject.put("namaProduk", dataModels.get(i).getNama_produk());
                         jsonObject.put("diskonProduk", dataModels.get(i).getPotongan_harga());
-                        jsonObject.put("nominalDiskon", dataModels.get(i).getNominal_diskon());
+                        if (Integer.parseInt(dataModels.get(i).getNominal_diskon()) == 0) {
+
+                            System.out.println("ini nilai nominal 0");
+                            jsonObject.put("nominalDiskon", "null");
+                        }else {
+                            jsonObject.put("nominalDiskon", dataModels.get(i).getNominal_diskon());
+                        }
                         jsonObject.put("dataProdukFree", dataModels.get(i).getListProdukFree());
                     }
                     jsonArray.put(jsonObject);
