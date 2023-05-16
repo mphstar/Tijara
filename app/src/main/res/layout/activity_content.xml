@@ -62,6 +62,8 @@
                             android:paddingStart="@dimen/_13sdp"
                             android:text="June 10"
                             android:textColor="#000000"
+
+                            android:fontFamily="@font/poppins_regular"
                             android:textSize="@dimen/_11ssp"
                             android:textStyle="normal" />
                         <com.google.android.flexbox.FlexboxLayout
@@ -79,6 +81,7 @@
                                     android:id="@+id/potongan_harga"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
                                     android:paddingStart="@dimen/_13sdp"
                                     android:text="10:00"
                                     android:textColor="#000000"
@@ -91,6 +94,7 @@
                                     android:id="@+id/harga_total"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
                                     android:text="10:00"
                                     android:textColor="#FF0000"
                                     android:textSize="@dimen/_9ssp"
@@ -116,6 +120,7 @@
                                     android:id="@+id/harga_pcs"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
                                     android:text="June 10"
                                     android:textSize="@dimen/_9ssp" />
 
@@ -123,6 +128,7 @@
                                 android:layout_marginStart="@dimen/_3sdp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
                                 app:layout_alignSelf="center"
                                 android:textSize="@dimen/_9ssp"
                                 android:text="x"/>
@@ -131,6 +137,7 @@
                                 android:id="@+id/value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
                                 app:layout_alignSelf="center"
                                 android:textSize="@dimen/_9ssp"
                                 android:text="10"/>

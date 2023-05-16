@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingTop="@dimen/_70sdp"
+        android:layout_marginBottom="@dimen/_40sdp"
+        android:src="@drawable/logo_tijara" />
+
+    <EditText
+        android:id="@+id/field_username"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_below="@+id/logo"
+        android:layout_marginHorizontal="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/shape3"
+        android:fontFamily="@font/poppins_medium"
+        android:hint="Username"
+        android:paddingStart="@dimen/_15sdp"
+        android:textColor="#CECECE"
+        android:textSize="@dimen/_13ssp"
+        android:textStyle="bold" />
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_below="@+id/field_username"
+        android:id="@+id/bg_field_password"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:paddingStart="@dimen/_15sdp"
+        android:paddingEnd="@dimen/_15sdp"
+        android:background="@drawable/shape3"
+        app:flexDirection="row"
+        app:justifyContent="space_between"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_25sdp">
+        <EditText
+            android:id="@+id/field_password"
+            android:hint="Password"
+            android:textColor="#CECECE"
+            android:textStyle="bold"
+            android:textSize="@dimen/_13ssp"
+            android:background="#00000000"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_35sdp"/>
+        <ImageView
+            android:id="@+id/preview_password"
+            app:layout_alignSelf="center"
+            android:src="@drawable/eye_no_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_40sdp"
+        app:justifyContent="center"
+        app:flexDirection="row"
+        tools:ignore="MissingClass">
+        <TextView
+            android:id="@+id/buttonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_5sdp"
+            android:textSize="@dimen/_16ssp"
+            android:background="@drawable/shape"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_regular"
+            android:text="LOGIN"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+</RelativeLayout>

@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
@@ -32,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 class kirimValues{
     JsonObject jsonBawaData;
@@ -57,15 +59,69 @@ class AdapterTransaksi extends RecyclerView.Adapter<AdapterTransaksi.TransaksiVi
     public void onBindViewHolder(@NonNull TransaksiViewHolder holder, int position) {
         String name_product = datalist.get(position).getNama_produk();
         String price_product = datalist.get(position).getHarga();
+        String image_produk = datalist.get(position).getImgs();
+        Glide.with(holder.img).load(image_produk).centerCrop().placeholder(R.drawable.tshirt).into(holder.img);
         holder.txtNamaProduk.setText(datalist.get(position).getNama_produk());
         holder.txtHarga.setText(allTypeData.format.format(Integer.valueOf(datalist.get(position).getHarga())));
         holder.potonganHarga.setText(allTypeData.format.format(Integer.valueOf(datalist.get(position).getPotongan_harga())));
         holder.txtSubHarga.setText(allTypeData.format.format(Integer.valueOf(datalist.get(position).getSub_harga())));
         holder.value.setText(datalist.get(position).getValue());
-        holder.txtSubHarga.setPaintFlags(holder.potonganHarga.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.img.setImageResource(datalist.get(position).getImgs());
+//        holder.txtSubHarga.setPaintFlags(holder.potonganHarga.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//        holder.img.setImageResource(datalist.get(position).getImgs());
         holder.trush.setImageResource(datalist.get(position).getTrush());
-        if (datalist.get(position).getSub_harga() == "0"){
+        holder.trush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog builder = new AlertDialog.Builder(view.getRootView().getContext(), R.style.dialog).create();
+                View dialogView = LayoutInflater.from(view.getRootView().getContext()).inflate(R.layout.content_dialog_transaksi, null);
+                builder.setView(dialogView);
+                builder.setCancelable(true);
+                builder.show();
+
+                TextView titleInfo = dialogView.findViewById(R.id.title_info);
+                TextView diskripsiInfo = dialogView.findViewById(R.id.diskripsi_info);
+                titleInfo.setText("Apakah Anda Yakin");
+                diskripsiInfo.setText("Produk yang anda pilih akan di hapus dari List Pesanan");
+                LinearLayout detail_dialog = dialogView.findViewById(R.id.detail_dialog);
+                detail_dialog.setVisibility(View.GONE);
+                ImageView close_button =dialogView.findViewById(R.id.button_close);
+                close_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        builder.dismiss();
+                    }
+                });
+                LinearLayout next_dialog_barcode = dialogView.findViewById(R.id.button_metode_barcode);
+                ImageView imageBarcode = dialogView.findViewById(R.id.icon_barcode);
+                TextView textBarcode = dialogView.findViewById(R.id.barcode);
+                imageBarcode.setVisibility(View.GONE);
+                textBarcode.setText("TIDAK");
+                next_dialog_barcode.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        builder.dismiss();
+                        notifyDataSetChanged();
+                    }
+                });
+                LinearLayout next_dialog_keyboard = dialogView.findViewById(R.id.button_metode_keyboard);
+                ImageView imageKeyboard = dialogView.findViewById(R.id.icon_keyboard);
+                TextView textKeyboard = dialogView.findViewById(R.id.keyboard);
+                imageKeyboard.setVisibility(View.GONE);
+                textKeyboard.setText("IYA");
+                next_dialog_keyboard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        builder.dismiss();
+                        datalist.remove(position);
+                        notifyDataSetChanged();
+                    }
+                });
+                System.out.println(position);
+            }
+        });
+        if (Integer.parseInt(datalist.get(position).getSub_harga()) == Integer.parseInt(datalist.get(position).getPotongan_harga())){
+            holder.txtSubHarga.setVisibility(View.GONE);
+        } else if (datalist.get(position).getSub_harga() == "0"){
             holder.txtSubHarga.setVisibility(View.GONE);
         } else {
             holder.txtSubHarga.setPaintFlags(holder.potonganHarga.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -103,7 +159,9 @@ public class Transaksi extends AppCompatActivity {
     TextView kode_produk, jumlahList, jumlahNominalHarga;
     ImageView button_add, backTOMainDashboard;
     static JSONObject jsonObject;
+    static String kode_barang;
     static JSONArray jsonArray;
+    static Map<String, JSONObject> params;
     JSONArray nonProdukFree = null;
     static int view = 1, addProductUsing = 1;
     static ArrayList<ModelTransaksi> dataModels;
@@ -119,7 +177,7 @@ public class Transaksi extends AppCompatActivity {
                 materi.setLayoutManager(layoutManager);
                 materi.setAdapter(adapterTransaksi);
             }else {
-                dataModels.add(new ModelTransaksi("",ambilValues.namaProduk, ambilValues.hargaAsliProduk,  ambilValues.hargaProduk, "0", "0"," ", ambilValues.jumlahPesanan, ambilValues.dataProdukFree, ambilValues.image_produk, R.drawable.trush));
+                dataModels.add(new ModelTransaksi(ambilValues.kodeProduk, ambilValues.namaProduk, ambilValues.hargaAsliProduk,  ambilValues.hargaProduk, "0", "0"," ", ambilValues.jumlahPesanan, ambilValues.dataProdukFree, ambilValues.image_produk, R.drawable.trush));
                 adapterTransaksi = new AdapterTransaksi(dataModels, getApplicationContext());
 
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
@@ -129,23 +187,27 @@ public class Transaksi extends AppCompatActivity {
                 try {
                     for (int i = 0; i < dataModels.size(); i++){
                         kirimValues.total += Integer.valueOf(dataModels.get(i).getPotongan_harga());
+                        jsonObject.put("kodeProduk", dataModels.get(i).getKode_barang());
                         jsonObject.put("hargaProduk", dataModels.get(i).getHarga());
                         jsonObject.put("subHarga", dataModels.get(i).getSub_harga());
                         jsonObject.put("jumlahPesanan", dataModels.get(i).getValue());
                         jsonObject.put("namaProduk", dataModels.get(i).getNama_produk());
                         jsonObject.put("diskonProduk", dataModels.get(i).getPotongan_harga());
+                        jsonObject.put("jenisDiskon", "Free_produk");
                         jsonObject.put("nominalDiskon", dataModels.get(i).getNominal_diskon());
                         jsonObject.put("dataProdukFree", dataModels.get(i).getListProdukFree());
                     }
+//                    params.put(String.valueOf(dataModels.size()), jsonObject);
                     jsonArray.put(jsonObject);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+
                 ambilValues.namaProduk = "";
                 ambilValues.hargaProduk = "";
                 ambilValues.dataProdukFree = null;
                 ambilValues.jumlahPesanan = "";
-                ambilValues.image_produk = 0;
+                ambilValues.image_produk = "0";
                 view = 1;
             }
         }else if (addProductUsing == 2){
@@ -155,7 +217,7 @@ public class Transaksi extends AppCompatActivity {
                 materi.setLayoutManager(layoutManager);
                 materi.setAdapter(adapterTransaksi);
             }else {
-                dataModels.add(new ModelTransaksi("",ambilValues.nama_produk, ambilValues.diskon_produk, ambilValues.harga_asli_produk, ambilValues.harga_produk, ambilValues.nominal_diskon," ",ambilValues.jumlah_pesanan, nonProdukFree, ambilValues.image_produk, R.drawable.trush));
+                dataModels.add(new ModelTransaksi(ambilValues.kode_produk, ambilValues.nama_produk, ambilValues.diskon_produk, ambilValues.harga_asli_produk, ambilValues.harga_produk, ambilValues.nominal_diskon," ",ambilValues.jumlah_pesanan, nonProdukFree, ambilValues.image_produk, R.drawable.trush));
                 adapterTransaksi = new AdapterTransaksi(dataModels, getApplicationContext());
 
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
@@ -165,20 +227,23 @@ public class Transaksi extends AppCompatActivity {
                 try {
                     for (int i = 0; i < dataModels.size(); i++){
                         kirimValues.total += Integer.valueOf(dataModels.get(i).getPotongan_harga());
+                        jsonObject.put("kodeProduk", dataModels.get(i).getKode_barang());
                         jsonObject.put("hargaProduk", dataModels.get(i).getHarga());
                         jsonObject.put("subHarga", dataModels.get(i).getSub_harga());
                         jsonObject.put("jumlahPesanan", dataModels.get(i).getValue());
                         jsonObject.put("namaProduk", dataModels.get(i).getNama_produk());
                         jsonObject.put("diskonProduk", dataModels.get(i).getPotongan_harga());
+                        jsonObject.put("jenisDiskon", "Non_free_produk");
                         if (Integer.parseInt(dataModels.get(i).getNominal_diskon()) == 0) {
-
-                            System.out.println("ini nilai nominal 0");
-                            jsonObject.put("nominalDiskon", "null");
+                            jsonObject.put("nominalDiskon", "0");
                         }else {
                             jsonObject.put("nominalDiskon", dataModels.get(i).getNominal_diskon());
                         }
-                        jsonObject.put("dataProdukFree", dataModels.get(i).getListProdukFree());
+                        if (dataModels.get(i).getListProdukFree() == null){
+                            jsonObject.put("dataProdukFree", "null");
+                        }
                     }
+//                    params.put(String.valueOf(dataModels.size()), jsonObject);
                     jsonArray.put(jsonObject);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -188,7 +253,7 @@ public class Transaksi extends AppCompatActivity {
                 ambilValues.harga_produk = "";
                 ambilValues.diskon_produk = "";
                 ambilValues.jumlah_pesanan = "";
-                ambilValues.image_produk = 0;
+                ambilValues.image_produk = "";
                 view = 1;
             }
         }
@@ -302,7 +367,6 @@ public class Transaksi extends AppCompatActivity {
 
         });
     }
-
     private void scanBarcode() {
 //        Intent intent = new Intent(getApplicationContext(), ScanBarcodeActivity.class);
 //        startActivityForResult(intent, 1);
@@ -318,10 +382,10 @@ public class Transaksi extends AppCompatActivity {
         if (result.getContents() != null) {
             kode_produk.setText(result.getContents());
 //            String code_product = kode_produk.toString();
-                Intent intent = new Intent(Transaksi.this, TambahBarangActivity.class);
-                intent.putExtra(KEY_KODE, kode_produk.getText().toString());
-                System.out.println(kode_produk.getText().toString());
-                startActivity(intent);
+            Intent intent = new Intent(Transaksi.this, TambahBarangActivity.class);
+            intent.putExtra(KEY_KODE, kode_produk.getText().toString());
+            System.out.println(kode_produk.getText().toString());
+            startActivity(intent);
 //            AlertDialog.Builder builder = new AlertDialog.Builder(Transaksi.this);
 //            builder.setTitle("Result");
 //            builder.setMessage(result.getContents());
@@ -359,11 +423,11 @@ class ModelTransaksi {
     String nominal_diskon;
     JSONArray ListProdukFree;
     String total_voucher;
-    int img;
+    String img;
     int trush;
     String feature;
 
-    public ModelTransaksi(String kode_barang, String nama_produk, String potongan_harga, String harga, String sub_harga, String nominal_diskon, String total_voucher, String value, JSONArray listProdukFree,  int img, int trush) {
+    public ModelTransaksi(String kode_barang, String nama_produk, String potongan_harga, String harga, String sub_harga, String nominal_diskon, String total_voucher, String value, JSONArray listProdukFree,  String img, int trush) {
         this.kode_barang = kode_barang;
         this.nama_produk = nama_produk;
         this.potongan_harga = potongan_harga;
@@ -408,7 +472,7 @@ class ModelTransaksi {
     public JSONArray getListProdukFree(){
         return ListProdukFree;
     }
-    public int getImgs() {
+    public String getImgs() {
         return img;
     }
     public int getTrush() {
