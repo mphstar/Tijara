@@ -3,31 +3,50 @@ package com.tijara;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.Manifest;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+
+import com.dantsu.escposprinter.EscPosPrinter;
+import com.dantsu.escposprinter.connection.tcp.TcpConnection;
+import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 
 class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Object> items;
@@ -328,9 +347,9 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
 //}
 
 class AdapterListProdukFree extends RecyclerView.Adapter<AdapterListProdukFree.PembayaranViewHolder>{
-    private ArrayList<ModelProdukFree> datalist;
+    private ArrayList<produkfree> datalist;
 
-    public AdapterListProdukFree(ArrayList<ModelProdukFree> datalist){
+    public AdapterListProdukFree(ArrayList<produkfree> datalist){
         this.datalist = datalist;
     }
 
@@ -344,9 +363,9 @@ class AdapterListProdukFree extends RecyclerView.Adapter<AdapterListProdukFree.P
 
     @Override
     public void onBindViewHolder(@NonNull PembayaranViewHolder holder, int position) {
-        ModelProdukFree modelProdukFree = datalist.get(position);
-        holder.NamaProduk.setText(modelProdukFree.getNamaProduk());
-        holder.value.setText(modelProdukFree.getValueProduk());
+        produkfree produkfree = datalist.get(position);
+        holder.NamaProduk.setText(produkfree.getNamaProduk());
+        holder.value.setText(produkfree.getValueProduk());
 //
     }
 
@@ -371,26 +390,44 @@ class AdapterListProdukFree extends RecyclerView.Adapter<AdapterListProdukFree.P
 public class PembayaranActivity extends AppCompatActivity {
     ArrayList<Object> dataModels;
     ArrayList<ModelPembayaran> dataModels2;
-    static int a = 0, hasil_hasil;
-    static TextView totalAkhirPalingAkhir, kurangBayar;
+    static int a = 0, hasil_hasil, kembalian, total_bayar;
+    static TextView totalAkhirPalingAkhir, kurangBayar, keteranganBayar, teks_tunai, teks_qris;
     static EditText field_total_bayar;
-    static ArrayList<ModelProdukFree> arrayList;
+    static ArrayList<produkfree> arrayList;
     static RecyclerView materi, materi2;
     static JSONObject jsonObject, jsonObject2;
     static JSONArray listProdukFree;
     static String diskonProduk;
     static LinearLayout pembayaran_akhir;
     private static AdapterListProdukFree adapterListProdukFree;
-    ImageView button_voucher, backTOMainTransaksi;
+    ImageView button_voucher, backTOMainTransaksi, button_tunai, button_qris, icon_tunai, icon_qris;
+    static RelativeLayout loadingStruk;
 
     static void eksekusi_field_total_akhir(String jumlah){
 
 //        PembayaranActivity.field_total_bayar.setText(allTypeData.format.format(jumlah));
+
         allTypeData.totalAkhirPalingakhir = kirimValues.total;
         hasil_hasil = a - Integer.parseInt(jumlah);
+        System.out.println(jumlah);
+        System.out.println(hasil_hasil);
+        System.out.println(PembayaranActivity.a);
         if (allTypeData.jenisProduk == 1){
-//            PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(hasil_hasil));
-            PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+            if (Integer.valueOf(jumlah) > PembayaranActivity.a){
+                kembalian = Math.abs(hasil_hasil);
+                System.out.println(kembalian);
+                PembayaranActivity.keteranganBayar.setText("Kembalian :");
+                PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#00F30C"));
+                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(kembalian));
+            } else if (Integer.valueOf(jumlah) <= PembayaranActivity.a) {
+                PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+            } else if (hasil_hasil == 0){
+                PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+            }
         }else {
             PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(PembayaranActivity.a));
         }
@@ -431,6 +468,7 @@ public class PembayaranActivity extends AppCompatActivity {
 
             if (s.toString().length() != 0){
                 allTypeData.jenisProduk = 1;
+                PembayaranActivity.total_bayar = Integer.valueOf(s.toString());
                 PembayaranActivity.eksekusi_field_total_akhir(s.toString());
             }else if (s.toString().length() == 0){
                 allTypeData.jenisProduk = 2;
@@ -449,9 +487,17 @@ public class PembayaranActivity extends AppCompatActivity {
 
         button_voucher= findViewById(R.id.pilih_voucher);
         backTOMainTransaksi = findViewById(R.id.back_to_view_transaksi);
+        teks_tunai = findViewById(R.id.teksTunai);
+        teks_qris = findViewById(R.id.teksQris);
+        icon_tunai = findViewById(R.id.iconTunai);
+        icon_qris = findViewById(R.id.iconQris);
+        loadingStruk = findViewById(R.id.loadingPrint);
         materi = findViewById(R.id.rincian_barang);
         totalAkhirPalingAkhir = findViewById(R.id.total_akhir_palihAkhir);
         kurangBayar = findViewById(R.id.kurang_bayar);
+        button_tunai = findViewById(R.id.buttonTunai);
+        button_qris = findViewById(R.id.buttonQris);
+        keteranganBayar = findViewById(R.id.keterangan_bayar);
         pembayaran_akhir = findViewById(R.id.pembayaran_paling_akhir);
         field_total_bayar = findViewById(R.id.field_total_bayar);
 
@@ -460,7 +506,7 @@ public class PembayaranActivity extends AppCompatActivity {
 
                 jsonObject = Transaksi.jsonArray.getJSONObject(i);
 
-                 if (jsonObject.getString("nominalDiskon").equals("0")){
+                 if (jsonObject.getString("jenisDiskon").equals("Free_produk")){
 
                     String namaProduk = jsonObject.getString("namaProduk");
                     String hargaProduk = jsonObject.getString("hargaProduk");
@@ -478,7 +524,7 @@ public class PembayaranActivity extends AppCompatActivity {
                             String name = jsonObject.getString("nama");
                             String value = jsonObject.getString("value");
 
-                            arrayList.add(new ModelProdukFree(name, value));
+                            arrayList.add(new produkfree(name, value));
                         }
                         System.out.println(arrayList.size()+"sjkd");
                     } catch (Exception e) {
@@ -487,16 +533,16 @@ public class PembayaranActivity extends AppCompatActivity {
 
                     System.out.println("aaa");
                     dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, totalHargaProduk, arrayList));
-                }else if (jsonObject.getString("nominalDiskon").equals("null")){
+                }else if (jsonObject.getString("jenisDiskon").equals("Non_free_produk") && jsonObject.getString("nominalDiskon") == "0"){
 
                     String namaProduk = jsonObject.getString("namaProduk");
                     String hargaProduk = jsonObject.getString("hargaProduk");
                     String jumlahPesanan = jsonObject.getString("jumlahPesanan");
-                    String subHargaProduk = jsonObject.getString("subHarga");
-                    String nominalDiskon = jsonObject.getString("nominalDiskon");
+//                    String subHargaProduk = jsonObject.getString("subHarga");
+//                    String nominalDiskon = jsonObject.getString("nominalDiskon");
                     diskonProduk = jsonObject.getString("diskonProduk");
 
-                    System.out.println("bbb");
+                    System.out.println("bb2");
                     dataModels.add(new ModelB(namaProduk, jumlahPesanan, hargaProduk));
                 }else {
 
@@ -564,14 +610,138 @@ public class PembayaranActivity extends AppCompatActivity {
 //                finish();
 //            }
 //        });
-        pembayaran_akhir.setOnClickListener(new View.OnClickListener() {
+        pembayaran_akhir.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(PembayaranActivity.this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(PembayaranActivity.this, new String[]{Manifest.permission.BLUETOOTH}, 1);
+            } else {
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            EscPosPrinter printer = new EscPosPrinter(new TcpConnection("192.168.0.45", 9100), 200, 80f, 45                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                );
+                            printer.printFormattedText(
+                                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, getApplicationContext().getResources().getDrawableForDensity(R.drawable.add, 200)) + "</img>\n" +
+
+                                            "[L]\n" +
+                                            "[C]<u><font size='big'>ORDER Mphstarr</font></u>\n" +
+                                            "[L]\n" +
+                                            "[C]================================================\n" +
+                                            "[L]\n" +
+                                            "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
+                                            "[L]  + Size : S\n" +
+                                            "[L]\n" +
+                                            "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
+                                            "[L]  + Size : 57/58\n" +
+                                            "[L]\n" +
+                                            "[C]================================================\n" +
+                                            "[R]TOTAL PRICE :[R]34.98e\n" +
+                                            "[R]TAX :[R]4.23e\n" +
+                                            "[L]\n" +
+                                            "[C]================================================\n" +
+                                            "[L]\n" +
+                                            "[L]<font size='tall'>Customer :</font> [R]<b>Tes</b>\n" +
+                                            "[L]Raymond DUPONT\n" +
+                                            "[L]5 rue des girafes\n" +
+                                            "[L]31547 PERPETES\n" +
+                                            "[L]Tel : +33801201456\n" +
+                                            "[L]\n" +
+                                            "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
+                                            "[L]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>\n"
+                            );
+                            Toast.makeText(PembayaranActivity.this, "sukses", Toast.LENGTH_SHORT).show();
+
+
+                        } catch (Exception e){
+                        }
+                    }
+                }).start();
+            }
+
+            PembayaranActivity.loadingStruk.setVisibility(View.VISIBLE);
+            // Post API
+            String url = Env.BASE_URL+"barang_uplode";
+            try {
+//                    JSONObject requestBody = new JSONObject();
+//                    requestBody.put("kodeTr", Transaksi.jsonArray);
+//                    System.out.println(requestBody);
+
+//                    Map<String, String> params = new HashMap<>();
+
+                StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        PembayaranActivity.loadingStruk.setVisibility(View.GONE);
+                        Toast.makeText(PembayaranActivity.this, response, Toast.LENGTH_SHORT).show();
+                        Log.d("tes", response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        PembayaranActivity.loadingStruk.setVisibility(View.GONE);
+                        Toast.makeText(PembayaranActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> mapp = new HashMap<>();
+                        mapp.put("total", String.valueOf(PembayaranActivity.a));
+                        mapp.put("total_bayar", String.valueOf(PembayaranActivity.total_bayar));
+                        mapp.put("kembalian", String.valueOf(Math.abs(hasil_hasil)));
+                        mapp.put("data_list", Transaksi.jsonArray.toString());
+//                            mapp.put("nama_kasir", Home.name);
+                        mapp.put("nama_kasir", "fathur");
+
+                        System.out.println(mapp.toString() + " pp");
+
+                        return  mapp;
+                    }
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(req);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // End Post API
+        });
+
+
+        field_total_bayar.addTextChangedListener(new CurrencyTextWatcher(field_total_bayar));
+
+        button_qris.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdapterProdukFree2.showToast(view.getContext(), "Pembayaran Berhasil");
+                field_total_bayar.setVisibility(View.GONE);
+                keteranganBayar.setText("Pembayaran : ");
+                kurangBayar.setText("LUNAS");
+                kurangBayar.setTextColor(Color.parseColor("#00F30C"));
+                icon_qris.setBackgroundTintList(getResources().getColorStateList(R.color.white));
+                teks_qris.setTextColor(getResources().getColorStateList(R.color.white));
+                icon_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+                teks_tunai.setTextColor(getResources().getColorStateList(R.color.colorBlack));
+                button_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+                button_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
             }
         });
 
-        field_total_bayar.addTextChangedListener(new CurrencyTextWatcher(field_total_bayar));
+        button_tunai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                field_total_bayar.setVisibility(View.VISIBLE);
+                kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                kurangBayar.setText(allTypeData.format.format(a));
+                keteranganBayar.setText("Kurang Bayar : ");
+                icon_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.white));
+                teks_tunai.setTextColor(getResources().getColorStateList(R.color.white));
+                icon_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+                teks_qris.setTextColor(getResources().getColorStateList(R.color.colorBlack));
+                button_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
+                button_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+            }
+        });
 
         backTOMainTransaksi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -648,12 +818,12 @@ class ModelPembayaran{
     }
 }
 
-class ModelProdukFree{
+class produkfree {
 
     String namaProduk;
     String valueProduk;
 
-    public ModelProdukFree(String namaProduk, String valueProduk) {
+    public produkfree(String namaProduk, String valueProduk) {
         this.namaProduk = namaProduk;
         this.valueProduk = valueProduk;
     }
@@ -734,9 +904,9 @@ class ModelC{
     String valueProduk;
     String hargaProduk;
     String totalHargaBarang;
-    ArrayList<ModelProdukFree> listProdukFreeDeal;
+    ArrayList<produkfree> listProdukFreeDeal;
 
-    public ModelC(String namaProduk, String valueProduk, String hargaProduk, String totalHargaBarang, ArrayList<ModelProdukFree> listProdukFreeDeal) {
+    public ModelC(String namaProduk, String valueProduk, String hargaProduk, String totalHargaBarang, ArrayList<produkfree> listProdukFreeDeal) {
         this.namaProduk = namaProduk;
         this.valueProduk = valueProduk;
         this.hargaProduk = hargaProduk;
@@ -753,7 +923,7 @@ class ModelC{
     public String getHargaProduk() {
         return hargaProduk;
     }
-    public ArrayList<ModelProdukFree> getListProdukFreeDeal() {
+    public ArrayList<produkfree> getListProdukFreeDeal() {
         return listProdukFreeDeal;
     }
     public String getValueProduk() {

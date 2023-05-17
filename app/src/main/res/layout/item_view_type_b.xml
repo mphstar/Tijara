@@ -16,6 +16,7 @@
             app:layout_flexBasisPercent="65%"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:textStyle="bold"
             android:textColor="#000000"
             android:textSize="@dimen/_11ssp"
@@ -26,6 +27,7 @@
             app:layout_flexBasisPercent="35%"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:textStyle="bold"
             android:textColor="#000000"
             android:textSize="@dimen/_11ssp"
@@ -40,6 +42,7 @@
         <TextView
             android:id="@+id/jum_barang_pesan"
             android:textColor="#747474"
+            android:fontFamily="@font/poppins_regular"
             android:text="2"
             android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
@@ -47,6 +50,7 @@
         <TextView
             android:layout_marginStart="5dp"
             android:textColor="#747474"
+            android:fontFamily="@font/poppins_regular"
             android:text="X"
             android:textSize="@dimen/_10ssp"
             android:layout_width="wrap_content"
@@ -54,6 +58,7 @@
         <TextView
             android:id="@+id/total_harga_barang_pesan"
             android:layout_marginStart="5dp"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="#747474"
             android:text="Rp. 240.000"
             android:textSize="@dimen/_10ssp"

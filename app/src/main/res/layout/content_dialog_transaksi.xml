@@ -14,9 +14,11 @@
         android:layout_marginBottom="@dimen/_15sdp"
         app:justifyContent="space_between">
         <TextView
+            android:id="@+id/title_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pilih Metode"
+            android:fontFamily="@font/poppins_medium"
             android:textColor="@color/black"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"/>
@@ -29,7 +31,9 @@
 
     </com.google.android.flexbox.FlexboxLayout>
     <TextView
+        android:id="@+id/diskripsi_info"
         android:layout_marginHorizontal="@dimen/_20sdp"
+        android:fontFamily="@font/poppins_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/_13ssp"
@@ -59,11 +63,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/icon_keyboard"
                     android:layout_gravity="center|start"
                     android:background="@drawable/icon_keyboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/keyboard"
+                    android:fontFamily="@font/poppins_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Keyboard"
@@ -90,13 +97,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/icon_barcode"
                     android:background="@drawable/icon_barcode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/barcode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Barcode"
+                    android:fontFamily="@font/poppins_medium"
                     android:textSize="@dimen/_12ssp"
                     android:textColor="@color/white"
                     android:textStyle="bold"/>
@@ -125,6 +135,7 @@
                 android:paddingStart="@dimen/_10sdp"
                 android:background="@drawable/shape3"
                 android:hint="Kode Barang"
+                android:fontFamily="@font/poppins_regular"
                 android:textSize="@dimen/_12ssp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -180,6 +191,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textColor="@color/black"
+                            android:fontFamily="@font/poppins_medium"
                             android:textSize="@dimen/_13ssp"
                             android:text="Hasil Tidak Ditemukan"/>
 
@@ -188,6 +200,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
+                            android:fontFamily="@font/poppins_regular"
                             android:textSize="@dimen/_12ssp"
                             android:text="Masukkan kode barang pada kolom pencarian"/>
                     </LinearLayout>
@@ -218,6 +231,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13ssp"

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar_home"
+        app:flexDirection="row"
+        app:justifyContent="space_between"
+        android:paddingHorizontal="@dimen/paddingHorizontal"
+        android:paddingVertical="@dimen/paddingVertical_home"
+        android:orientation="horizontal"
+        tools:ignore="MissingClass">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingVertical="10dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_menu" />
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/home_konten"
+        android:layout_above="@+id/bottom_navigationbar"
+        android:layout_below="@+id/appbar_home"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                app:flexDirection="column"
+                android:id="@+id/welcome_text"
+                android:paddingHorizontal="@dimen/paddingHorizontal"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingClass">
+
+                <TextView
+                    android:id="@+id/nama_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello Mphstar"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4D4D4D"
+                    android:text="@string/welcome"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="13sp" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:id="@+id/info"
+                android:layout_below="@id/welcome_text"
+                android:fillViewport="true"
+                android:measureAllChildren="false"
+                android:layout_marginRight="25dp"
+                android:scrollbars="none"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="25dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                        <FrameLayout
+                            android:layout_width="250dp"
+                            android:background="@drawable/background_rounded"
+                            android:backgroundTint="@color/colorGray"
+                            android:layout_height="160dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingHorizontal="20dp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_pemasukan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="22dp"
+                                    android:textSize="16sp"
+                                    android:layout_marginTop="10dp"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:text="Pemasukan" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:textSize="16sp"
+
+                                    android:textColor="@color/white"
+                                    android:id="@+id/txt_pemasukan"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:text="Rp. 240.000" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13sp"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Hari ini" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="250dp"
+                        android:background="@drawable/background_rounded"
+                        android:layout_marginLeft="20dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:layout_height="160dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="20dp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:src="@drawable/ic_pakaian" />-->
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:textSize="16sp"
+                                android:layout_marginTop="10dp"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Pakaian Terjual" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:paddingRight="20dp"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_pria" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="10sp"
+                                        android:text="Laki - laki" />
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:id="@+id/txt_terjual_pria"
+                                            android:text="0" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="10sp"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:text="pcs" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_wanita" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="10sp"
+                                        android:text="Perempuan" />
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:id="@+id/txt_terjual_wanita"
+                                            android:text="0" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="10sp"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:text="pcs" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:paddingLeft="20dp"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_anak" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="10sp"
+                                        android:text="Anak" />
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:id="@+id/txt_terjual_anak"
+                                            android:text="0" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="10sp"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:text="pcs" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+<!--            <ImageView-->
+<!--                android:id="@+id/info"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:paddingHorizontal="@dimen/paddingHorizontal"-->
+<!--                android:layout_below="@id/welcome_text"-->
+<!--                android:layout_height="140dp"-->
+<!--                android:src="@color/colorGray" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/info"
+                android:layout_marginTop="40dp"
+                android:paddingHorizontal="@dimen/paddingHorizontal"
+                android:orientation="vertical">
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/to_transaksi"
+                    android:layout_width="match_parent"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:layout_height="wrap_content"
+                    app:alignItems="center"
+                    android:backgroundTint="#EFEFEF"
+                    android:background="@drawable/background_rounded"
+                    app:justifyContent="space_between"
+                    tools:ignore="MissingClass">
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:padding="15dp"
+                        android:src="@drawable/ic_cart"
+                        android:background="@drawable/background_rounded"
+                        android:backgroundTint="#535353" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Transaksi"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground" />
+
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/to_return"
+                    android:layout_width="match_parent"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content"
+                    app:alignItems="center"
+                    android:backgroundTint="#EFEFEF"
+                    android:background="@drawable/background_rounded"
+                    app:justifyContent="space_between"
+                    tools:ignore="MissingClass">
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:padding="15dp"
+                        android:src="@drawable/ic_return"
+                        android:background="@drawable/background_rounded"
+                        android:backgroundTint="#535353" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Return"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground" />
+
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigationbar"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/_8sdp"
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_10sdp"
+            app:justifyContent="center"
+            app:flexDirection="row"
+            tools:ignore="MissingClass">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_3sdp"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_home" />
+        </com.google.android.flexbox.FlexboxLayout>
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_10sdp"
+            app:justifyContent="center"
+            app:flexDirection="row"
+            tools:ignore="MissingClass">
+            <com.airbnb.lottie.LottieAnimationView
+                app:layout_flexBasisPercent="65%"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_colorFilter="@color/colorPrimary"
+                app:lottie_rawRes="@raw/circle_blink"
+                />
+<!--            <ImageView-->
+<!--                android:layout_width="9dp"-->
+<!--                android:layout_height="9dp"-->
+<!--                android:src="@drawable/circle"-->
+<!--                app:tint="@color/colorPrimary" />-->
+        </com.google.android.flexbox.FlexboxLayout>
+
+
+    </LinearLayout>
+    
+</RelativeLayout>
