@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getBaseContext(), Home.class));
             finish();
         }else {
-            startActivity(new Intent(getBaseContext(), Home.class));
+            startActivity(new Intent(getBaseContext(), Login.class));
             finish();
         }
     }

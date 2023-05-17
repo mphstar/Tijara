@@ -3,10 +3,12 @@ package com.tijara;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,6 +43,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -455,8 +458,9 @@ class AdapterAddBarang extends RecyclerView.Adapter<AdapterAddBarang.MahasiswaVi
         kirimValues kirimValues = new kirimValues();
         Transaksi mainActivity = new Transaksi();
 
-        allTypeData.bottomSheetDialog = new BottomSheetDialog(view.getRootView().getContext(), R.style.BottomSheetDialogTheme);
+        allTypeData.bottomSheetDialog = new BottomSheetDialog(view.getRootView().getContext(), R.style.BottomSheetDialogStyle);
         allTypeData.bottomSheetDialog.setContentView(R.layout.bottom_sheet_product);
+
         allTypeData.bottomSheetDialog.show();
         allTypeData.bottomSheetDialog.create();
 

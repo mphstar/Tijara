@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.tijara.app-mergeDebugResources-32:/values-es-rUS/values-es-rUS.xml",
+            "outputFile": "com.tijara.app-mergeDebugResources-34:/values-es-rUS/values-es-rUS.xml",
             "map": [
                 {
                     "source": "/home/mphstar/.gradle/caches/transforms-3/dfe455107600617cfcbe36a5c8cee19f/transformed/material-1.8.0/res/values-es-rUS/values-es-rUS.xml",

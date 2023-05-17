@@ -69,37 +69,49 @@ public class Login extends AppCompatActivity {
                 String Message = "Hai "+Email+" Selamat datang Kembali :)";
 //            System.out.println(Nama);
 
-                String url = env.BASE_URL+"login_user";
+                String url = "http://192.168.107.64:8000/api/login";
                 StringRequest strinRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                Toast.makeText(Login.this, response, Toast.LENGTH_SHORT).show();
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
-                                    System.out.println(jsonObject);
-                                    String status = jsonObject.getString("status");
-                                    String massage = jsonObject.getString("msg");
-                                    data = jsonObject.getJSONObject("data");
-//                                    JSONObject jsonDATA = new JSONObject(data);
-//                                    Login.nama = data.getString("nama");
-                                    if (status.equals("success")) {
-//                                    msg.setText(id_pegawai);
-                                        ToHome();
-//                                        Toast.makeText(LoginActivity.this, massage, Toast.LENGTH_LONG).show();
-//                                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-//                                    startActivity(intent);
-                                    }else {
-                                        System.out.println("error");
-//                                        Toast.makeText(LoginActivity.this, massage, Toast.LENGTH_LONG).show();
+                                    if(jsonObject.getString("status").equals("success")){
+                                        JSONObject data = new JSONObject(jsonObject.getString("data"));
+                                        ToHome(data.getString("nama"));
+                                        Intent intent = new Intent(Login.this, Home.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+
+                                    } else{
+                                        Toast.makeText(Login.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                     }
+//                                    System.out.println(jsonObject);
+//                                    String status = jsonObject.getString("status");
+//                                    String massage = jsonObject.getString("msg");
+//                                    data = jsonObject.getJSONObject("data");
+////                                    JSONObject jsonDATA = new JSONObject(data);
+////                                    Login.nama = data.getString("nama");
+//                                    if (status.equals("success")) {
+////                                    msg.setText(id_pegawai);
+//                                        ToHome();
+////                                        Toast.makeText(LoginActivity.this, massage, Toast.LENGTH_LONG).show();
+////                                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+////                                    startActivity(intent);
+//                                    }else {
+//                                        System.out.println("error");
+////                                        Toast.makeText(LoginActivity.this, massage, Toast.LENGTH_LONG).show();
+//                                    }
                                 }catch (JSONException e) {
+
                                     throw new RuntimeException(e);
                                 }
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(Login.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }){
                     @Nullable
@@ -107,7 +119,7 @@ public class Login extends AppCompatActivity {
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
 
-                        params.put("apikey","cakjshd38adi3hai37dh3eeee");
+                        params.put("apikey","DWuqUHWDUhDQUDadaq");
 //                        params.put("ID", "1");
                         params.put("username",Email);
                         params.put("password",Pass);
@@ -123,10 +135,10 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void ToHome() {
-        Preferences.setLoggedInUser(getBaseContext(), String.valueOf(Login.data));
+    private void ToHome(String nama) {
+        Preferences.setLoggedInUser(getBaseContext(), String.valueOf(nama));
         Preferences.setLoggedInStatus(getBaseContext(),true);
-        startActivity(new Intent(getBaseContext(), Home.class));
-        finish();
+//        startActivity(new Intent(getBaseContext(), Home.class));
+//        finish();
     }
 }

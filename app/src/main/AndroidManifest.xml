@@ -50,6 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".TambahBarangActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".Transaksi"

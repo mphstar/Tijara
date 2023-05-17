@@ -79,6 +79,7 @@ android:paddingVertical="7dp">
                     app:flexDirection="column">
                     <TextView
                         android:gravity="center"
+                        android:fontFamily="@font/poppins_regular"
                         app:layout_flexBasisPercent="30%"
                         android:id="@+id/name_product"
                         android:layout_width="wrap_content"
@@ -94,6 +95,7 @@ android:paddingVertical="7dp">
                         android:layout_height="wrap_content"
                         app:justifyContent="space_between">
                         <TextView
+                            android:fontFamily="@font/poppins_medium"
                             android:backgroundTint="#FF8B8B"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:background="@drawable/shape2_1"
@@ -124,6 +126,7 @@ android:paddingVertical="7dp">
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"/>
                             <TextView
+                                android:fontFamily="@font/poppins_medium"
                                 android:textStyle="bold"
                                 android:text="1"
                                 android:id="@+id/jumlah_pcs"

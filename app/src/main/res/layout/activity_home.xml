@@ -74,25 +74,204 @@
                 android:layout_below="@id/welcome_text"
                 android:fillViewport="true"
                 android:measureAllChildren="false"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="25dp"
                 android:scrollbars="none"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="wrap_content"
+                    android:paddingLeft="25dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/paddingHorizontal"
                     android:orientation="horizontal">
-                        <ImageView
+                        <FrameLayout
                             android:layout_width="250dp"
-                            android:layout_height="140dp"
-                            app:tint="@color/colorGray"
-                            android:src="@drawable/background_rounded" />
-                        <ImageView
-                            android:layout_width="250dp"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_height="140dp"
-                            app:tint="@color/colorPrimary"
-                            android:src="@drawable/background_rounded" />
+                            android:background="@drawable/background_rounded"
+                            android:backgroundTint="@color/colorGray"
+                            android:layout_height="160dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingHorizontal="20dp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_pemasukan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="22dp"
+                                    android:textSize="16sp"
+                                    android:layout_marginTop="10dp"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:text="Pemasukan" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:textSize="16sp"
+
+                                    android:textColor="@color/white"
+                                    android:id="@+id/txt_pemasukan"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:text="Rp. 240.000" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13sp"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Hari ini" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="250dp"
+                        android:background="@drawable/background_rounded"
+                        android:layout_marginLeft="20dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:layout_height="160dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="20dp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:src="@drawable/ic_pakaian" />-->
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:textSize="16sp"
+                                android:layout_marginTop="10dp"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Pakaian Terjual" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:paddingRight="20dp"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_pria" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="10sp"
+                                        android:text="Laki - laki" />
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:id="@+id/txt_terjual_pria"
+                                            android:text="0" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="10sp"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:text="pcs" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_wanita" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="10sp"
+                                        android:text="Perempuan" />
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:id="@+id/txt_terjual_wanita"
+                                            android:text="0" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="10sp"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:text="pcs" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:paddingLeft="20dp"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/ic_anak" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="10sp"
+                                        android:text="Anak" />
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:id="@+id/txt_terjual_anak"
+                                            android:text="0" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="10sp"
+                                            android:fontFamily="@font/poppins_semibold"
+                                            android:textColor="@color/white"
+                                            android:text="pcs" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
 
 
                 </LinearLayout>

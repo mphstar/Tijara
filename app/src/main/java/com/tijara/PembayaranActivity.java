@@ -34,6 +34,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.tcp.TcpConnection;
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
@@ -659,7 +661,7 @@ public class PembayaranActivity extends AppCompatActivity {
 
             PembayaranActivity.loadingStruk.setVisibility(View.VISIBLE);
             // Post API
-            String url = env.BASE_URL+"barang_uplode";
+            String url = Env.BASE_URL+"barang_uplode";
             try {
 //                    JSONObject requestBody = new JSONObject();
 //                    requestBody.put("kodeTr", Transaksi.jsonArray);

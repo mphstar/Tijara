@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -7,59 +7,62 @@
         android:orientation="vertical"
         tools:context=".TambahBarangActivity">
 
-        <com.google.android.flexbox.FlexboxLayout
-            app:flexDirection="column"
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:paddingVertical="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/header"
+        app:flexDirection="row"
+        app:justifyContent="space_between"
+        android:paddingHorizontal="@dimen/_20sdp">
+        <ImageView
+            android:id="@+id/back_to_main_transaksi"
+            app:layout_alignSelf="center"
+            android:src="@drawable/kembali"
+            android:padding="10dp"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            app:layout_alignSelf="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Input Barang"
+            android:textSize="@dimen/_18ssp"/>
+        <RelativeLayout
+            app:layout_alignSelf="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/scan1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/scan2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/scan3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
-                app:layout_flexBasisPercent="11%"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.google.android.flexbox.FlexboxLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:flexDirection="row"
-                    app:justifyContent="space_between"
-                    android:paddingHorizontal="@dimen/_20sdp">
-                    <ImageView
-                        android:id="@+id/back_to_main_transaksi"
-                        app:layout_alignSelf="center"
-                        android:src="@drawable/kembali"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        app:layout_alignSelf="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:text="Input Barang"
-                        android:textSize="@dimen/_18ssp"/>
-                    <RelativeLayout
-                        app:layout_alignSelf="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/scan1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:id="@+id/scan2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:id="@+id/scan3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </RelativeLayout>
-                </com.google.android.flexbox.FlexboxLayout>
-            </LinearLayout>
+
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_marginHorizontal="@dimen/_20sdp"
-                app:layout_flexBasisPercent="14%"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/search_barang"
                 app:justifyContent="space_between"
                 app:flexDirection="row">
 
@@ -87,7 +90,6 @@
                             <ScrollView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:layout_flexBasisPercent="65%"
                                 android:background="@drawable/shape3">
                                 <EditText
                                     android:id="@+id/field_kode_product"
@@ -96,6 +98,9 @@
                                     android:background="@color/white"
                                     android:layout_gravity="center"
                                     android:hint="Kode Barang"
+                                    android:paddingHorizontal="5dp"
+                                    android:paddingVertical="5dp"
+                                    android:lines="1"
                                     android:fontFamily="@font/poppins_regular"
                                     android:textSize="@dimen/_13ssp"
                                     android:layout_width="match_parent"
@@ -104,11 +109,10 @@
                         </com.google.android.flexbox.FlexboxLayout>
                     </LinearLayout>
                     <LinearLayout
-                        app:layout_flexBasisPercent="20%"
-                        android:gravity="center|right"
-                        app:layout_alignSelf="baseline"
+                        android:gravity="center|right|bottom"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_marginTop="27dp"
+                        android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/scan_produk"
                             android:layout_width="@dimen/_45sdp"
@@ -119,12 +123,10 @@
                     </LinearLayout>
 
             </com.google.android.flexbox.FlexboxLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                app:layout_flexBasisPercent="76%"
-                xmlns:tools="http://schemas.android.com/tools"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_below="@+id/search_barang"
+                android:layout_height="match_parent"
                 android:paddingVertical="@dimen/_5sdp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:paddingStart="@dimen/_22sdp"
@@ -133,7 +135,7 @@
                     android:layout_height="match_parent"
                     tools:ignore="MissingConstraints" />
                 <LinearLayout
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/image_no_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -179,6 +181,6 @@
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.flexbox.FlexboxLayout>
+        </RelativeLayout>
 
-    </com.google.android.flexbox.FlexboxLayout>
+    </RelativeLayout>

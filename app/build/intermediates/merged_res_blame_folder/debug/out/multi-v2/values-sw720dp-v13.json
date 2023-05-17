@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.tijara.app-mergeDebugResources-32:/values-sw720dp-v13/values-sw720dp-v13.xml",
+            "outputFile": "com.tijara.app-mergeDebugResources-34:/values-sw720dp-v13/values-sw720dp-v13.xml",
             "map": [
                 {
                     "source": "/home/mphstar/.gradle/caches/transforms-3/ac2b4dbb04fc5c077ac5a17a77bf056c/transformed/ssp-android-1.1.0/res/values-sw720dp-v13/values-sw720dp-v13.xml",
