@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
                 String Message = "Hai "+Email+" Selamat datang Kembali :)";
 //            System.out.println(Nama);
 
-                String url = "http://192.168.107.64:8000/api/login";
+                String url = "http://192.168.0.111:8000/api/login";
                 StringRequest strinRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityRetur">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:paddingVertical="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/header"
+        app:flexDirection="row"
+        app:justifyContent="space_between"
+        android:paddingHorizontal="@dimen/_20sdp">
+        <ImageView
+            android:id="@+id/back_to_main_transaksi"
+            app:layout_alignSelf="center"
+            android:src="@drawable/kembali"
+            android:padding="10dp"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            app:layout_alignSelf="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Retur Barang"
+            android:textSize="@dimen/_18ssp"/>
+        <RelativeLayout
+            app:layout_alignSelf="center"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/scan1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/scan2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/scan3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:paddingVertical="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_konten"
+        android:layout_below="@+id/header"
+        app:flexDirection="row"
+        app:justifyContent="space_between"
+        android:paddingHorizontal="@dimen/_20sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="10dp"
+            android:background="@drawable/shape3"
+            app:layout_flexBasisPercent="70%"
+            android:layout_height="wrap_content">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingVertical="2dp"
+                android:layout_toLeftOf="@+id/ic_search"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:hint="Masukkan kode Transaksi"
+                    android:singleLine="true"
+                    android:paddingVertical="8dp"
+                    android:id="@+id/field_search"
+                    android:fontFamily="@font/poppins_regular"
+                    android:paddingRight="20dp"
+                    android:background="@color/white"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/ic_search"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/search_2"
+                app:tint="@color/black" />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            app:layout_flexBasisPercent="13%"
+            android:background="@drawable/shape"
+            android:padding="15dp"
+            android:id="@+id/btn_scan"
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:src="@drawable/scan" />
+        </FrameLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rincian Pesanan"
+        android:id="@+id/txt_rincian"
+        android:paddingVertical="10dp"
+        android:layout_marginLeft="30dp"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_below="@+id/search_konten" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/detail_barang_pesanan"
+        android:layout_below="@+id/txt_rincian" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/image_no_value"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/txt_rincian"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints">
+        <com.google.android.flexbox.FlexboxLayout
+            app:flexDirection="column"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.airbnb.lottie.LottieAnimationView
+                app:layout_flexBasisPercent="65%"
+                android:paddingStart="@dimen/_20sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/no_values"
+                />
+            <LinearLayout
+                app:layout_flexBasisPercent="25%"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Hasil Tidak Ditemukan"/>
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Masukkan kode transaksi pada kolom pencarian"/>
+            </LinearLayout>
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loading"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/txt_rincian"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+</RelativeLayout>

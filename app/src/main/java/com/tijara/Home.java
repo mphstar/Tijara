@@ -115,6 +115,11 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        to_return.setOnClickListener(view -> {
+            Intent inten = new Intent(Home.this, ActivityRetur.class);
+            startActivity(inten);
+        });
+
         getPemasukan();
 
 //        try {

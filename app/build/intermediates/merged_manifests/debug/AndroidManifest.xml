@@ -55,6 +55,12 @@
         android:theme="@style/Theme.Tijara"
         android:usesCleartextTraffic="true" >
         <activity
+            android:name="com.tijara.PilihBarangActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.tijara.ActivityRetur"
+            android:exported="false" />
+        <activity
             android:name="com.tijara.Home"
             android:exported="false" />
         <activity
@@ -87,6 +93,9 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.tijara.Transaksi"
+            android:exported="false" />
+        <activity
+            android:name="com.tijara.ActivityDetailRetur"
             android:exported="false" />
         <activity
             android:name="com.tijara.MainActivity"
