@@ -325,9 +325,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_arrow"
                         android:paddingHorizontal="10dp"
-                        android:paddingVertical="5dp"
-                        android:clickable="true"
-                        android:background="?attr/selectableItemBackground" />
+                        android:paddingVertical="5dp" />
 
 
 
@@ -365,9 +363,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_arrow"
                         android:paddingHorizontal="10dp"
-                        android:paddingVertical="5dp"
-                        android:clickable="true"
-                        android:background="?attr/selectableItemBackground" />
+                        android:paddingVertical="5dp" />
 
 
 

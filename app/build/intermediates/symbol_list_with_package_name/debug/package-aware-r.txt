@@ -3805,6 +3805,8 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btn_pilih_produk
+id btn_scan
 id buttonLogin
 id buttonPanel
 id buttonQris
@@ -3868,6 +3870,7 @@ id design_menu_item_action_area
 id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
+id detail_barang_pesanan
 id detail_dialog
 id dialog_button
 id dimensions
@@ -3903,9 +3906,16 @@ id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
 id fade
+id field_bayar_kurang
+id field_bayar_tunai
 id field_isi_jumlah_barang
+id field_jenis_kembalian
+id field_jumlah_barang_retur
+id field_kembalian_tunai
 id field_kode_product
 id field_password
+id field_produk
+id field_search
 id field_total_bayar
 id field_username
 id fill
@@ -3954,6 +3964,7 @@ id homeAsUp
 id home_konten
 id honorRequest
 id horizontal_only
+id ic_search
 id icon
 id iconQris
 id iconTunai
@@ -3995,6 +4006,10 @@ id kode_produk
 id kurang_bayar
 id labeled
 id layout
+id layout_bayar_kurang
+id layout_bayar_tunai
+id layout_harga_total
+id layout_kembalian_tunai
 id left
 id leftToRight
 id legacy
@@ -4007,6 +4022,7 @@ id list_barang
 id list_item
 id list_pesanan
 id list_produk_gratis
+id loading
 id loadingPrint
 id logo
 id lottie_layer_name
@@ -4163,6 +4179,7 @@ id search_button
 id search_close_btn
 id search_edit_frame
 id search_go_btn
+id search_konten
 id search_mag_icon
 id search_plate
 id search_src_text
@@ -4266,6 +4283,7 @@ id title_info
 id title_template
 id title_toast
 id to_detail
+id to_next_activity
 id to_return
 id to_transaksi
 id toggle
@@ -4285,7 +4303,10 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id txt_detail_barang
+id txt_nama_product
 id txt_pemasukan
+id txt_rincian
 id txt_terjual_anak
 id txt_terjual_pria
 id txt_terjual_wanita
@@ -4437,9 +4458,13 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_content
+layout activity_content_list_return
+layout activity_detail_rincian_barang_return
 layout activity_home
 layout activity_login
 layout activity_main
+layout activity_pilih_barang
+layout activity_retur
 layout activity_tambah_barang
 layout activity_transaksi
 layout bottom_sheet_product

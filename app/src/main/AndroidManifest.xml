@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_PRIVILEGED"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -21,6 +22,12 @@
         android:theme="@style/Theme.Tijara"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".PilihBarangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRetur"
+            android:exported="false" />
         <activity
             android:name=".Home"
             android:exported="false" />
@@ -50,10 +57,13 @@
             android:exported="false" />
         <activity
             android:name=".TambahBarangActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Transaksi"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityDetailRetur"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

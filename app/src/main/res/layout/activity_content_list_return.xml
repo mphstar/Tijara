@@ -25,11 +25,11 @@
                 android:text="Dress Casual Pink"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:id="@+id/name_return_product"
+                android:id="@+id/txt_nama_product"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
             <TextView
-                android:id="@+id/harga_return_produk"
+                android:id="@+id/txt_detail_barang"
                 android:text="1 X Rp. 210.000"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
