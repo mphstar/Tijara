@@ -397,7 +397,7 @@ public class PembayaranActivity extends AppCompatActivity {
     static RecyclerView materi, materi2;
     static JSONObject jsonObject, jsonObject2;
     static JSONArray listProdukFree;
-    static String diskonProduk;
+    static String diskonProduk, jenisPembayaran = "Cash";
     static LinearLayout pembayaran_akhir;
     private static AdapterListProdukFree adapterListProdukFree;
     ImageView button_voucher, backTOMainTransaksi, button_tunai, button_qris, icon_tunai, icon_qris;
@@ -691,6 +691,7 @@ public class PembayaranActivity extends AppCompatActivity {
                         mapp.put("total_bayar", String.valueOf(PembayaranActivity.total_bayar));
                         mapp.put("kembalian", String.valueOf(Math.abs(hasil_hasil)));
                         mapp.put("data_list", Transaksi.jsonArray.toString());
+                        mapp.put("jenis_pembayaran", PembayaranActivity.jenisPembayaran);
 //                            mapp.put("nama_kasir", Home.name);
                         mapp.put("nama_kasir", "fathur");
 
@@ -714,6 +715,7 @@ public class PembayaranActivity extends AppCompatActivity {
         button_qris.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PembayaranActivity.jenisPembayaran = "QRIS";
                 field_total_bayar.setVisibility(View.GONE);
                 keteranganBayar.setText("Pembayaran : ");
                 kurangBayar.setText("LUNAS");
@@ -730,6 +732,7 @@ public class PembayaranActivity extends AppCompatActivity {
         button_tunai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PembayaranActivity.jenisPembayaran = "Cash";
                 field_total_bayar.setVisibility(View.VISIBLE);
                 kurangBayar.setTextColor(Color.parseColor("#FF0000"));
                 kurangBayar.setText(allTypeData.format.format(a));
