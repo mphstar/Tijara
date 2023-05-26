@@ -391,7 +391,8 @@ public class PembayaranActivity extends AppCompatActivity {
     ArrayList<Object> dataModels;
     ArrayList<ModelPembayaran> dataModels2;
     static int a = 0, hasil_hasil, kembalian, total_bayar;
-    static TextView totalAkhirPalingAkhir, kurangBayar, keteranganBayar, teks_tunai, teks_qris;
+    static String voucher = null;
+    static TextView totalAkhirPalingAkhir, kurangBayar, keteranganBayar, teks_tunai, teks_qris, nominal_didapat;
     static EditText field_total_bayar;
     static ArrayList<produkfree> arrayList;
     static RecyclerView materi, materi2;
@@ -430,6 +431,30 @@ public class PembayaranActivity extends AppCompatActivity {
             }
         }else {
             PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(PembayaranActivity.a));
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String getdata = data.getStringExtra("data_voucher");
+                try {
+                    JSONObject obj = new JSONObject(getdata);
+                    if (obj.getString("jenis_voucher").equals("nominal")){
+                        nominal_didapat.setText("Voucher : "+Env.formatRupiah(Integer.valueOf(obj.getString("nominal_voucher"))));
+                        nominal_didapat.setTextColor(Color.parseColor("#FFB015"));
+                        voucher = obj.getString("nominal_voucher");
+                    }else if (obj.getString("jenis_voucher").equals("persen")){
+                        nominal_didapat.setText("Voucher : "+obj.getString("nominal_voucher")+" %");
+                        nominal_didapat.setTextColor(Color.parseColor("#FFB015"));
+                        voucher = obj.getString("nominal_voucher");
+                    }
+                } catch (Exception e){
+                }
+
+            }
         }
     }
 
@@ -485,6 +510,7 @@ public class PembayaranActivity extends AppCompatActivity {
 
         dataModels = new ArrayList<>();
 
+        nominal_didapat = findViewById(R.id.nominal_didapat);
         button_voucher= findViewById(R.id.pilih_voucher);
         backTOMainTransaksi = findViewById(R.id.back_to_view_transaksi);
         teks_tunai = findViewById(R.id.teksTunai);
@@ -506,7 +532,7 @@ public class PembayaranActivity extends AppCompatActivity {
 
                 jsonObject = Transaksi.jsonArray.getJSONObject(i);
 
-                 if (jsonObject.getString("jenisDiskon").equals("Free_produk")){
+                if (jsonObject.getString("jenisDiskon").equals("Free_produk")){
 
                     String namaProduk = jsonObject.getString("namaProduk");
                     String hargaProduk = jsonObject.getString("hargaProduk");
@@ -756,8 +782,8 @@ public class PembayaranActivity extends AppCompatActivity {
         button_voucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PembayaranActivity.this, PilihVoucherActivity.class);
-                startActivity(intent);
+                Intent inten = new Intent(PembayaranActivity.this, PilihVoucherActivity.class);
+                startActivityForResult(inten, 1);
             }
         });
     }

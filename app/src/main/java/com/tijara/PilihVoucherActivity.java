@@ -1,113 +1,77 @@
 package com.tijara;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-class AdapterVoucher extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<Object> items;
+class AddVoucher extends RecyclerView.Adapter<AddVoucher.RecyclerViewViewHolder>{
+    private ArrayList<ModelVoucher> dataList;
+    static RecyclerViewListener listener;
+    private Context context;
 
-    private static final int VIEW_TYPE_A = 0;
-    private static final int VIEW_TYPE_B = 1;
+    public AddVoucher(ArrayList<ModelVoucher> dataList, RecyclerViewListener listener) {
+        this.dataList = dataList;
+        this.listener = listener;
+    }
 
-    public AdapterVoucher(ArrayList<Object> items) {
-        this.items = items;
+    @NonNull
+    @Override
+    public RecyclerViewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        LayoutInflater layout = LayoutInflater.from(parent.getContext());
+        View view = layout.inflate(R.layout.voucher_persentase, parent, false);
+        return new AddVoucher.RecyclerViewViewHolder(view);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (items.get(position) instanceof ModelVoucherNominal) {
-            return VIEW_TYPE_A;
-        } else if (items.get(position) instanceof ModelVoucherPersentase) {
-            return VIEW_TYPE_B;
+    public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
+        if (dataList.get(position).getJenis_voucher().equals("nominal")){
+            holder.nominal.setText(Env.formatRupiah(dataList.get(position).getNominal()));
+        }else if (dataList.get(position).getJenis_voucher().equals("persen")){
+            holder.nominal.setText(dataList.get(position).getNominal()+" %");
         }
-        return -1;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        RecyclerView.ViewHolder viewHolder = null;
-        switch (viewType) {
-            case VIEW_TYPE_A:
-                View viewA = inflater.inflate(R.layout.voucher_nominal, parent, false);
-                viewHolder = new ViewHolderTypeA(viewA);
-                break;
-            case VIEW_TYPE_B:
-                View viewB = inflater.inflate(R.layout.voucher_persentase, parent, false);
-                viewHolder = new ViewHolderTypeB(viewB);
-                break;
-        }
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        int viewType = getItemViewType(position);
-        switch (viewType) {
-            case VIEW_TYPE_A:
-                ViewHolderTypeA viewHolderTypeA = (ViewHolderTypeA) holder;
-                configureViewHolderTypeA(viewHolderTypeA, position);
-                break;
-            case VIEW_TYPE_B:
-                ViewHolderTypeB viewHolderTypeB = (ViewHolderTypeB) holder;
-                configureViewHolderTypeB(viewHolderTypeB, position);
-                break;
-
-        }
-    }
-
-    private void configureViewHolderTypeA(ViewHolderTypeA holder, int position) {
-        ModelVoucherNominal modelA = (ModelVoucherNominal) items.get(position);
-        holder.VoucherNominal.setText(modelA.getVoucher_nominal());
-    }
-
-    private void configureViewHolderTypeB(ViewHolderTypeB holder, int position) {
-        ModelVoucherPersentase modelB = (ModelVoucherPersentase) items.get(position);
-        holder.VoucherPersentase.setText(modelB.getVoucher_persentase());
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return (dataList != null) ? dataList.size() : 0;
     }
 
-    public static class ViewHolderTypeA extends RecyclerView.ViewHolder {
-        public TextView VoucherNominal;
-
-        public ViewHolderTypeA(View itemView) {
+    class RecyclerViewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView nominal;
+        public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
-            VoucherNominal = itemView.findViewById(R.id.jumlah_nominal);
+            nominal = itemView.findViewById(R.id.jumlah_nominal);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getAdapterPosition());
         }
     }
 
-    public static class ViewHolderTypeB extends RecyclerView.ViewHolder {
-        public TextView VoucherPersentase;
-
-        public ViewHolderTypeB(View itemView) {
-            super(itemView);
-            VoucherPersentase = itemView.findViewById(R.id.jumlah_persentase);
-        }
-    }
 }
 
-public class PilihVoucherActivity extends AppCompatActivity {
-    ArrayList<Object> dataModels;
+public class PilihVoucherActivity extends AppCompatActivity implements RecyclerViewListener{
+    ArrayList<ModelVoucher> dataModels;
     RecyclerView voucher_nominal, voucher_persentase;
-    private static AdapterVoucher adapterVoucher;
+    private static AddVoucher adapterVoucher;
 
     ImageView backTOMainTransaksi;
 
@@ -118,10 +82,10 @@ public class PilihVoucherActivity extends AppCompatActivity {
 
         dataModels = new ArrayList<>();
 
-        dataModels.add(new ModelVoucherNominal("Rp.20.0000"));
-        dataModels.add(new ModelVoucherNominal("Rp.20.0000"));
-        dataModels.add(new ModelVoucherPersentase("10%"));
-        adapterVoucher = new AdapterVoucher(dataModels);
+        dataModels.add(new ModelVoucher(20000, "nominal"));
+        dataModels.add(new ModelVoucher(10000, "nominal"));
+        dataModels.add(new ModelVoucher(10, "persen"));
+        adapterVoucher = new AddVoucher(dataModels, PilihVoucherActivity.this);
 
         voucher_nominal = findViewById(R.id.voucher_nominal);
         voucher_nominal.setHasFixedSize(true);
@@ -137,28 +101,38 @@ public class PilihVoucherActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onClick(View view, int position) {
+        Intent inten = new Intent();
+        JSONObject data = new JSONObject();
+        try {
+            data.put("nominal_voucher", dataModels.get(position).getNominal());
+            data.put("jenis_voucher", dataModels.get(position).getJenis_voucher());
+        } catch (Exception e){
+            Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        inten.putExtra("data_voucher", data.toString());
+        setResult(RESULT_OK, inten);
+        finish();
+    }
 }
 
-class ModelVoucherPersentase {
-    String voucher_persentase;
+class ModelVoucher {
+    int nominal;
+    String jenis_voucher;
 
-    public ModelVoucherPersentase(String voucher_persentase) {
-        this.voucher_persentase = voucher_persentase;
+    public ModelVoucher(int nominal, String jenis_voucher) {
+        this.nominal = nominal;
+        this.jenis_voucher = jenis_voucher;
     }
 
-    public String getVoucher_persentase() {
-        return voucher_persentase;
-    }
-}
-
-class ModelVoucherNominal {
-    String voucher_nominal;
-
-    public ModelVoucherNominal(String voucher_nominal) {
-        this.voucher_nominal = voucher_nominal;
+    public int getNominal() {
+        return nominal;
     }
 
-    public String getVoucher_nominal() {
-        return voucher_nominal;
+    public String getJenis_voucher() {
+        return jenis_voucher;
     }
 }
