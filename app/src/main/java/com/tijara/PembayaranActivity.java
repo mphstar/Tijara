@@ -39,6 +39,7 @@ import com.android.volley.toolbox.Volley;
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.tcp.TcpConnection;
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
+import com.google.android.flexbox.FlexboxLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,7 +116,7 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         ModelA modelA = (ModelA) items.get(position);
         holder.NamaProduk.setText(modelA.getNamaProduk());
         holder.Harga.setText(allTypeData.format.format(Integer.valueOf(modelA.getHargaProduk())));
-        holder.JumlahHargaProduk.setText(allTypeData.format.format(Integer.valueOf(modelA.getSubHargaProduk())));
+        holder.JumlahHargaProduk.setText(allTypeData.format.format(Integer.valueOf(modelA.getHargaProduk())));
         holder.JumlahHargaProduk2.setText(allTypeData.format.format(Integer.valueOf(modelA.getSubHargaProduk())));
         holder.nominalVoucher.setText(modelA.getNoiminalDiskon());
         holder.PotonganHarga.setText(allTypeData.format.format(Integer.valueOf(modelA.getPotonganDiskon())));
@@ -135,7 +136,7 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         holder.NamaProduk.setText(modelC.getNamaProduk());
         holder.value.setText(modelC.getValueProduk());
         holder.Harga.setText(allTypeData.format.format(Integer.valueOf(modelC.getHargaProduk())));
-        holder.totalSeluruhHargaBarang.setText(allTypeData.format.format(Integer.valueOf(modelC.getTotalHargaBarang())));
+        holder.totalSeluruhHargaBarang.setText(allTypeData.format.format(Integer.valueOf(modelC.getHargaProduk())));
         holder.listProdukFree.setLayoutManager(layoutManager);
         holder.listProdukFree.setAdapter(new AdapterListProdukFree(modelC.getListProdukFreeDeal()));
     }
@@ -399,7 +400,7 @@ public class PembayaranActivity extends AppCompatActivity {
     static JSONObject jsonObject, jsonObject2;
     static JSONArray listProdukFree;
     static String diskonProduk, jenisPembayaran = "Cash";
-    static LinearLayout pembayaran_akhir;
+    static FlexboxLayout pembayaran_akhir;
     private static AdapterListProdukFree adapterListProdukFree;
     ImageView button_voucher, backTOMainTransaksi, button_tunai, button_qris, icon_tunai, icon_qris;
     static RelativeLayout loadingStruk;
@@ -527,92 +528,92 @@ public class PembayaranActivity extends AppCompatActivity {
         pembayaran_akhir = findViewById(R.id.pembayaran_paling_akhir);
         field_total_bayar = findViewById(R.id.field_total_bayar);
 
-        try {
-            for (int i = 0; i < Transaksi.jsonArray.length(); i++){
-
-                jsonObject = Transaksi.jsonArray.getJSONObject(i);
-
-                if (jsonObject.getString("jenisDiskon").equals("Free_produk")){
-
-                    String namaProduk = jsonObject.getString("namaProduk");
-                    String hargaProduk = jsonObject.getString("hargaProduk");
-                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
-                    String totalHargaProduk = jsonObject.getString("diskonProduk");
-                    listProdukFree = jsonObject.getJSONArray("dataProdukFree");
-                    System.out.println(listProdukFree);
-
-                    arrayList = new ArrayList<>();
-                    JSONObject jsonObject1 = new JSONObject();
-                    try {
-//                        JSONArray jsonArray = new JSONArray(listProdukFree);
-                        for (int j = 0; j < listProdukFree.length(); j++) {
-                            JSONObject jsonObject = listProdukFree.getJSONObject(j);
-                            String name = jsonObject.getString("nama");
-                            String value = jsonObject.getString("value");
-
-                            arrayList.add(new produkfree(name, value));
-                        }
-                        System.out.println(arrayList.size()+"sjkd");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    System.out.println("aaa");
-                    dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, totalHargaProduk, arrayList));
-                }else if (jsonObject.getString("jenisDiskon").equals("Non_free_produk") && jsonObject.getString("nominalDiskon") == "0"){
-
-                    String namaProduk = jsonObject.getString("namaProduk");
-                    String hargaProduk = jsonObject.getString("hargaProduk");
-                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+//        try {
+//            for (int i = 0; i < Transaksi.jsonArray.length(); i++){
+//
+//                jsonObject = Transaksi.jsonArray.getJSONObject(i);
+//
+//                if (jsonObject.getString("jenisDiskon").equals("Free_produk")){
+//
+//                    String namaProduk = jsonObject.getString("namaProduk");
+//                    String hargaProduk = jsonObject.getString("hargaProduk");
+//                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+//                    String totalHargaProduk = jsonObject.getString("diskonProduk");
+//                    listProdukFree = jsonObject.getJSONArray("dataProdukFree");
+//                    System.out.println(listProdukFree);
+//
+//                    arrayList = new ArrayList<>();
+//                    JSONObject jsonObject1 = new JSONObject();
+//                    try {
+////                        JSONArray jsonArray = new JSONArray(listProdukFree);
+//                        for (int j = 0; j < listProdukFree.length(); j++) {
+//                            JSONObject jsonObject = listProdukFree.getJSONObject(j);
+//                            String name = jsonObject.getString("nama");
+//                            String value = jsonObject.getString("value");
+//
+//                            arrayList.add(new produkfree(name, value));
+//                        }
+//                        System.out.println(arrayList.size()+"sjkd");
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    System.out.println("aaa");
+//                    dataModels.add(new ModelC(namaProduk, jumlahPesanan, hargaProduk, totalHargaProduk, arrayList));
+//                }else if (jsonObject.getString("jenisDiskon").equals("Non_free_produk") && jsonObject.getString("nominalDiskon") == "0"){
+//
+//                    String namaProduk = jsonObject.getString("namaProduk");
+//                    String hargaProduk = jsonObject.getString("hargaProduk");
+//                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
+////                    String subHargaProduk = jsonObject.getString("subHarga");
+////                    String nominalDiskon = jsonObject.getString("nominalDiskon");
+//                    diskonProduk = jsonObject.getString("diskonProduk");
+//
+//                    System.out.println("bb2");
+//                    dataModels.add(new ModelB(namaProduk, jumlahPesanan, hargaProduk));
+//                }else {
+//
+//                    String namaProduk = jsonObject.getString("namaProduk");
+//                    String hargaProduk = jsonObject.getString("hargaProduk");
+//                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
 //                    String subHargaProduk = jsonObject.getString("subHarga");
 //                    String nominalDiskon = jsonObject.getString("nominalDiskon");
-                    diskonProduk = jsonObject.getString("diskonProduk");
-
-                    System.out.println("bb2");
-                    dataModels.add(new ModelB(namaProduk, jumlahPesanan, hargaProduk));
-                }else {
-
-                    String namaProduk = jsonObject.getString("namaProduk");
-                    String hargaProduk = jsonObject.getString("hargaProduk");
-                    String jumlahPesanan = jsonObject.getString("jumlahPesanan");
-                    String subHargaProduk = jsonObject.getString("subHarga");
-                    String nominalDiskon = jsonObject.getString("nominalDiskon");
-                    diskonProduk = jsonObject.getString("diskonProduk");
-
-                    System.out.println("bbb");
-                    dataModels.add(new ModelA(namaProduk, jumlahPesanan, hargaProduk, diskonProduk, subHargaProduk, nominalDiskon));
-                }
+//                    diskonProduk = jsonObject.getString("diskonProduk");
 //
-            }
-
-            System.out.println("ccc");
-            AdapterListProdukPembayaran adapter = new AdapterListProdukPembayaran(dataModels);
-            RecyclerView recyclerView = findViewById(R.id.rincian_barang);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-            try {
-
-
-                for (int i = 0; i < Transaksi.jsonArray.length(); i++) {
-                    JSONObject jsonObject = Transaksi.jsonArray.getJSONObject(i);
-                    String diskon = jsonObject.getString("diskonProduk");
-                    a = Integer.valueOf(diskon) + a;
-                    System.out.println(a);
-                }
-
-                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(a - 0));
-                PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(a));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-//            adapterPembayaran = new AdapterPembayaran(dataModels, getApplicationContext());
-//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PembayaranActivity.this);
-//            materi.setLayoutManager(layoutManager);
-//            materi.setAdapter(adapterPembayaran);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//                    System.out.println("bbb");
+//                    dataModels.add(new ModelA(namaProduk, jumlahPesanan, hargaProduk, diskonProduk, subHargaProduk, nominalDiskon));
+//                }
+////
+//            }
+//
+//            System.out.println("ccc");
+//            AdapterListProdukPembayaran adapter = new AdapterListProdukPembayaran(dataModels);
+//            RecyclerView recyclerView = findViewById(R.id.rincian_barang);
+//            recyclerView.setAdapter(adapter);
+//            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//            try {
+//
+//
+//                for (int i = 0; i < Transaksi.jsonArray.length(); i++) {
+//                    JSONObject jsonObject = Transaksi.jsonArray.getJSONObject(i);
+//                    String diskon = jsonObject.getString("diskonProduk");
+//                    a = Integer.valueOf(diskon) + a;
+//                    System.out.println(a);
+//                }
+//
+//                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(a - 0));
+//                PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(a));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+////            adapterPembayaran = new AdapterPembayaran(dataModels, getApplicationContext());
+////            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PembayaranActivity.this);
+////            materi.setLayoutManager(layoutManager);
+////            materi.setAdapter(adapterPembayaran);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 //
 //        dataModels = new ArrayList<>();
 //
@@ -636,6 +637,76 @@ public class PembayaranActivity extends AppCompatActivity {
 //                finish();
 //            }
 //        });
+
+        if (Transaksi.list_produk_dipesan != null){
+            for (int a = 0; a < Transaksi.list_produk_dipesan.length(); a++){
+                try {
+                    jsonObject = Transaksi.list_produk_dipesan.getJSONObject(a);
+
+                    if (jsonObject.getString("jenis_diskon").equals("tidak_dison")){
+
+                        dataModels.add(new ModelB(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang"))));
+
+                    } else if (jsonObject.getString("jenis_diskon").equals("nominal")) {
+
+                        dataModels.add(new ModelA(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), String.valueOf(jsonObject.getInt("harga_barang") * jsonObject.getInt("qty_barang")), String.valueOf(jsonObject.getInt("potongan_barang"))));
+
+                    } else if (jsonObject.getString("jenis_diskon").equals("persen")) {
+
+                        dataModels.add(new ModelA(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), String.valueOf(jsonObject.getInt("harga_barang") * jsonObject.getInt("qty_barang")), String.valueOf(jsonObject.getInt("potongan_barang"))));
+
+                    } else if (jsonObject.getString("jenis_diskon").equals("sama")) {
+
+                        listProdukFree = jsonObject.getJSONArray("detail_produk_didapat");
+
+                        arrayList = new ArrayList<>();
+                        try {
+                            for (int j = 0; j < listProdukFree.length(); j++) {
+                                JSONObject jsonObject = listProdukFree.getJSONObject(j);
+                                String name = jsonObject.getString("nama_produk_free");
+                                String value = jsonObject.getString("qty_produk_free");
+
+                                arrayList.add(new produkfree(name, value));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        System.out.println("aaa");
+                        dataModels.add(new ModelC(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), arrayList));
+
+                    } else if (jsonObject.getString("jenis_diskon").equals("bebas")) {
+
+                        listProdukFree = jsonObject.getJSONArray("detail_produk_didapat");
+
+                        arrayList = new ArrayList<>();
+                        try {
+                            for (int j = 0; j < listProdukFree.length(); j++) {
+                                JSONObject jsonObject = listProdukFree.getJSONObject(j);
+                                String name = jsonObject.getString("nama_produk_free");
+                                String value = jsonObject.getString("qty_produk_free");
+
+                                arrayList.add(new produkfree(name, value));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        System.out.println("aaa");
+                        dataModels.add(new ModelC(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), arrayList));
+                    }
+
+                    AdapterListProdukPembayaran adapter = new AdapterListProdukPembayaran(dataModels);
+                    RecyclerView recyclerView = findViewById(R.id.rincian_barang);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+
         pembayaran_akhir.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(PembayaranActivity.this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(PembayaranActivity.this, new String[]{Manifest.permission.BLUETOOTH}, 1);
@@ -716,7 +787,7 @@ public class PembayaranActivity extends AppCompatActivity {
                         mapp.put("total", String.valueOf(PembayaranActivity.a));
                         mapp.put("total_bayar", String.valueOf(PembayaranActivity.total_bayar));
                         mapp.put("kembalian", String.valueOf(Math.abs(hasil_hasil)));
-                        mapp.put("data_list", Transaksi.jsonArray.toString());
+                        mapp.put("data_list", Transaksi.list_produk_dipesan.toString());
                         mapp.put("jenis_pembayaran", PembayaranActivity.jenisPembayaran);
 //                            mapp.put("nama_kasir", Home.name);
                         mapp.put("nama_kasir", "fathur");
@@ -746,12 +817,12 @@ public class PembayaranActivity extends AppCompatActivity {
                 keteranganBayar.setText("Pembayaran : ");
                 kurangBayar.setText("LUNAS");
                 kurangBayar.setTextColor(Color.parseColor("#00F30C"));
-                icon_qris.setBackgroundTintList(getResources().getColorStateList(R.color.white));
-                teks_qris.setTextColor(getResources().getColorStateList(R.color.white));
-                icon_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
-                teks_tunai.setTextColor(getResources().getColorStateList(R.color.colorBlack));
-                button_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
-                button_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
+                icon_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+                teks_qris.setTextColor(getResources().getColorStateList(R.color.colorBlack));
+                icon_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.white));
+                teks_tunai.setTextColor(getResources().getColorStateList(R.color.white));
+                button_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
+                button_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
             }
         });
 
@@ -763,12 +834,12 @@ public class PembayaranActivity extends AppCompatActivity {
                 kurangBayar.setTextColor(Color.parseColor("#FF0000"));
                 kurangBayar.setText(allTypeData.format.format(a));
                 keteranganBayar.setText("Kurang Bayar : ");
-                icon_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.white));
-                teks_tunai.setTextColor(getResources().getColorStateList(R.color.white));
-                icon_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
-                teks_qris.setTextColor(getResources().getColorStateList(R.color.colorBlack));
-                button_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
-                button_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+                icon_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+                teks_tunai.setTextColor(getResources().getColorStateList(R.color.colorBlack));
+                icon_qris.setBackgroundTintList(getResources().getColorStateList(R.color.white));
+                teks_qris.setTextColor(getResources().getColorStateList(R.color.white));
+                button_qris.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlack));
+                button_tunai.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
             }
         });
 

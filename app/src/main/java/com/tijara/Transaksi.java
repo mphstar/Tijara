@@ -123,6 +123,7 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
     static JSONObject jsonObject;
     static String kode_barang;
     static JSONArray jsonArray;
+    static JSONArray list_produk_dipesan;
     static Map<String, JSONObject> params;
     JSONArray nonProdukFree = null;
     static int view = 1, addProductUsing = 1, total_harga_br = 0;
@@ -339,9 +340,14 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
                 if (dataModels.isEmpty()){
                     TambahBarangActivity.showToast(view.getContext(), "Tidak ada Produk yang dipilih");
                 }else if (dataModels != null){
-//                    Intent intent = new Intent(Transaksi.this, PembayaranActivity.class);
-//                    startActivity(intent);
-                    System.out.println(TambahBarangActivity.list_data.toString() + " ini data keranjang" + dataModels.size());
+                    list_produk_dipesan = new JSONArray();
+                    for(int i = 0; i < dataModels.size(); i++){
+                        list_produk_dipesan.put(dataModels.get(i).get_all_data());
+                    }
+                    System.out.println(list_produk_dipesan);
+                    Intent intent = new Intent(Transaksi.this, PembayaranActivity.class);
+                    startActivity(intent);
+//                    System.out.println(dataModels + " ini data keranjang" + dataModels.size());
 //                    Intent inten = new Intent(Transaksi.this, PembayaranActivity.class);
 //                    inten.putExtra("data_keranjang", dataModels.toString());
 //                    startActivityForResult(inten, 2);
@@ -387,15 +393,17 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
                     if (!isDataFound) {
 
                         if (data_object.getString("jenis_diskon").equals("nominal") || data_object.getString("jenis_diskon").equals("diskon") || data_object.getString("jenis_diskon").equals("tidak_diskon")){
-                            dataModels.add(new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush));
+                            dataModels.add(new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"), data_object.getString("kode_diskon_br"), data_object.getInt("diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush));
                         }else {
-                            ModelTransaksi barang = new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush);
+                            ModelTransaksi barang = new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"),  data_object.getString("kode_diskon_br"), data_object.getInt("diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush);
                             try {
                                 JSONArray mapping_diskon_jsonarray = new JSONArray(data_object.getString("list_produk_didapat"));
+                                ArrayList<DetailProdukDidapat> produk_gratis = new ArrayList<>();
                                 for (int k = 0; k < mapping_diskon_jsonarray.length(); k++){
                                     JSONObject mapping_diskon = mapping_diskon_jsonarray.getJSONObject(k);
-                                    barang.setDetailProdukDidapat(new DetailProdukDidapat(mapping_diskon.getString("nama"), mapping_diskon.getString("kode"), mapping_diskon.getString("qty")));
+                                    produk_gratis.add(new DetailProdukDidapat(mapping_diskon.getString("nama"), mapping_diskon.getString("kode"), mapping_diskon.getString("qty")));
                                 }
+                                barang.setDetailProdukDidapat(produk_gratis);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
@@ -539,20 +547,58 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
 }
 
 class ModelTransaksi {
-    String gambar_br, nama_br, jenis_diskon, kode_br;
-    int harga_br, potongan_harga_br, qty, total_harga_br, trash;
-    DetailProdukDidapat detailProdukDidapat;
+    String gambar_br, nama_br, jenis_diskon, kode_br, kode_diskon_br;
+    int harga_br, potongan_br, potongan_harga_br, qty, total_harga_br, trash;
+    ArrayList<DetailProdukDidapat> detailProdukDidapat;
+    public JSONObject get_all_data(){
+        JSONObject data = new JSONObject();
+        try {
+            data.put("nama_barang", getNama_br());
+            data.put("kode_barang", getKode_br());
+            data.put("kode_diskon_br", getKode_diskon_br());
+            data.put("qty_barang", getQty());
+            data.put("harga_barang", getHarga_br());
+            data.put("potongan_barang", getPotongan_br());
+            data.put("potongan_harga_barang", getPotongan_harga_br());
+            data.put("total_harga_barang", getTotal_harga_br());
+            data.put("jenis_diskon", getJenis_diskon());
+            if (detailProdukDidapat != null){
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < detailProdukDidapat.size(); i++){
+                    jsonArray.put(getDetailProdukDidapat().get(i).get_detail_produk_didapat());
+                }
+                data.put("detail_produk_didapat", jsonArray);
+            }else {
+                data.put("detail_produk_didapat", null);
+            }
 
-    public ModelTransaksi(String gambar_br, String kode_br, String nama_br, String jenis_diskon, int harga_br, int potongan_harga_br, int qty, int total_harga_br, int trash) {
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return data;
+
+    }
+
+    public ModelTransaksi(String gambar_br, String kode_br, String nama_br, String jenis_diskon, String kode_diskon_br, int potongan_br, int harga_br, int potongan_harga_br, int qty, int total_harga_br, int trash) {
         this.gambar_br = gambar_br;
         this.kode_br = kode_br;
         this.nama_br = nama_br;
         this.jenis_diskon = jenis_diskon;
+        this.kode_diskon_br = kode_diskon_br;
+        this.potongan_br = potongan_br;
         this.harga_br = harga_br;
         this.potongan_harga_br = potongan_harga_br;
         this.qty = qty;
         this.total_harga_br = total_harga_br;
         this.trash = trash;
+    }
+
+    public String getKode_diskon_br() {
+        return kode_diskon_br;
+    }
+
+    public int getPotongan_br() {
+        return potongan_br;
     }
 
     public String getGambar_br() {
@@ -591,8 +637,12 @@ class ModelTransaksi {
         return trash;
     }
 
-    public void setDetailProdukDidapat(DetailProdukDidapat detailProdukDidapat) {
+    public void setDetailProdukDidapat(ArrayList<DetailProdukDidapat> detailProdukDidapat) {
         this.detailProdukDidapat = detailProdukDidapat;
+    }
+
+    public ArrayList<DetailProdukDidapat> getDetailProdukDidapat() {
+        return detailProdukDidapat;
     }
 
     public void setQty(int qty) {
@@ -606,6 +656,17 @@ class ModelTransaksi {
 
 class DetailProdukDidapat{
     String nama_produk, kode_produk, qty_produk;
+    public JSONObject get_detail_produk_didapat(){
+        JSONObject data_produk_didapat = new JSONObject();
+        try {
+            data_produk_didapat.put("nama_produk_free", getNama_produk());
+            data_produk_didapat.put("kode_produk_free", getKode_produk());
+            data_produk_didapat.put("qty_produk_free", getQty_produk());
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return data_produk_didapat;
+    }
 
     public DetailProdukDidapat(String nama_produk, String kode_produk, String qty_produk) {
         this.nama_produk = nama_produk;
