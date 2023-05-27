@@ -1190,7 +1190,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                             try {
                                 JSONObject mapping_diskon = new JSONObject(mapping_list.getString("diskon"));
                                 if (mapping_diskon.getString("kategori").equals("free")){
-                                    barang.setDetailBarangFree(new DetailBarangFree(mapping_diskon.getString("free_product"), Integer.valueOf(mapping_diskon.getString("buy")), Integer.valueOf(mapping_diskon.getString("free"))));
+                                    barang.setDetailBarangFree(new DetailBarangFree(mapping_diskon.getString("free_product"), mapping_diskon.getString("kode_diskon"), Integer.valueOf(mapping_diskon.getString("buy")), Integer.valueOf(mapping_diskon.getString("free"))));
                                 }
 
                             } catch (Exception e){
@@ -1239,7 +1239,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                             try {
                                 JSONObject mapping_diskon = new JSONObject(mapping_list.getString("diskon"));
                                 if (mapping_diskon.getString("kategori").equals("free")){
-                                    barang.setDetailBarangFree(new DetailBarangFree(mapping_diskon.getString("free_product"), Integer.valueOf(mapping_diskon.getString("buy")), Integer.valueOf(mapping_diskon.getString("free"))));
+                                    barang.setDetailBarangFree(new DetailBarangFree(mapping_diskon.getString("free_product"), mapping_diskon.getString("kode_diskon"), Integer.valueOf(mapping_diskon.getString("buy")), Integer.valueOf(mapping_diskon.getString("free"))));
                                 }
 
                             } catch (Exception e){
@@ -1292,7 +1292,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                                     barang.setDetailDiskon(new DetailDiskon(mapping_diskon.getString("kategori"), Integer.valueOf(mapping_diskon.getString("nominal")), null));
 //                                Toast.makeText(PilihBarangActivity.this, mapping_list.getString("nominal"), Toast.LENGTH_SHORT).show();
                                 }else if (mapping_diskon.getString("kategori").equals("free")){
-                                    barang.setDetailDiskon(new DetailDiskon(mapping_diskon.getString("kategori"), 0, new DetailBarangFree(mapping_diskon.getString("free_product"), Integer.valueOf(mapping_diskon.getString("buy")), Integer.valueOf(mapping_diskon.getString("free")))));
+                                    barang.setDetailDiskon(new DetailDiskon(mapping_diskon.getString("kategori"), 0, new DetailBarangFree(mapping_diskon.getString("free_product"), mapping_diskon.getString("kode_diskon"), Integer.valueOf(mapping_diskon.getString("buy")), Integer.valueOf(mapping_diskon.getString("free")))));
                                 }
 
                             } catch (Exception e){
@@ -1354,9 +1354,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
 
         if (dataModelsFreeBebasDetail == null){
             dataModelsFreeBebasDetail = new ArrayList<>();
-            detail_barang_bebas = new JSONObject();
             detail_barang_sama = new JSONObject();
-            list_detail_barang_bebas = new JSONArray();
             list_detail_barang_sama = new JSONArray();
         }
 
@@ -1689,7 +1687,8 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                         data.put("potongan_harga_br", 0);
                         data.put("harga_total_akhir_br", dataModels.get(position).getHarga_awal() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                         data.put("qty_br", field_isi_jumlah_barang.getText().toString());
-                        data.put("list_produk_didapat", null);
+                        data.put("list_produk_didapat", "null");
+                        data.put("diskon", 0);
                     }else {
                         data.put("kode_diskon_br", dataModels.get(position).getKode_diskon());
                         if (dataModels.get(position).getDetailDiskon().jenis_diskon.equals("nominal")){
@@ -1697,7 +1696,8 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                             data.put("potongan_harga_br", dataModels.get(position).getHarga_awal() - dataModels.get(position).getDetailDiskon().nominal);
                             data.put("harga_total_akhir_br", (dataModels.get(position).getHarga_awal() - dataModels.get(position).getDetailDiskon().nominal) * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                             data.put("qty_br", field_isi_jumlah_barang.getText().toString());
-                            data.put("list_produk_didapat", null);
+                            data.put("list_produk_didapat", "null");
+                            data.put("diskon", dataModels.get(position).getDetailDiskon().nominal);
                         } else if (dataModels.get(position).getDetailDiskon().jenis_diskon.equals("persen")) {
                             double bagi100 = (double) dataModels.get(position).getDetailDiskon().nominal / 100;
                             double kali100 = dataModels.get(position).getHarga_awal() * bagi100;
@@ -1706,7 +1706,8 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                             data.put("potongan_harga_br", Double.valueOf(kurang_harga).intValue());
                             data.put("harga_total_akhir_br", Double.valueOf(kurang_harga).intValue() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                             data.put("qty_br", field_isi_jumlah_barang.getText().toString());
-                            data.put("list_produk_didapat", null);
+                            data.put("list_produk_didapat", "null");
+                            data.put("diskon", dataModels.get(position).getDetailDiskon().nominal);
                         } else if (dataModels.get(position).getDetailDiskon().jenis_diskon.equals("free")){
                             if (dataModels.get(position).getDetailDiskon().getDetailBarangFree().jenis_pilihan.equals("bebas")){
                                 data.put("jenis_diskon", dataModels.get(position).getDetailDiskon().jenis_diskon);
@@ -1714,12 +1715,16 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                                 data.put("harga_total_akhir_br", dataModels.get(position).getHarga_awal() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                                 data.put("qty_br", field_isi_jumlah_barang.getText().toString());
                                 data.put("list_produk_didapat", list_detail_barang_bebas);
+                                data.put("list_produk_didapat", "null");
+                                data.put("diskon", 0);
                             }else if (dataModels.get(position).getDetailDiskon().getDetailBarangFree().jenis_pilihan.equals("sama")){
                                 data.put("jenis_diskon", dataModels.get(position).getDetailDiskon().jenis_diskon);
                                 data.put("potongan_harga_br", 0);
                                 data.put("harga_total_akhir_br", dataModels.get(position).getHarga_awal() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                                 data.put("qty_br", field_isi_jumlah_barang.getText().toString());
                                 data.put("list_produk_didapat", list_detail_barang_sama);
+                                data.put("list_produk_didapat", "null");
+                                data.put("diskon", 0);
                             }
                         }
                     }
@@ -1792,7 +1797,6 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
             list_produk_gratis.setLayoutManager(layoutManager);
             list_produk_gratis.setAdapter(adapt);
-
 
             free_didapat.setText(String.valueOf(free));
             field_isi_jumlah_barang.setText(String.valueOf(field));
@@ -1949,6 +1953,9 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                     Transaksi.view = 2;
                 }
 
+                free = 0;
+                field = 0;
+
                 Intent inten = new Intent();
                 JSONObject data = new JSONObject();
                 list_data = new JSONArray();
@@ -1958,35 +1965,55 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                     data.put("harga_br", dataModels.get(position).getHarga_awal());
                     if (dataModels.get(position).getDetailDiskon() == null){
                         data.put("jenis_diskon", "tidak_diskon");
-                        data.put("kode_diskon_br", "0");
+                        data.put("kode_diskon_br", "null");
                         data.put("potongan_harga_br", 0);
                         data.put("harga_total_akhir_br", dataModels.get(position).getHarga_awal() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                         data.put("qty_br", field_isi_jumlah_barang.getText().toString());
-                        data.put("list_produk_didapat", null);
+                        data.put("list_produk_didapat", "null");
+                        data.put("diskon", 0);
                     }else {
                         data.put("kode_diskon_br", dataModels.get(position).getKode_diskon());
                         if (dataModels.get(position).getDetailDiskon().jenis_diskon.equals("nominal")){
                             data.put("jenis_diskon", dataModels.get(position).getDetailDiskon().jenis_diskon);
+                            data.put("kode_diskon_br", dataModels.get(position).getDetailDiskon().getDetailBarangFree().kode_diskon);
                             data.put("potongan_harga_br", dataModels.get(position).getHarga_awal() - dataModels.get(position).getDetailDiskon().nominal);
                             data.put("harga_total_akhir_br", (dataModels.get(position).getHarga_awal() - dataModels.get(position).getDetailDiskon().nominal) * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                             data.put("qty_br", field_isi_jumlah_barang.getText().toString());
-                            data.put("list_produk_didapat", null);
+                            data.put("list_produk_didapat", "null");
+                            data.put("diskon", 0);
                         } else if (dataModels.get(position).getDetailDiskon().jenis_diskon.equals("persen")) {
                             double bagi100 = (double) dataModels.get(position).getDetailDiskon().nominal / 100;
                             double kali100 = dataModels.get(position).getHarga_awal() * bagi100;
                             double kurang_harga = dataModels.get(position).getHarga_awal() - kali100;
                             data.put("jenis_diskon", dataModels.get(position).getDetailDiskon().jenis_diskon);
+                            data.put("kode_diskon_br", dataModels.get(position).getDetailDiskon().getDetailBarangFree().kode_diskon);
                             data.put("potongan_harga_br", Double.valueOf(kurang_harga).intValue());
                             data.put("harga_total_akhir_br", Double.valueOf(kurang_harga).intValue() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                             data.put("qty_br", field_isi_jumlah_barang.getText().toString());
-                            data.put("list_produk_didapat", null);
+                            data.put("list_produk_didapat", "null");
+                            data.put("diskon", 0);
                         } else if (dataModels.get(position).getDetailDiskon().jenis_diskon.equals("free")){
                             if (dataModels.get(position).getDetailDiskon().getDetailBarangFree().jenis_pilihan.equals("bebas")){
+                                try {
+                                    list_detail_barang_bebas = new JSONArray();
+                                    for (int a = 0; a < dataModelsFreeBebasDetail.size(); a++){
+                                        detail_barang_bebas = new JSONObject();
+                                        detail_barang_bebas.put("nama", dataModelsFreeBebasDetail.get(a).getName_product());
+                                        detail_barang_bebas.put("kode", dataModelsFreeBebasDetail.get(a).getKode_produk());
+                                        detail_barang_bebas.put("qty", dataModelsFreeBebasDetail.get(a).getValues());
+                                        list_detail_barang_bebas.put(detail_barang_bebas);
+                                    }
+
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
                                 data.put("jenis_diskon", dataModels.get(position).getDetailDiskon().getDetailBarangFree().jenis_pilihan);
+                                data.put("kode_diskon_br", dataModels.get(position).getDetailDiskon().getDetailBarangFree().kode_diskon);
                                 data.put("potongan_harga_br", 0);
                                 data.put("harga_total_akhir_br", dataModels.get(position).getHarga_awal() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                                 data.put("qty_br", field_isi_jumlah_barang.getText().toString());
                                 data.put("list_produk_didapat", list_detail_barang_bebas);
+                                data.put("diskon", 0);
                             }else if (dataModels.get(position).getDetailDiskon().getDetailBarangFree().jenis_pilihan.equals("sama")){
                                 try {
                                     for (int a = 0; a < dataModelsFreeSama.size(); a++){
@@ -1999,10 +2026,12 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                                     throw new RuntimeException(e);
                                 }
                                 data.put("jenis_diskon", dataModels.get(position).getDetailDiskon().getDetailBarangFree().jenis_pilihan);
+                                data.put("kode_diskon_br", dataModels.get(position).getDetailDiskon().getDetailBarangFree().kode_diskon);
                                 data.put("potongan_harga_br", 0);
                                 data.put("harga_total_akhir_br", dataModels.get(position).getHarga_awal() * Integer.parseInt(field_isi_jumlah_barang.getText().toString()));
                                 data.put("qty_br", field_isi_jumlah_barang.getText().toString());
                                 data.put("list_produk_didapat", list_detail_barang_sama);
+                                data.put("diskon", 0);
                             }
                         }
                     }
@@ -2066,15 +2095,6 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                         dataModelsFreeBebasDetail.add(new ModelProdukFree(nama_barang, gambar_barang, kode_barang,1));
                         adapt = new AddProductFree(dataModelsFreeBebasDetail, TambahBarangActivity.this);
                         adapt.notifyDataSetChanged();
-
-                        try {
-                            detail_barang_bebas.put("nama", dataModelsFreeBebasDetail.get(0).getName_product());
-                            detail_barang_bebas.put("kode", dataModelsFreeBebasDetail.get(0).getKode_produk());
-                            detail_barang_bebas.put("qty", dataModelsFreeBebasDetail.get(0).getValues());
-                            list_detail_barang_bebas.put(detail_barang_bebas);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
 
                         builder.dismiss();
                         showBottomSheet(view, position);
@@ -2500,11 +2520,12 @@ class DetailDiskon{
 }
 
 class DetailBarangFree{
-    String jenis_pilihan;
+    String jenis_pilihan, kode_diskon;
     int buy, free;
 
-    public DetailBarangFree(String jenis_pilihan, int buy, int free) {
+    public DetailBarangFree(String jenis_pilihan, String kode_diskon, int buy, int free) {
         this.jenis_pilihan = jenis_pilihan;
+        this.kode_diskon = kode_diskon;
         this.buy = buy;
         this.free = free;
     }

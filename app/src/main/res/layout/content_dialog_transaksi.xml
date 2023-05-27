@@ -55,9 +55,8 @@
             tools:ignore="MissingConstraints">
 
             <com.google.android.flexbox.FlexboxLayout
-                app:justifyContent="space_between"
+                app:justifyContent="space_evenly"
                 app:alignItems="center"
-                android:layout_marginHorizontal="@dimen/_20sdp"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -90,9 +89,8 @@
             android:orientation="horizontal">
 
             <com.google.android.flexbox.FlexboxLayout
-                app:justifyContent="space_between"
+                app:justifyContent="space_evenly"
                 app:alignItems="center"
-                android:layout_marginHorizontal="@dimen/_20sdp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -158,7 +156,7 @@
                 android:id="@+id/list_produk_gratis"
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_130sdp"
                 tools:ignore="MissingConstraints" />
             <LinearLayout
                 android:visibility="visible"

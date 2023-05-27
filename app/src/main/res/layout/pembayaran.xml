@@ -96,6 +96,7 @@
                             tools:ignore="MissingConstraints">
 
                             <TextView
+                                android:id="@+id/nominal_didapat"
                                 app:layout_alignSelf="center"
                                 android:fontFamily="@font/poppins_medium"
                                 android:layout_width="wrap_content"
@@ -138,14 +139,13 @@
 
                             <ImageView
                                 android:id="@+id/buttonTunai"
-                                android:backgroundTint="@color/black"
+                                android:backgroundTint="@color/colorPrimary"
                                 android:background="@drawable/shape2_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"/>
                             <com.google.android.flexbox.FlexboxLayout
-                                app:justifyContent="space_between"
+                                app:justifyContent="space_evenly"
                                 app:alignItems="center"
-                                android:layout_marginHorizontal="@dimen/_25sdp"
                                 android:layout_gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -153,6 +153,7 @@
                                     android:id="@+id/iconTunai"
                                     android:layout_gravity="center|start"
                                     android:background="@drawable/tunai"
+                                    android:backgroundTint="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <TextView
@@ -162,13 +163,8 @@
                                     android:text="TUNAI"
                                     android:fontFamily="@font/poppins_medium"
                                     android:textSize="@dimen/_13ssp"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/black"
                                     android:textStyle="bold"/>
-
-                                <ImageView
-                                    android:layout_gravity="center|start"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
                             </com.google.android.flexbox.FlexboxLayout>
                         </FrameLayout>
                         <FrameLayout
@@ -183,12 +179,12 @@
                             <ImageView
                                 android:id="@+id/buttonQris"
                                 android:background="@drawable/shape2_1"
+                                android:backgroundTint="@color/black"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"/>
                             <com.google.android.flexbox.FlexboxLayout
-                                app:justifyContent="space_between"
+                                app:justifyContent="space_evenly"
                                 app:alignItems="center"
-                                android:layout_marginHorizontal="@dimen/_25sdp"
                                 android:layout_gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -196,6 +192,7 @@
                                     android:id="@+id/iconQris"
                                     android:layout_gravity="center|start"
                                     android:background="@drawable/qris"
+                                    android:backgroundTint="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <TextView
@@ -205,13 +202,8 @@
                                     android:fontFamily="@font/poppins_medium"
                                     android:text="QRIS"
                                     android:textSize="@dimen/_13ssp"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textStyle="bold"/>
-
-                                <ImageView
-                                    android:layout_gravity="center|start"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
                             </com.google.android.flexbox.FlexboxLayout>
                         </FrameLayout>
 
@@ -310,30 +302,28 @@
                         android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
-                        <LinearLayout
-                            android:elevation="4dp"
-                            android:orientation="horizontal"
+                        <com.google.android.flexbox.FlexboxLayout
                             android:id="@+id/pembayaran_paling_akhir"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_35sdp"
-                            android:paddingVertical="@dimen/_10sdp"
-                            android:background="@drawable/shape2_1">
+                            app:justifyContent="space_evenly"
+                            app:alignItems="center"
+                            android:layout_gravity="center"
+                            android:paddingVertical="@dimen/_7sdp"
+                            android:background="@drawable/shape2_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
                             <ImageView
-                                android:paddingStart="@dimen/_25sdp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/bayar"/>
 
                             <TextView
-                                android:paddingStart="@dimen/_5sdp"
-                                android:paddingEnd="@dimen/_25sdp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Bayar"
                                 android:fontFamily="@font/poppins_medium"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12ssp"/>
-                        </LinearLayout>
+                        </com.google.android.flexbox.FlexboxLayout>
                     </LinearLayout>
 
                 </com.google.android.flexbox.FlexboxLayout>
