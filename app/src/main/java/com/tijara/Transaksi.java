@@ -223,6 +223,86 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
 //        }
 //    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String getdata = data.getStringExtra("data");
+                try {
+                    JSONObject data_object = new JSONObject(getdata);
+
+                    // Untuk edit
+                    for (int i = 0; i < dataModels.size(); i++) {
+                        if (dataModels.get(i).getKode_br().equals(data_object.getString("kode_br")) && dataModels.size() > 0) {
+                            Toast.makeText(this, "Ini edit data", Toast.LENGTH_SHORT).show();
+                            int oldTotalHargaBr = dataModels.get(i).getTotal_harga_br();
+                            int newQty = Integer.valueOf(data_object.getString("qty_br"));
+                            int newTotalHargaBr = data_object.getInt("harga_total_akhir_br");
+                            total_harga_br = total_harga_br - oldTotalHargaBr + newTotalHargaBr;
+                            dataModels.get(i).setQty(newQty);
+                            dataModels.get(i).setTotal_harga_br(newTotalHargaBr);
+                        }
+                    }
+
+                    // Untuk tambah
+                    boolean isDataFound = false;
+                    for (int j = 0; j < dataModels.size(); j++) {
+                        if (dataModels.get(j).getKode_br().equals(data_object.getString("kode_br")) &&
+                                dataModels.get(j).getNama_br().equals(data_object.getString("nama_br")) &&
+                                dataModels.get(j).getGambar_br().equals(data_object.getString("gambar_br"))) {
+                            isDataFound = true;
+                            break;
+                        }
+                    }
+
+                    if (!isDataFound) {
+
+                        if (data_object.getString("jenis_diskon").equals("nominal") || data_object.getString("jenis_diskon").equals("persen") || data_object.getString("jenis_diskon").equals("tidak_diskon")){
+                            dataModels.add(new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"), data_object.getString("kode_diskon_br"), data_object.getInt("diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush));
+                        }else {
+                            ModelTransaksi barang = new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"),  data_object.getString("kode_diskon_br"), data_object.getInt("diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush);
+                            try {
+                                JSONArray mapping_diskon_jsonarray = new JSONArray(data_object.getString("list_produk_didapat"));
+                                ArrayList<DetailProdukDidapat> produk_gratis = new ArrayList<>();
+                                for (int k = 0; k < mapping_diskon_jsonarray.length(); k++){
+                                    JSONObject mapping_diskon = mapping_diskon_jsonarray.getJSONObject(k);
+                                    produk_gratis.add(new DetailProdukDidapat(mapping_diskon.getString("nama"), mapping_diskon.getString("kode"), mapping_diskon.getString("qty")));
+                                }
+                                barang.setDetailProdukDidapat(produk_gratis);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            dataModels.add(barang);
+                        }
+
+                        total_harga_br += dataModels.get(dataModels.size() - 1).getTotal_harga_br();
+                    } else {
+                        Toast.makeText(this, "Data sudah ada", Toast.LENGTH_SHORT).show();
+                    }
+
+                    adapterTransaksi = new AdapterTransaksi(dataModels, Transaksi.this);
+
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
+                    materi.setLayoutManager(layoutManager);
+                    materi.setAdapter(adapterTransaksi);
+
+                    jumlahList.setText(String.valueOf(dataModels.size()));
+                    jumlahNominalHarga.setText(Env.formatRupiah(total_harga_br));
+                    adapterTransaksi.notifyDataSetChanged();
+
+                    update();
+                    eksekusi_dataModels();
+
+                } catch (Exception e) {
+                    Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,45 +319,51 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
         jumlahNominalHarga = findViewById(R.id.jumlah_nominal_harga);
         LinearLayout button_lanjut = findViewById(R.id.button_lanjut);
 
-        if (dataModels == null) {
-            System.out.println("nullllll");
-            dataModels = new ArrayList<>();
-            jsonArray = new JSONArray(dataModels);
-            if (TambahBarangActivity.list_data != null){
-                System.out.println(TambahBarangActivity.list_data.toString()+"hayyuk");
-            }
-            System.out.println("a");
-        } else {
-            System.out.println("ini print 1");
-            if (view == 1) {
-                System.out.println("ini print");
-//                int total_harga_br = 0;
-//                for (int i = 0; i < dataModels.size(); i++) {
-//                    total_harga_br += dataModels.get(i).getQty() * dataModels.get(i).getHarga_br();
-//                }
-//                jumlahNominalHarga.setText(String.valueOf(total_harga_br));
-//                jumlahList.setText(String.valueOf(dataModels.size()));
+
+        eksekusi_dataModels();
+//        if (dataModels == null) {
+//            System.out.println("nullllll");
+//            dataModels = new ArrayList<>();
+//            jsonArray = new JSONArray(dataModels);
+//            if (TambahBarangActivity.list_data != null){
+//                System.out.println(TambahBarangActivity.list_data.toString()+"hayyuk");
+//            }
+//            System.out.println("a");
+//        } else {
+//            System.out.println("ini print 1");
 //
-//                // Perbarui tampilan adapterTransaksi dan RecyclerView
-//                adapterTransaksi.notifyDataSetChanged();
-//                update();
-//                materi.scrollToPosition(dataModels.size() - 1);
-            } else if (view == 2) {
-//                jsonObject = new JSONObject();
-//                int total_harga_br = 0;
-//                for (int i = 0; i < dataModels.size(); i++) {
-//                    total_harga_br += dataModels.get(i).getQty() * dataModels.get(i).getHarga_br();
-//                }
-//                jumlahNominalHarga.setText(String.valueOf(total_harga_br));
-//                jumlahList.setText(String.valueOf(dataModels.size()));
-//                System.out.println("ini print juga");
-//
-//                // Perbarui tampilan adapterTransaksi dan RecyclerView
-//                adapterTransaksi.notifyDataSetChanged();
-//                update();
-//                materi.scrollToPosition(dataModels.size() - 1);
-            }
-        }
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
+//            materi.setLayoutManager(layoutManager);
+//            materi.setAdapter(adapterTransaksi);
+////            if (view == 1) {
+////                System.out.println("ini print");
+//////                int total_harga_br = 0;
+//////                for (int i = 0; i < dataModels.size(); i++) {
+//////                    total_harga_br += dataModels.get(i).getQty() * dataModels.get(i).getHarga_br();
+//////                }
+//////                jumlahNominalHarga.setText(String.valueOf(total_harga_br));
+//////                jumlahList.setText(String.valueOf(dataModels.size()));
+//////
+//////                // Perbarui tampilan adapterTransaksi dan RecyclerView
+//////                adapterTransaksi.notifyDataSetChanged();
+//////                update();
+//////                materi.scrollToPosition(dataModels.size() - 1);
+////            } else if (view == 2) {
+//////                jsonObject = new JSONObject();
+//////                int total_harga_br = 0;
+//////                for (int i = 0; i < dataModels.size(); i++) {
+//////                    total_harga_br += dataModels.get(i).getQty() * dataModels.get(i).getHarga_br();
+//////                }
+//////                jumlahNominalHarga.setText(String.valueOf(total_harga_br));
+//////                jumlahList.setText(String.valueOf(dataModels.size()));
+//////                System.out.println("ini print juga");
+//////
+//////                // Perbarui tampilan adapterTransaksi dan RecyclerView
+//////                adapterTransaksi.notifyDataSetChanged();
+//////                update();
+//////                materi.scrollToPosition(dataModels.size() - 1);
+////            }
+//        }
 
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,6 +396,7 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
                         } else {
                             scanBarcode();
                         }
+                        builder.dismiss();
                     }
                 });
                 LinearLayout next_dialog_keyboard = dialogView.findViewById(R.id.button_metode_keyboard);
@@ -319,6 +406,7 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
                         if (view1 == 1) {
                             Intent inten = new Intent(Transaksi.this, TambahBarangActivity.class);
                             startActivityForResult(inten, 1);
+                            builder.dismiss();
                         }
                     }
                 });
@@ -357,80 +445,25 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                String getdata = data.getStringExtra("data");
-                try {
-                    JSONObject data_object = new JSONObject(getdata);
+    public void eksekusi_dataModels() {
+        if (dataModels != null) {
 
-                    // Untuk edit
-                    for (int i = 0; i < dataModels.size(); i++) {
-                        if (dataModels.get(i).getKode_br().equals(data_object.getString("kode_br")) && dataModels.size() > 0) {
-                            Toast.makeText(this, "Ini edit data", Toast.LENGTH_SHORT).show();
-                            int oldTotalHargaBr = dataModels.get(i).getTotal_harga_br();
-                            int newQty = Integer.valueOf(data_object.getString("qty_br"));
-                            int newTotalHargaBr = data_object.getInt("harga_total_akhir_br");
-                            total_harga_br = total_harga_br - oldTotalHargaBr + newTotalHargaBr;
-                            dataModels.get(i).setQty(newQty);
-                            dataModels.get(i).setTotal_harga_br(newTotalHargaBr);
-                        }
-                    }
+            System.out.println("ini eksekusi");
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
+            materi.setLayoutManager(layoutManager);
+            materi.setAdapter(adapterTransaksi);
 
-                    // Untuk tambah
-                    boolean isDataFound = false;
-                    for (int j = 0; j < dataModels.size(); j++) {
-                        if (dataModels.get(j).getKode_br().equals(data_object.getString("kode_br")) &&
-                                dataModels.get(j).getNama_br().equals(data_object.getString("nama_br")) &&
-                                dataModels.get(j).getGambar_br().equals(data_object.getString("gambar_br"))) {
-                            isDataFound = true;
-                            break;
-                        }
-                    }
+            jumlahList.setText(String.valueOf(dataModels.size()));
+            jumlahNominalHarga.setText(Env.formatRupiah(total_harga_br));
+            adapterTransaksi.notifyDataSetChanged();
+            update();
+            System.out.println("ini eksekusi 2");
 
-                    if (!isDataFound) {
-
-                        if (data_object.getString("jenis_diskon").equals("nominal") || data_object.getString("jenis_diskon").equals("diskon") || data_object.getString("jenis_diskon").equals("tidak_diskon")){
-                            dataModels.add(new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"), data_object.getString("kode_diskon_br"), data_object.getInt("diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush));
-                        }else {
-                            ModelTransaksi barang = new ModelTransaksi(data_object.getString("gambar_br"), data_object.getString("kode_br"), data_object.getString("nama_br"), data_object.getString("jenis_diskon"),  data_object.getString("kode_diskon_br"), data_object.getInt("diskon"), data_object.getInt("harga_br"), data_object.getInt("potongan_harga_br"), data_object.getInt("qty_br"), data_object.getInt("harga_total_akhir_br"), R.drawable.trush);
-                            try {
-                                JSONArray mapping_diskon_jsonarray = new JSONArray(data_object.getString("list_produk_didapat"));
-                                ArrayList<DetailProdukDidapat> produk_gratis = new ArrayList<>();
-                                for (int k = 0; k < mapping_diskon_jsonarray.length(); k++){
-                                    JSONObject mapping_diskon = mapping_diskon_jsonarray.getJSONObject(k);
-                                    produk_gratis.add(new DetailProdukDidapat(mapping_diskon.getString("nama"), mapping_diskon.getString("kode"), mapping_diskon.getString("qty")));
-                                }
-                                barang.setDetailProdukDidapat(produk_gratis);
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            dataModels.add(barang);
-                        }
-
-                        total_harga_br += dataModels.get(dataModels.size() - 1).getTotal_harga_br();
-                    } else {
-                        Toast.makeText(this, "Data sudah ada", Toast.LENGTH_SHORT).show();
-                    }
-
-                    adapterTransaksi = new AdapterTransaksi(dataModels, Transaksi.this);
-
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Transaksi.this);
-                    materi.setLayoutManager(layoutManager);
-                    materi.setAdapter(adapterTransaksi);
-
-                    jumlahList.setText(String.valueOf(dataModels.size()));
-                    jumlahNominalHarga.setText(String.valueOf(total_harga_br));
-                    adapterTransaksi.notifyDataSetChanged();
-                    update();
-
-                } catch (Exception e) {
-                    Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
-                }
-
+        } else {
+            dataModels = new ArrayList<>();
+            jsonArray = new JSONArray(dataModels);
+            if (TambahBarangActivity.list_data != null){
+                System.out.println(TambahBarangActivity.list_data.toString()+"hayyuk");
             }
         }
     }
@@ -524,9 +557,10 @@ public class Transaksi extends AppCompatActivity implements RecyclerViewListener
                     builder.dismiss();
                     dataModels.remove(position);
                     int pengurangan_total_list = Integer.parseInt(Transaksi.jumlahList.getText().toString()) - 1;
-                    int pengurangan_total_akhir = Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString()) - total_akhir_br;
+                    int pengurangan_total_akhir = Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString().replace(".", "")) - total_akhir_br;
                     Transaksi.jumlahList.setText(String.valueOf(pengurangan_total_list));
-                    Transaksi.jumlahNominalHarga.setText(String.valueOf(pengurangan_total_akhir));
+                    Transaksi.jumlahNominalHarga.setText(Env.formatRupiah(pengurangan_total_akhir));
+                    total_harga_br = 0;
                     update();
                     adapterTransaksi.notifyDataSetChanged();
 

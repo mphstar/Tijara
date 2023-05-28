@@ -1065,6 +1065,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
     }
     private int availableStock;
     static AddProductFree adapt;
+    static AddProduct adaptProduk;
     public void StockTextWatcher(int stock) {
         availableStock = stock;
     }
@@ -1153,22 +1154,21 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
 //
 //    }
 
-//    private void filter(String teks) {
-//
-//        System.out.println(teks.toString().length());
-//        ArrayList<ModelAddBarang> dataModels2 = new ArrayList<>();
-//        //looping through existing elements
-//        for (ModelAddBarang s : dataModels) {
-//            //if the existing elements contains the search input
-//            if (s.getKode_produk().toLowerCase().contains(teks.toLowerCase())) {
-//                //adding the element to filtered list
-//                dataModels2.add(s);
-//            }
-//        }
-//
-//        //calling a method of the adapter class and passing the filtered list
-//        adapterTransaksi.filterList(dataModels2, linearLayout, materi);
-//    }
+    private void filter(String teks) {
+
+        ArrayList<ModelDetailBarang> dataModels2 = new ArrayList<>();
+        //looping through existing elements
+        for (ModelDetailBarang s : dataModels) {
+            //if the existing elements contains the search input
+            if (s.getKode_br().toLowerCase().contains(teks.toLowerCase())) {
+                //adding the element to filtered list
+                dataModels2.add(s);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        adaptProduk.filterList(dataModels2, linearLayout, materi);
+    }
 
     private void GetProdukFreeDialog(View view){
 
@@ -1306,7 +1306,34 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                     materi.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
                     materi.setAdapter(adapt);
 
-                    queue.getCache().clear();
+                    filter(searchView.getText().toString());
+
+                    searchView.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            if (editable.toString().length() != 0){
+                                materi.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.VISIBLE);
+                                filter(editable.toString());
+                            }else if (editable.toString().length() == 0){
+                                materi.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.GONE);
+                                loadProduct();
+                            }
+                        }
+                    });
+//                    queue.getCache().clear();
                 } catch (Exception e){
                     Toast.makeText(TambahBarangActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -1731,7 +1758,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                     data.put("gambar_br", dataModels.get(position).getGambar());
 
                 } catch (Exception e){
-                    Toast.makeText(TambahBarangActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TambahBarangActivity.this, "error di nominal"+e.toString(), Toast.LENGTH_SHORT).show();
                 }
 
                 list_data.put(data);
@@ -1739,6 +1766,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                 inten.putExtra("data", data.toString());
                 inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 setResult(RESULT_OK, inten);
+                bottomSheetDialog.dismiss();
                 finish();
 
             }
@@ -2038,7 +2066,8 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                     data.put("gambar_br", dataModels.get(position).getGambar());
 
                 } catch (Exception e){
-                    Toast.makeText(TambahBarangActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TambahBarangActivity.this, "ini yang error"+e.toString(), Toast.LENGTH_SHORT).show();
+                    System.out.println(e.toString());
                 }
 
                 System.out.println(data.toString()+" hayyuk");
@@ -2046,6 +2075,7 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                 inten.putExtra("data", data.toString());
                 inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 setResult(RESULT_OK, inten);
+                bottomSheetDialog.dismiss();
                 finish();
 
             }
@@ -2140,9 +2170,9 @@ public class TambahBarangActivity extends AppCompatActivity implements RecyclerV
                     }
 
                     //calling a method of the adapter class and passing the filtered list
-                    adapt.filterList(dataModelsFilter, linearLayout, materi);
+                    adapt.filterList(dataModelsFilter, image_no_produk, list_produk_free_dialog);
                 }else if (editable.toString().length() == 0){
-                    materi.setVisibility(View.GONE);
+                    list_produk_free_dialog.setVisibility(View.GONE);
                     image_no_produk.setVisibility(View.GONE);
                 }
             }
@@ -2250,6 +2280,14 @@ class AddProduct extends RecyclerView.Adapter<AddProduct.RecyclerViewViewHolder>
     public AddProduct(ArrayList<ModelDetailBarang> dataList, RecyclerViewListener listener) {
         this.dataList = dataList;
         this.listener = listener;
+    }
+    public void filterList(ArrayList<ModelDetailBarang> filterdNames, LinearLayout linearLayout, RecyclerView materi) {
+        this.dataList = filterdNames;;
+        if (dataList.isEmpty()){
+            materi.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -2371,7 +2409,7 @@ class AddProductFree extends RecyclerView.Adapter<AddProductFree.RecyclerViewVie
             holder.plus_minus_values.setVisibility(View.VISIBLE);
             holder.min_jumlah.setVisibility(View.GONE);
             holder.add_jumlah.setVisibility(View.GONE);
-            holder.qty.setText(String.valueOf(TambahBarangActivity.free_didapat.getText().toString()));
+            holder.qty.setText(String.valueOf(TambahBarangActivity.free_didapat.getText().toString())+" X");
         }
 
         holder.add_jumlah.setOnClickListener(new View.OnClickListener() {

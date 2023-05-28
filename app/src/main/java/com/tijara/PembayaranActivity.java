@@ -118,9 +118,13 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         holder.Harga.setText(allTypeData.format.format(Integer.valueOf(modelA.getHargaProduk())));
         holder.JumlahHargaProduk.setText(allTypeData.format.format(Integer.valueOf(modelA.getHargaProduk())));
         holder.JumlahHargaProduk2.setText(allTypeData.format.format(Integer.valueOf(modelA.getSubHargaProduk())));
-        holder.nominalVoucher.setText(modelA.getNoiminalDiskon());
         holder.PotonganHarga.setText(allTypeData.format.format(Integer.valueOf(modelA.getPotonganDiskon())));
         holder.value.setText(modelA.getValueProduk());
+        if (modelA.getJenisDiskon().equals("nominal")){
+            holder.nominalVoucher.setText(Env.formatRupiah(Integer.valueOf(modelA.getNoiminalDiskon())));
+        }else {
+            holder.nominalVoucher.setText(modelA.getNoiminalDiskon()+" %");
+        }
     }
 
     private void configureViewHolderTypeB(ViewHolderTypeB holder, int position) {
@@ -710,11 +714,11 @@ public class PembayaranActivity extends AppCompatActivity {
 
                     } else if (jsonObject.getString("jenis_diskon").equals("nominal")) {
 
-                        dataModels.add(new ModelA(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), String.valueOf(jsonObject.getInt("harga_barang") * jsonObject.getInt("qty_barang")), String.valueOf(jsonObject.getInt("potongan_barang"))));
+                        dataModels.add(new ModelA(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), String.valueOf(jsonObject.getInt("harga_barang") * jsonObject.getInt("qty_barang")), String.valueOf(jsonObject.getInt("potongan_barang")), jsonObject.getString("jenis_diskon")));
 
                     } else if (jsonObject.getString("jenis_diskon").equals("persen")) {
 
-                        dataModels.add(new ModelA(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), String.valueOf(jsonObject.getInt("harga_barang") * jsonObject.getInt("qty_barang")), String.valueOf(jsonObject.getInt("potongan_barang"))));
+                        dataModels.add(new ModelA(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang")), String.valueOf(jsonObject.getInt("total_harga_barang")), String.valueOf(jsonObject.getInt("harga_barang") * jsonObject.getInt("qty_barang")), String.valueOf(jsonObject.getInt("potongan_barang")), jsonObject.getString("jenis_diskon")));
 
                     } else if (jsonObject.getString("jenis_diskon").equals("sama")) {
 
@@ -767,7 +771,7 @@ public class PembayaranActivity extends AppCompatActivity {
 
             }
 
-            if (Transaksi.total_harga_br != 0){
+            if (Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString().replace(".", "")) != 0){
                 hitung_total();
             }else {
                 PembayaranActivity.kurangBayar.setText(allTypeData.format.format(0));
@@ -838,6 +842,8 @@ public class PembayaranActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         PembayaranActivity.loadingStruk.setVisibility(View.GONE);
+                        Transaksi.list_produk_dipesan = null;
+                        Transaksi.dataModels = null ;
                         Toast.makeText(PembayaranActivity.this, response, Toast.LENGTH_SHORT).show();
                         Log.d("tes", response);
                     }
@@ -852,7 +858,7 @@ public class PembayaranActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> mapp = new HashMap<>();
-                        mapp.put("total", String.valueOf(PembayaranActivity.a));
+                        mapp.put("total", String.valueOf(Transaksi.total_harga_br));
                         mapp.put("total_bayar", String.valueOf(PembayaranActivity.total_bayar));
                         mapp.put("kembalian", String.valueOf(Math.abs(hasil_hasil)));
                         mapp.put("data_list", Transaksi.list_produk_dipesan.toString());
@@ -930,21 +936,21 @@ public class PembayaranActivity extends AppCompatActivity {
     private void hitung_total() {
         if (voucher != 0){
             if (jenis_voucher.equals("nominal")){
-                int total_bayar_setelah_voucher = Transaksi.total_harga_br - voucher;
+                int total_bayar_setelah_voucher = Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString().replace(".", "")) - voucher;
                 PembayaranActivity.kurangBayar.setText(allTypeData.format.format(total_bayar_setelah_voucher));
                 PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(total_bayar_setelah_voucher));
                 update();
             } else if (jenis_voucher.equals("persen")) {
                 double bagi100 = (double) voucher / 100;
-                double kali100 = Transaksi.total_harga_br * bagi100;
-                double kurang_harga = Transaksi.total_harga_br - kali100;
+                double kali100 = Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString().replace(".", "")) * bagi100;
+                double kurang_harga = Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString().replace(".", "")) - kali100;
                 PembayaranActivity.kurangBayar.setText(allTypeData.format.format(Double.valueOf(kurang_harga).intValue()));
                 PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Double.valueOf(kurang_harga).intValue()));
                 update();
             }
         }else {
-            PembayaranActivity.kurangBayar.setText(allTypeData.format.format(Transaksi.total_harga_br - 0));
-            PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Transaksi.total_harga_br));
+            PembayaranActivity.kurangBayar.setText(allTypeData.format.format(Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString().replace(".", ""))));
+            PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Integer.parseInt(Transaksi.jumlahNominalHarga.getText().toString().replace(".", ""))));
         }
     }
 
@@ -1045,16 +1051,21 @@ class ModelA{
     String potonganDiskon;
     String subHargaProduk;
     String noiminalDiskon;
+    String jenisDiskon;
 
-    public ModelA(String namaProduk, String valueProduk, String hargaProduk, String potonganDiskon, String subHargaProduk, String noiminalDiskon) {
+    public ModelA(String namaProduk, String valueProduk, String hargaProduk, String potonganDiskon, String subHargaProduk, String noiminalDiskon, String jenisDiskon) {
         this.namaProduk = namaProduk;
         this.valueProduk = valueProduk;
         this.hargaProduk = hargaProduk;
         this.potonganDiskon = potonganDiskon;
         this.subHargaProduk = subHargaProduk;
         this.noiminalDiskon = noiminalDiskon;
+        this.jenisDiskon = jenisDiskon;
     }
 
+    public String getJenisDiskon() {
+        return jenisDiskon;
+    }
     public String getNoiminalDiskon() {
         return noiminalDiskon;
     }
@@ -1073,6 +1084,7 @@ class ModelA{
     public String getValueProduk() {
         return valueProduk;
     }
+
 }
 
 class ModelB{
