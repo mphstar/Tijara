@@ -109,6 +109,7 @@ public class PilihVoucherActivity extends AppCompatActivity implements RecyclerV
         try {
             data.put("nominal_voucher", dataModels.get(position).getNominal());
             data.put("jenis_voucher", dataModels.get(position).getJenis_voucher());
+            System.out.println(dataModels.get(position).getNominal()+"aabbbccc");
         } catch (Exception e){
             Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
         }

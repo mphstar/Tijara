@@ -146,12 +146,12 @@
                         android:layout_height="match_parent">
                         <com.airbnb.lottie.LottieAnimationView
                             app:layout_flexBasisPercent="65%"
-                            android:paddingStart="@dimen/_20sdp"
+                            android:paddingHorizontal="@dimen/_20sdp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:lottie_autoPlay="true"
                             app:lottie_loop="true"
-                            app:lottie_rawRes="@raw/no_values"
+                            app:lottie_rawRes="@raw/no_data"
                             />
                         <LinearLayout
                             app:layout_flexBasisPercent="25%"
