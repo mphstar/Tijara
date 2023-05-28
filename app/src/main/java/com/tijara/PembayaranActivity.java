@@ -128,7 +128,7 @@ class AdapterListProdukPembayaran extends RecyclerView.Adapter<RecyclerView.View
         holder.NamaProduk.setText(modelB.getNamaProduk());
         holder.Harga.setText(allTypeData.format.format(Integer.valueOf(modelB.getHargaProduk())));
         holder.value.setText(modelB.getValueProduk());
-        holder.totalSeluruhHargaBarang.setText(allTypeData.format.format(Integer.valueOf(modelB.getValueProduk()) * Integer.valueOf(modelB.getHargaProduk())));
+        holder.totalSeluruhHargaBarang.setText(allTypeData.format.format(Integer.valueOf(modelB.getHargaProduk())));
     }
     private void configureViewHolderTypeC(ViewHolderTypeC holder, int position) {
         ModelC modelC = (ModelC) items.get(position);
@@ -392,7 +392,8 @@ public class PembayaranActivity extends AppCompatActivity {
     ArrayList<Object> dataModels;
     ArrayList<ModelPembayaran> dataModels2;
     static int a = 0, hasil_hasil, kembalian, total_bayar;
-    static String voucher = null;
+    private static String jenis_voucher;
+    private static int voucher = 0;
     static TextView totalAkhirPalingAkhir, kurangBayar, keteranganBayar, teks_tunai, teks_qris, nominal_didapat;
     static EditText field_total_bayar;
     static ArrayList<produkfree> arrayList;
@@ -409,29 +410,86 @@ public class PembayaranActivity extends AppCompatActivity {
 
 //        PembayaranActivity.field_total_bayar.setText(allTypeData.format.format(jumlah));
 
-        allTypeData.totalAkhirPalingakhir = kirimValues.total;
-        hasil_hasil = a - Integer.parseInt(jumlah);
-        System.out.println(jumlah);
-        System.out.println(hasil_hasil);
-        System.out.println(PembayaranActivity.a);
-        if (allTypeData.jenisProduk == 1){
-            if (Integer.valueOf(jumlah) > PembayaranActivity.a){
-                kembalian = Math.abs(hasil_hasil);
-                System.out.println(kembalian);
-                PembayaranActivity.keteranganBayar.setText("Kembalian :");
-                PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#00F30C"));
-                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(kembalian));
-            } else if (Integer.valueOf(jumlah) <= PembayaranActivity.a) {
-                PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
-                PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
-                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
-            } else if (hasil_hasil == 0){
-                PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
-                PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
-                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+        if (voucher != 0){
+            if (jenis_voucher.equals("nominal")){
+                allTypeData.totalAkhirPalingakhir = kirimValues.total;
+                hasil_hasil = Transaksi.total_harga_br - voucher - Integer.parseInt(jumlah);
+                System.out.println(jumlah);
+                System.out.println(hasil_hasil);
+                System.out.println(PembayaranActivity.a);
+                if (allTypeData.jenisProduk == 1){
+                    if (Integer.valueOf(jumlah) > hasil_hasil){
+                        kembalian = Math.abs(hasil_hasil);
+                        System.out.println(kembalian);
+                        PembayaranActivity.keteranganBayar.setText("Kembalian :");
+                        PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#00F30C"));
+                        PembayaranActivity.kurangBayar.setText(allTypeData.format.format(kembalian));
+                    } else if (Integer.valueOf(jumlah) <= Transaksi.total_harga_br) {
+                        PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                        PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                        PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+                    } else if (hasil_hasil == 0){
+                        PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                        PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                        PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+                    }
+                }else {
+                    PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Transaksi.total_harga_br));
+                }
+            } else if (jenis_voucher.equals("persen")) {
+                double bagi100 = (double) voucher / 100;
+                double kali100 = Transaksi.total_harga_br * bagi100;
+                double kurang_harga = Transaksi.total_harga_br - kali100;
+                allTypeData.totalAkhirPalingakhir = kirimValues.total;
+                hasil_hasil = Transaksi.total_harga_br - Double.valueOf(kurang_harga).intValue() - Integer.parseInt(jumlah);
+                System.out.println(jumlah);
+                System.out.println(hasil_hasil);
+                System.out.println(PembayaranActivity.a);
+                if (allTypeData.jenisProduk == 1){
+                    if (Integer.valueOf(jumlah) > hasil_hasil){
+                        kembalian = Math.abs(hasil_hasil);
+                        System.out.println(kembalian);
+                        PembayaranActivity.keteranganBayar.setText("Kembalian :");
+                        PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#00F30C"));
+                        PembayaranActivity.kurangBayar.setText(allTypeData.format.format(kembalian));
+                    } else if (Integer.valueOf(jumlah) <= Transaksi.total_harga_br) {
+                        PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                        PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                        PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+                    } else if (hasil_hasil == 0){
+                        PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                        PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                        PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+                    }
+                }else {
+                    PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Transaksi.total_harga_br));
+                }
             }
         }else {
-            PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(PembayaranActivity.a));
+            allTypeData.totalAkhirPalingakhir = kirimValues.total;
+            hasil_hasil = Transaksi.total_harga_br - Integer.parseInt(jumlah);
+            System.out.println(jumlah);
+            System.out.println(hasil_hasil);
+            System.out.println(PembayaranActivity.a);
+            if (allTypeData.jenisProduk == 1){
+                if (Integer.valueOf(jumlah) > hasil_hasil){
+                    kembalian = Math.abs(hasil_hasil);
+                    System.out.println(kembalian);
+                    PembayaranActivity.keteranganBayar.setText("Kembalian :");
+                    PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#00F30C"));
+                    PembayaranActivity.kurangBayar.setText(allTypeData.format.format(kembalian));
+                } else if (Integer.valueOf(jumlah) <= Transaksi.total_harga_br) {
+                    PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                    PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                    PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+                } else if (hasil_hasil == 0){
+                    PembayaranActivity.keteranganBayar.setText("Kurang Bayar : ");
+                    PembayaranActivity.kurangBayar.setTextColor(Color.parseColor("#FF0000"));
+                    PembayaranActivity.kurangBayar.setText(allTypeData.format.format(hasil_hasil));
+                }
+            }else {
+                PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Transaksi.total_harga_br));
+            }
         }
     }
 
@@ -446,12 +504,15 @@ public class PembayaranActivity extends AppCompatActivity {
                     if (obj.getString("jenis_voucher").equals("nominal")){
                         nominal_didapat.setText("Voucher : "+Env.formatRupiah(Integer.valueOf(obj.getString("nominal_voucher"))));
                         nominal_didapat.setTextColor(Color.parseColor("#FFB015"));
-                        voucher = obj.getString("nominal_voucher");
+                        jenis_voucher = obj.getString("jenis_voucher");
+                        voucher = obj.getInt("nominal_voucher");
                     }else if (obj.getString("jenis_voucher").equals("persen")){
                         nominal_didapat.setText("Voucher : "+obj.getString("nominal_voucher")+" %");
                         nominal_didapat.setTextColor(Color.parseColor("#FFB015"));
-                        voucher = obj.getString("nominal_voucher");
+                        jenis_voucher = obj.getString("jenis_voucher");
+                        voucher = obj.getInt("nominal_voucher");
                     }
+                    hitung_total();
                 } catch (Exception e){
                 }
 
@@ -643,7 +704,7 @@ public class PembayaranActivity extends AppCompatActivity {
                 try {
                     jsonObject = Transaksi.list_produk_dipesan.getJSONObject(a);
 
-                    if (jsonObject.getString("jenis_diskon").equals("tidak_dison")){
+                    if (jsonObject.getString("jenis_diskon").equals("tidak_diskon")){
 
                         dataModels.add(new ModelB(jsonObject.getString("nama_barang"), jsonObject.getString("qty_barang"), String.valueOf(jsonObject.getInt("harga_barang"))));
 
@@ -704,6 +765,13 @@ public class PembayaranActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
 
+            }
+
+            if (Transaksi.total_harga_br != 0){
+                hitung_total();
+            }else {
+                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(0));
+                PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(0));
             }
         }
 
@@ -857,6 +925,38 @@ public class PembayaranActivity extends AppCompatActivity {
                 startActivityForResult(inten, 1);
             }
         });
+    }
+
+    private void hitung_total() {
+        if (voucher != 0){
+            if (jenis_voucher.equals("nominal")){
+                int total_bayar_setelah_voucher = Transaksi.total_harga_br - voucher;
+                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(total_bayar_setelah_voucher));
+                PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(total_bayar_setelah_voucher));
+                update();
+            } else if (jenis_voucher.equals("persen")) {
+                double bagi100 = (double) voucher / 100;
+                double kali100 = Transaksi.total_harga_br * bagi100;
+                double kurang_harga = Transaksi.total_harga_br - kali100;
+                PembayaranActivity.kurangBayar.setText(allTypeData.format.format(Double.valueOf(kurang_harga).intValue()));
+                PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Double.valueOf(kurang_harga).intValue()));
+                update();
+            }
+        }else {
+            PembayaranActivity.kurangBayar.setText(allTypeData.format.format(Transaksi.total_harga_br - 0));
+            PembayaranActivity.totalAkhirPalingAkhir.setText(allTypeData.format.format(Transaksi.total_harga_br));
+        }
+    }
+
+    void update() {
+        synchronized (kurangBayar) {
+            PembayaranActivity.kurangBayar.notify();
+        }
+
+        synchronized (totalAkhirPalingAkhir) {
+            PembayaranActivity.totalAkhirPalingAkhir.notify();
+        }
+
     }
 }
 
