@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.content.Context;
@@ -47,10 +48,11 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
     LinearLayout layout_no_value;
     LinearLayout loading;
     FrameLayout btn_scan;
+    SwipeRefreshLayout refreshLayout;
 
     private void loadDetailTransaksi(String keyword){
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.100.63:8000/api/detail_transaksi/" + URLEncoder.encode(keyword) + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "detail_transaksi/" + URLEncoder.encode(keyword) + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 loading.setVisibility(View.GONE);
@@ -63,8 +65,21 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
                         JSONObject mapping_detail;
                         for (int i = 0; i < detail.length(); i++){
                             mapping_detail = detail.getJSONObject(i);
+
                             JSONObject barang = new JSONObject(mapping_detail.getString("barang"));
-                            listData.add(new DetailBarangTransaksi(barang.getString("nama_br"), mapping_detail.getString("kode_br"), Integer.valueOf(mapping_detail.getString("QTY")),Integer.valueOf(barang.getString("harga"))));
+                            int hitungDiskon = Integer.valueOf(barang.getString("harga"));
+                            if(mapping_detail.getString("detail_diskon_transaksi").equals("null")){
+                                hitungDiskon = Integer.valueOf(barang.getString("harga"));
+                            } else {
+                                JSONObject mapdiskon = new JSONObject(mapping_detail.getString("detail_diskon_transaksi"));
+                                if(mapdiskon.getString("kategori").equals("nominal")){
+                                    hitungDiskon -= Integer.valueOf(mapdiskon.getString("nominal"));
+                                } else if(mapdiskon.getString("kategori").equals("persen")){
+                                    hitungDiskon = hitungDiskon - (hitungDiskon / Integer.valueOf(mapdiskon.getString("nominal")));
+                                }
+                            }
+
+                            listData.add(new DetailBarangTransaksi(barang.getString("nama_br"), mapping_detail.getString("kode_br"), Integer.valueOf(mapping_detail.getString("QTY")), hitungDiskon, mapping_detail.getString("kode_tr")));
                         }
 
                         DetailBarangAdapter adapt = new DetailBarangAdapter(listData, ActivityRetur.this);
@@ -102,6 +117,7 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
         field_search = findViewById(R.id.field_search);
         loading = findViewById(R.id.loading);
         btn_scan = findViewById(R.id.btn_scan);
+        refreshLayout = findViewById(R.id.refreshLayout);
         btn_scan.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(ActivityRetur.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(ActivityRetur.this, android.Manifest.permission.CAMERA)) {
@@ -138,6 +154,16 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
                     recView.setVisibility(View.GONE);
                     loading.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                loadDetailTransaksi(field_search.getText().toString());
+
+                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -225,14 +251,23 @@ class DetailBarangAdapter extends RecyclerView.Adapter<DetailBarangAdapter.Recyc
 }
 
 class DetailBarangTransaksi {
-    String nama, kode_br;
+    String nama, kode_br, kode_tr;
     int qty, harga;
 
-    public DetailBarangTransaksi(String nama, String kode_br, int qty, int harga) {
+    public DetailBarangTransaksi(String nama, String kode_br, int qty, int harga, String kode_tr) {
         this.nama = nama;
         this.kode_br = kode_br;
         this.qty = qty;
         this.harga = harga;
+        this.kode_tr = kode_tr;
+    }
+
+    public String getKode_tr() {
+        return kode_tr;
+    }
+
+    public void setKode_tr(String kode_tr) {
+        this.kode_tr = kode_tr;
     }
 
     public int getHarga() {
@@ -272,6 +307,7 @@ class DetailBarangTransaksi {
         try {
             obj.put("nama", getNama());
             obj.put("kode", getKode_br());
+            obj.put("kode_tr", getKode_tr());
             obj.put("qty", String.valueOf(getQty()));
             obj.put("harga", String.valueOf(getHarga()));
 

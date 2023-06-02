@@ -27,12 +27,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class Login extends AppCompatActivity {
     static EditText txtUsername, txtPassword;
     static ImageView showHidePassword;
     static TextView buttonLogin;
     static String nama;
     static JSONObject data;
+    boolean isSHowPassword = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +47,18 @@ public class Login extends AppCompatActivity {
         showHidePassword = findViewById(R.id.preview_password);
         buttonLogin = findViewById(R.id.buttonLogin);
 
-        showHidePassword.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Show password
-                        txtPassword.setTransformationMethod(null);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        // Hide password
-                        txtPassword.setTransformationMethod(new PasswordTransformationMethod());
-                        break;
-                }
-                return false;
+        showHidePassword.setOnClickListener(view -> {
+            if(isSHowPassword){
+                txtPassword.setTransformationMethod(new PasswordTransformationMethod());
+                showHidePassword.setImageResource(R.drawable.eye_show);
+            } else {
+                txtPassword.setTransformationMethod(null);
+                showHidePassword.setImageResource(R.drawable.eye_no_show);
             }
+
+            isSHowPassword = !isSHowPassword;
         });
+
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,23 +68,39 @@ public class Login extends AppCompatActivity {
                 String Message = "Hai "+Email+" Selamat datang Kembali :)";
 //            System.out.println(Nama);
 
-                String url = "http://192.168.0.111:8000/api/login";
+                String url = Env.BASE_URL + "login";
                 StringRequest strinRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Toast.makeText(Login.this, response, Toast.LENGTH_SHORT).show();
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
                                     if(jsonObject.getString("status").equals("success")){
                                         JSONObject data = new JSONObject(jsonObject.getString("data"));
-                                        ToHome(data.getString("nama"));
-                                        Intent intent = new Intent(Login.this, Home.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
+                                        SweetAlertDialog al = new SweetAlertDialog(Login.this, SweetAlertDialog.SUCCESS_TYPE);
+                                                al.setTitleText("Berhasil");
+                                                al.setContentText(jsonObject.getString("message"));
+                                                al.setCanceledOnTouchOutside(false);
+                                                al.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                        try {
+                                                            ToHome(data.getString("nama"));
+                                                        } catch (JSONException e) {
+                                                        }
+                                                        Intent intent = new Intent(Login.this, Home.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(intent);
+                                                    }
+                                                })
+                                                .show();
+
 
                                     } else{
-                                        Toast.makeText(Login.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                        new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE)
+                                                .setTitleText("Informasi")
+                                                .setContentText(jsonObject.getString("message"))
+                                                .show();
                                     }
 //                                    System.out.println(jsonObject);
 //                                    String status = jsonObject.getString("status");

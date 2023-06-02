@@ -8,7 +8,6 @@ public class Preferences {
 
     /** Pendeklarasian key-data berupa String, untuk sebagai wadah penyimpanan data.
      * Jadi setiap data mempunyai key yang berbeda satu sama lain */
-    static final String KEY_USER_TEREGISTER ="user", KEY_PASS_TEREGISTER ="pass";
     static final String KEY_USERNAME_SEDANG_LOGIN = "Username_logged_in";
     static final String KEY_STATUS_SEDANG_LOGIN = "Status_logged_in";
 
@@ -17,29 +16,6 @@ public class Preferences {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    /** Deklarasi Edit Preferences dan mengubah data
-     *  yang memiliki key isi KEY_USER_TEREGISTER dengan parameter username */
-    public static void setRegisteredUser(Context context, String username){
-        SharedPreferences.Editor editor = getSharedPreference(context).edit();
-        editor.putString(KEY_USER_TEREGISTER, username);
-        editor.apply();
-    }
-    /** Mengembalikan nilai dari key KEY_USER_TEREGISTER berupa String */
-    public static String getRegisteredUser(Context context){
-        return getSharedPreference(context).getString(KEY_USER_TEREGISTER,"");
-    }
-
-    /** Deklarasi Edit Preferences dan mengubah data
-     *  yang memiliki key KEY_PASS_TEREGISTER dengan parameter password */
-    public static void setRegisteredPass(Context context, String password){
-        SharedPreferences.Editor editor = getSharedPreference(context).edit();
-        editor.putString(KEY_PASS_TEREGISTER, password);
-        editor.apply();
-    }
-    /** Mengembalikan nilai dari key KEY_PASS_TEREGISTER berupa String */
-    public static String getRegisteredPass(Context context){
-        return getSharedPreference(context).getString(KEY_PASS_TEREGISTER,"");
-    }
 
     /** Deklarasi Edit Preferences dan mengubah data
      *  yang memiliki key KEY_USERNAME_SEDANG_LOGIN dengan parameter username */
@@ -71,6 +47,22 @@ public class Preferences {
         SharedPreferences.Editor editor = getSharedPreference(context).edit();
         editor.remove(KEY_USERNAME_SEDANG_LOGIN);
         editor.remove(KEY_STATUS_SEDANG_LOGIN);
+        editor.apply();
+    }
+
+    public static void setCustomKey(Context context, String key, String value){
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+    /** Mengembalikan nilai dari key KEY_USERNAME_SEDANG_LOGIN berupa String */
+    public static String getCustomKey(Context context, String key){
+        return getSharedPreference(context).getString(key,"");
+    }
+
+    public static void deleteCustomKey (Context context, String key){
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.remove(key);
         editor.apply();
     }
 }

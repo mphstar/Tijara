@@ -1,12 +1,19 @@
 package com.tijara;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,6 +33,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,37 +47,53 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
     RecyclerView listbarang;
     ArrayList<ModelBarang> datalist;
     EditText field_kode_product;
+    ImageView scan_produk;
+    LinearLayout image_no_value, loading;
+    SwipeRefreshLayout refreshLayout;
+    String url = Env.BASE_URL.replace("/api/", "");
 
     private void loadProduct(){
+
+
+        listbarang.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.100.63:8000/api/product/jual?apikey=" + Env.API_KEY, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/jual?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 datalist = new ArrayList<>();
                 try {
                     JSONArray list_barang = new JSONArray(response);
                     JSONObject mapping_list;
-                    for (int i = 0; i < list_barang.length(); i++){
-                        mapping_list = list_barang.getJSONObject(i);
-                        ModelBarang barang = new ModelBarang(mapping_list.getString("nama_br"), mapping_list.getString("gambar"), mapping_list.getString("kode_br"), Integer.valueOf(mapping_list.getString("harga")));
-                        Toast.makeText(PilihBarangActivity.this, mapping_list.getString("diskon"), Toast.LENGTH_SHORT).show();
-                        Log.d("tes error", mapping_list.getString("diskon"));
-                        try {
-                            JSONObject mapping_diskon = new JSONObject(mapping_list.getString("diskon"));
-                            if(mapping_diskon.getString("kategori").equals("nominal") || mapping_diskon.getString("kategori").equals("persen")){
-                                barang.setDiskon_nomina(new DiskonNominal(mapping_diskon.getString("kategori"), Integer.valueOf(mapping_diskon.getString("nominal"))));
+                    if(list_barang.length() == 0){
+                        loading.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.GONE);
+                        image_no_value.setVisibility(View.VISIBLE);
+                    } else {
+
+                        for (int i = 0; i < list_barang.length(); i++){
+                            mapping_list = list_barang.getJSONObject(i);
+                            ModelBarang barang = new ModelBarang(mapping_list.getString("nama_br"), url + "/uploads/products/" + mapping_list.getString("gambar"), mapping_list.getString("kode_br"), Integer.valueOf(mapping_list.getString("harga")));
+//                            Toast.makeText(PilihBarangActivity.this, mapping_list.getString("diskon"), Toast.LENGTH_SHORT).show();
+                            Log.d("tes error", mapping_list.getString("diskon"));
+                            try {
+                                JSONObject mapping_diskon = new JSONObject(mapping_list.getString("diskon"));
+                                if(mapping_diskon.getString("kategori").equals("nominal") || mapping_diskon.getString("kategori").equals("persen")){
+                                    barang.setDiskon_nomina(new DiskonNominal(mapping_diskon.getString("kategori"), Integer.valueOf(mapping_diskon.getString("nominal"))));
 //                                Toast.makeText(PilihBarangActivity.this, mapping_list.getString("nominal"), Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (Exception e){
+
                             }
-
-                        } catch (Exception e){
-
+                            datalist.add(barang);
                         }
-                        datalist.add(barang);
+                        BarangAdapter adapt = new BarangAdapter(datalist, PilihBarangActivity.this);
+                        listbarang.setLayoutManager(new LinearLayoutManager(PilihBarangActivity.this));
+                        listbarang.setAdapter(adapt);
+                        loading.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.VISIBLE);
                     }
-
-                    BarangAdapter adapt = new BarangAdapter(datalist, PilihBarangActivity.this);
-                    listbarang.setLayoutManager(new LinearLayoutManager(PilihBarangActivity.this));
-                    listbarang.setAdapter(adapt);
 
                     queue.getCache().clear();
                 } catch (Exception e){
@@ -87,37 +112,46 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
 
     private void loadProductSearch(String keyword){
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.100.63:8000/api/product/jual/" + keyword + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/jual/" + keyword + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 datalist = new ArrayList<>();
                 try {
                     JSONArray list_barang = new JSONArray(response);
                     JSONObject mapping_list;
-                    for (int i = 0; i < list_barang.length(); i++){
-                        mapping_list = list_barang.getJSONObject(i);
-                        ModelBarang barang = new ModelBarang(mapping_list.getString("nama_br"), mapping_list.getString("gambar"), mapping_list.getString("kode_br"), Integer.valueOf(mapping_list.getString("harga")));
-                        Toast.makeText(PilihBarangActivity.this, mapping_list.getString("diskon"), Toast.LENGTH_SHORT).show();
-                        Log.d("tes error", mapping_list.getString("diskon"));
-                        try {
-                            JSONObject mapping_diskon = new JSONObject(mapping_list.getString("diskon"));
-                            if(mapping_diskon.getString("kategori").equals("nominal") || mapping_diskon.getString("kategori").equals("persen")){
-                                barang.setDiskon_nomina(new DiskonNominal(mapping_diskon.getString("kategori"), Integer.valueOf(mapping_diskon.getString("nominal"))));
+                    if(list_barang.length() == 0){
+                        loading.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.GONE);
+                        image_no_value.setVisibility(View.VISIBLE);
+                    } else {
+                        for (int i = 0; i < list_barang.length(); i++){
+                            mapping_list = list_barang.getJSONObject(i);
+                            ModelBarang barang = new ModelBarang(mapping_list.getString("nama_br"), url + "/uploads/products/" + mapping_list.getString("gambar"), mapping_list.getString("kode_br"), Integer.valueOf(mapping_list.getString("harga")));
+//                            Toast.makeText(PilihBarangActivity.this, mapping_list.getString("diskon"), Toast.LENGTH_SHORT).show();
+                            Log.d("tes error", mapping_list.getString("diskon"));
+                            try {
+                                JSONObject mapping_diskon = new JSONObject(mapping_list.getString("diskon"));
+                                if(mapping_diskon.getString("kategori").equals("nominal") || mapping_diskon.getString("kategori").equals("persen")){
+                                    barang.setDiskon_nomina(new DiskonNominal(mapping_diskon.getString("kategori"), Integer.valueOf(mapping_diskon.getString("nominal"))));
 //                                Toast.makeText(PilihBarangActivity.this, mapping_list.getString("nominal"), Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (Exception e){
+
                             }
-
-                        } catch (Exception e){
-                            Toast.makeText(PilihBarangActivity.this, "Error JSON " + e.toString(), Toast.LENGTH_SHORT).show();
+                            datalist.add(barang);
                         }
-                        datalist.add(barang);
-                    }
 
-                    BarangAdapter adapt = new BarangAdapter(datalist, PilihBarangActivity.this);
-                    listbarang.setLayoutManager(new LinearLayoutManager(PilihBarangActivity.this));
-                    listbarang.setAdapter(adapt);
+                        BarangAdapter adapt = new BarangAdapter(datalist, PilihBarangActivity.this);
+                        listbarang.setLayoutManager(new LinearLayoutManager(PilihBarangActivity.this));
+                        listbarang.setAdapter(adapt);
+                        loading.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.VISIBLE);
+                    }
 
                     queue.getCache().clear();
                 } catch (Exception e){
+
                     Toast.makeText(PilihBarangActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -131,23 +165,62 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
         queue.add(request);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pilih_barang);
+        refreshLayout = findViewById(R.id.refreshLayout);
         listbarang = findViewById(R.id.list_barang);
         field_kode_product = findViewById(R.id.field_kode_product);
+        scan_produk = findViewById(R.id.scan_produk);
+        image_no_value = findViewById(R.id.image_no_value);
+        loading = findViewById(R.id.loading);
         field_kode_product.addTextChangedListener(PilihBarangActivity.this);
         loadProduct();
+        scan_produk.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(PilihBarangActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(PilihBarangActivity.this, android.Manifest.permission.CAMERA)) {
+                    scanBarcode();
+                } else {
+                    ActivityCompat.requestPermissions(PilihBarangActivity.this, new String[]{Manifest.permission.CAMERA}, 0);
+                }
+            } else {
+                scanBarcode();
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(field_kode_product.getText().toString().equals("")){
+                    loadProduct();
+                } else {
+                    loadProductSearch(field_kode_product.getText().toString());
+                }
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
     public void onClick(View view, int position) {
         Intent inten = new Intent();
         JSONObject data = new JSONObject();
+        int harga = datalist.get(position).getHarga_asli();
         try {
+            if(datalist.get(position).getDiskon_nomina() != null){
+                if(datalist.get(position).getDiskon_nomina().jenis_diskon.equals("nominal")){
+                    harga -= datalist.get(position).getDiskon_nomina().nominal;
+                } else if(datalist.get(position).getDiskon_nomina().jenis_diskon.equals("persen")){
+
+                    harga -= (harga / datalist.get(position).getDiskon_nomina().nominal);
+                }
+            }
             data.put("nama_br", datalist.get(position).getNama());
             data.put("kode_br", datalist.get(position).getKode_br());
+            data.put("harga", harga);
         } catch (Exception e){
             Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
         }
@@ -169,7 +242,44 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
 
     @Override
     public void afterTextChanged(Editable editable) {
-        loadProductSearch(editable.toString());
+        loading.setVisibility(View.VISIBLE);
+        listbarang.setVisibility(View.GONE);
+        image_no_value.setVisibility(View.GONE);
+        if(editable.toString().equals("")){
+            loading.setVisibility(View.GONE);
+            listbarang.setVisibility(View.GONE);
+            image_no_value.setVisibility(View.GONE);
+            loadProduct();
+        } else {
+            loadProductSearch(editable.toString());
+        }
+    }
+
+    private void scanBarcode() {
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Scan kode barang");
+        options.setBeepEnabled(true);
+        options.setCaptureActivity(ScanBarcodeActivity.class);
+        options.setOrientationLocked(true);
+        barLauncher.launch(options);
+    }
+
+    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
+        if (result.getContents() != null) {
+            field_kode_product.setText(result.getContents());
+        }
+    });
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                scanBarcode();
+            } else {
+                Toast.makeText(this, "Gagal Memuat Kamera!!...", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
 
@@ -195,11 +305,21 @@ class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.RecyclerViewViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
         holder.nama.setText(dataList.get(position).getNama());
-        holder.harga.setText(Env.formatRupiah(dataList.get(position).getHarga_asli()));
+        if(dataList.get(position).getDiskon_nomina() != null){
+            if(dataList.get(position).getDiskon_nomina().jenis_diskon.equals("persen")){
+                holder.harga.setText(Env.formatRupiah(dataList.get(position).harga_asli - (dataList.get(position).getHarga_asli() / dataList.get(position).getDiskon_nomina().nominal)));
+            } else {
+                holder.harga.setText(Env.formatRupiah(dataList.get(position).harga_asli - dataList.get(position).getDiskon_nomina().nominal));
+            }
+        } else {
+            holder.harga.setText(Env.formatRupiah(dataList.get(position).harga_asli));
+        }
+
         holder.icon_sampah.setVisibility(View.GONE);
         Glide.with(context).load(dataList.get(position).getGambar()).centerCrop().placeholder(R.drawable.tshirt).into(holder.img_tambah_barang);
         if(dataList.get(position).getDiskon_nomina() != null){
-            holder.potongan_harga.setText(String.valueOf(dataList.get(position).getDiskon_nomina().nominal));
+            holder.potongan_harga.setText(Env.formatRupiah(dataList.get(position).getHarga_asli()));
+            holder.potongan_harga.setPaintFlags(holder.potongan_harga.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             holder.potongan_harga.setText("");
         }

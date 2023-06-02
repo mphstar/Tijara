@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingHorizontal="20dp">
 
-    android:paddingHorizontal="25dp"
-    android:layout_marginVertical="@dimen/_3sdp"
-    android:paddingVertical="@dimen/_5sdp">
-
-    <LinearLayout
-        android:layout_marginVertical="@dimen/_25sdp"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        app:contentPadding="5dp"
+        app:contentPaddingTop="10dp"
+        app:contentPaddingBottom="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#ffffffff"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="6dp"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -168,7 +170,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
 
