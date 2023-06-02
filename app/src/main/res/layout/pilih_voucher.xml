@@ -14,6 +14,7 @@ tools:context=".PilihVoucherActivity">
     <LinearLayout
         app:layout_flexBasisPercent="11%"
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="match_parent">
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
@@ -65,8 +66,7 @@ tools:context=".PilihVoucherActivity">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_flexBasisPercent="81%"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -78,18 +78,14 @@ tools:context=".PilihVoucherActivity">
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/voucher_percentase"
+                android:id="@+id/voucher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:ignore="MissingConstraints" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/voucher_nominal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 tools:ignore="MissingConstraints" />
         </LinearLayout>
         <ImageView
             android:id="@+id/image_no_value"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

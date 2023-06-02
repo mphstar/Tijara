@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:flexDirection="column"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityDetailRetur">
 
     <LinearLayout
-        app:layout_flexBasisPercent="11%"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_alignParentTop="true"
+        android:id="@+id/header"
+        android:paddingVertical="20dp"
+        android:layout_height="wrap_content">
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,21 +29,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textStyle="bold"
+                android:fontFamily="@font/poppins_semibold"
                 android:text="Rincian Produk"
                 android:textSize="20dp"/>
             <ImageView
                 app:layout_alignSelf="center"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content">
             </ImageView>
         </com.google.android.flexbox.FlexboxLayout>
 
     </LinearLayout>
     <ScrollView
-        app:layout_flexBasisPercent="77%"
+        android:layout_below="@+id/header"
+        android:layout_above="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -90,20 +92,31 @@
                     android:layout_height="wrap_content"
                     android:text="Jumlah Produk Return"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <EditText
                     android:layout_gravity="center_vertical"
                     android:id="@+id/field_jumlah_barang_retur"
                     android:paddingVertical="15dp"
-                    android:paddingStart="10dp"
+                    android:paddingStart="20dp"
                     android:maxLength="3"
+                    android:text="1"
+                    android:singleLine="true"
+                    android:fontFamily="@font/poppins_regular"
                     android:inputType="number"
                     android:background="@drawable/shape3"
                     android:textSize="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </EditText>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="12sp"
+                    android:id="@+id/txt_info_jumlah"
+                    android:gravity="right"
+                    android:text="Maksimal input jumlah produk 4" />
             </com.google.android.flexbox.FlexboxLayout>
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_marginVertical="10dp"
@@ -117,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:text="Jenis Pengembalian"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <TextView
                     android:layout_gravity="center_vertical"
@@ -125,56 +138,67 @@
                     android:padding="15dp"
                     android:id="@+id/field_jenis_kembalian"
                     android:text="Tunai"
+                    android:fontFamily="@font/poppins_regular"
                     android:background="@drawable/shape3"
                     android:textSize="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </TextView>
             </com.google.android.flexbox.FlexboxLayout>
-            <TextView
-                android:layout_marginBottom="7dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="5dp"
-                android:text="Produk"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:orientation="horizontal">
-
+                android:id="@+id/layout_pilih_produk"
+                android:visibility="gone"
+                android:orientation="vertical">
                 <TextView
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/field_produk"
-                    android:paddingVertical="13dp"
-                    android:paddingStart="10dp"
-                    android:inputType="number"
-                    android:singleLine="true"
-                    android:text=""
-                    android:background="@drawable/shape3"
-                    android:textSize="15dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.9"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_marginVertical="10dp"
-                    android:gravity="center"
-                    android:paddingVertical="13dp"
-                    android:paddingHorizontal="15dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginBottom="7dp"
                     android:layout_width="wrap_content"
-                    android:id="@+id/btn_pilih_produk"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape"
-                    android:textStyle="bold"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Produk"
                     android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:text="Pilih Produk"/>
+                    android:fontFamily="@font/poppins_semibold"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/field_produk"
+                        android:paddingVertical="13dp"
+                        android:paddingStart="10dp"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:text=""
+                        android:fontFamily="@font/poppins_regular"
+                        android:background="@drawable/shape3"
+                        android:textSize="15dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.9"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_marginVertical="10dp"
+                        android:gravity="center"
+                        android:paddingVertical="13dp"
+                        android:paddingHorizontal="15dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/btn_pilih_produk"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:text="Pilih Produk"/>
+                </LinearLayout>
             </LinearLayout>
+
 
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_marginVertical="10dp"
@@ -190,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:text="Bayar Kurang"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <EditText
                     android:layout_gravity="center_vertical"
@@ -198,11 +222,24 @@
                     android:paddingVertical="15dp"
                     android:paddingStart="10dp"
                     android:singleLine="true"
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="number"
                     android:background="@drawable/shape3"
                     android:textSize="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </EditText>
+
+                <TextView
+                    android:layout_marginBottom="7dp"
+                    android:layout_width="match_parent"
+                    android:gravity="right"
+                    android:id="@+id/txt_info_kurang_bayar"
+                    android:textColor="#6B0000"
+                    android:layout_height="wrap_content"
+                    android:text="Bayar Kurang"
+                    android:fontFamily="@font/poppins_regular" />
+
             </com.google.android.flexbox.FlexboxLayout>
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_marginVertical="10dp"
@@ -214,23 +251,24 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_marginBottom="7dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Kembalian Tunai"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:fontFamily="@font/poppins_semibold"/>
 
-                <EditText
+                <TextView
                     android:layout_gravity="center_vertical"
                     android:id="@+id/field_kembalian_tunai"
                     android:paddingVertical="15dp"
                     android:paddingStart="10dp"
                     android:singleLine="true"
                     android:background="@drawable/shape3"
+                    android:fontFamily="@font/poppins_regular"
                     android:textSize="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                </EditText>
+                </TextView>
             </com.google.android.flexbox.FlexboxLayout>
 
             <com.google.android.flexbox.FlexboxLayout
@@ -247,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:text="Bayar Tunai"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <EditText
                     android:layout_gravity="center_vertical"
@@ -255,6 +293,8 @@
                     android:paddingVertical="15dp"
                     android:paddingStart="10dp"
                     android:singleLine="true"
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="number"
                     android:background="@drawable/shape3"
                     android:textSize="15dp"
                     android:layout_width="match_parent"
@@ -265,12 +305,15 @@
         </LinearLayout>
     </ScrollView>
     <LinearLayout
-        app:layout_flexBasisPercent="12%"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:paddingVertical="20dp"
+        android:id="@+id/footer"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_gravity="center"
             android:layout_marginHorizontal="30dp"
+            android:id="@+id/btn_submit"
             android:orientation="horizontal"
             android:background="@drawable/shape"
             android:layout_width="wrap_content"
@@ -288,11 +331,11 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:fontFamily="@font/poppins_semibold"
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:text="Lanjutkan"/>
         </LinearLayout>
     </LinearLayout>
 
-</com.google.android.flexbox.FlexboxLayout>
+</RelativeLayout>

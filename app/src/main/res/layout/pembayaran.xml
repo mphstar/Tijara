@@ -7,50 +7,57 @@
     tools:context=".PembayaranActivity">
 
     <LinearLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:paddingVertical="20dp"
+        android:layout_height="wrap_content">
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:flexDirection="row"
+            app:justifyContent="space_between"
+            android:paddingHorizontal="@dimen/_25sdp">
+            <ImageView
+                android:id="@+id/back_to_view_transaksi"
+                app:layout_alignSelf="center"
+                android:padding="5dp"
+                android:src="@drawable/kembali"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_alignSelf="center"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Scan Untuk Mencari"
+                android:textSize="@dimen/_18ssp"/>
+            <ImageView
+                app:layout_alignSelf="center"
+                android:layout_width="20dp"
+                android:layout_height="20dp">
+            </ImageView>
+        </com.google.android.flexbox.FlexboxLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:layout_above="@+id/footer"
         android:orientation="vertical">
         <com.google.android.flexbox.FlexboxLayout
             app:flexDirection="column"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
-                app:layout_flexBasisPercent="11%"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.google.android.flexbox.FlexboxLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:flexDirection="row"
-                    app:justifyContent="space_between"
-                    android:paddingHorizontal="@dimen/_25sdp">
-                    <ImageView
-                        android:id="@+id/back_to_view_transaksi"
-                        app:layout_alignSelf="center"
-                        android:src="@drawable/kembali"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        app:layout_alignSelf="center"
-                        android:fontFamily="@font/poppins_medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:text="Scan Untuk Mencari"
-                        android:textSize="@dimen/_18ssp"/>
-                    <ImageView
-                        app:layout_alignSelf="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    </ImageView>
-                </com.google.android.flexbox.FlexboxLayout>
-            </LinearLayout>
 
             <ScrollView
-                app:layout_flexBasisPercent="76%"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="match_parent">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +71,7 @@
                         android:orientation="vertical"
                         android:background="@drawable/shape4">
                         <TextView
-                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:layout_marginHorizontal="20dp"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -81,6 +88,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_marginTop="@dimen/_15sdp"
                         android:layout_marginHorizontal="@dimen/_25sdp"
+                        android:id="@+id/button_voucher"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_35sdp">
 
@@ -96,11 +104,11 @@
                             tools:ignore="MissingConstraints">
 
                             <TextView
-                                android:id="@+id/nominal_didapat"
                                 app:layout_alignSelf="center"
                                 android:fontFamily="@font/poppins_medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:id="@+id/txt_voucher"
                                 android:textSize="@dimen/_12ssp"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
@@ -122,92 +130,110 @@
                             tools:ignore="MissingConstraints" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <com.google.android.flexbox.FlexboxLayout
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginHorizontal="@dimen/_25sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_35sdp">
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_marginHorizontal="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_15sdp">
 
                         <FrameLayout
-                            android:layout_marginEnd="@dimen/_5sdp"
-                            app:layout_flexBasisPercent="50%"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_35sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            app:layout_flexBasisPercent="50%"
                             tools:ignore="MissingConstraints">
 
                             <ImageView
                                 android:id="@+id/buttonTunai"
-                                android:backgroundTint="@color/colorPrimary"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:background="@drawable/shape2_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
+                                android:backgroundTint="@color/black" />
+
                             <com.google.android.flexbox.FlexboxLayout
-                                app:justifyContent="space_evenly"
-                                app:alignItems="center"
-                                android:layout_gravity="center"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="@dimen/_25sdp"
+                                app:alignItems="center"
+                                app:justifyContent="space_between">
+
                                 <ImageView
                                     android:id="@+id/iconTunai"
-                                    android:layout_gravity="center|start"
-                                    android:background="@drawable/tunai"
-                                    android:backgroundTint="@color/black"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center|start"
+                                    android:background="@drawable/tunai" />
+
                                 <TextView
                                     android:id="@+id/teksTunai"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="TUNAI"
                                     android:fontFamily="@font/poppins_medium"
+                                    android:text="TUNAI"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/_13ssp"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"/>
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center|start" />
                             </com.google.android.flexbox.FlexboxLayout>
                         </FrameLayout>
+
                         <FrameLayout
-                            android:layout_marginStart="@dimen/_5sdp"
-                            app:layout_flexBasisPercent="50%"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_35sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            app:layout_flexBasisPercent="50%"
                             tools:ignore="MissingConstraints">
 
                             <ImageView
                                 android:id="@+id/buttonQris"
-                                android:background="@drawable/shape2_1"
-                                android:backgroundTint="@color/black"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
+                                android:layout_height="match_parent"
+                                android:background="@drawable/shape2_1" />
+
                             <com.google.android.flexbox.FlexboxLayout
-                                app:justifyContent="space_evenly"
-                                app:alignItems="center"
-                                android:layout_gravity="center"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="@dimen/_25sdp"
+                                app:alignItems="center"
+                                app:justifyContent="space_between">
+
                                 <ImageView
                                     android:id="@+id/iconQris"
-                                    android:layout_gravity="center|start"
-                                    android:background="@drawable/qris"
-                                    android:backgroundTint="@color/white"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center|start"
+                                    android:background="@drawable/qris" />
+
                                 <TextView
                                     android:id="@+id/teksQris"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
                                     android:text="QRIS"
+                                    android:textColor="@color/black"
                                     android:textSize="@dimen/_13ssp"
-                                    android:textColor="@color/white"
-                                    android:textStyle="bold"/>
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center|start" />
                             </com.google.android.flexbox.FlexboxLayout>
                         </FrameLayout>
 
                     </com.google.android.flexbox.FlexboxLayout>
+
                     <EditText
                         android:inputType="numberDecimal"
                         android:id="@+id/field_total_bayar"
@@ -246,107 +272,113 @@
                             android:textStyle="bold"
                             android:fontFamily="@font/poppins_medium"
                             android:textColor="#FF0000"
-                            android:textSize="@dimen/_13ssp"/>
+                            android:textSize="@dimen/_10ssp"/>
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
-            <com.google.android.flexbox.FlexboxLayout
-                android:layout_marginHorizontal="@dimen/_25sdp"
-                app:layout_flexBasisPercent="14%"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
 
-                <com.google.android.flexbox.FlexboxLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:justifyContent="space_between"
-                    app:flexDirection="row">
-
-                    <LinearLayout
-                        app:layout_flexBasisPercent="60%"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="@dimen/_5sdp"
-                        android:orientation="vertical">
-                        <com.google.android.flexbox.FlexboxLayout
-                            android:layout_marginVertical="@dimen/_5sdp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:flexDirection="column"
-                            app:justifyContent="space_between">
-                            <TextView
-                                app:layout_flexBasisPercent="45%"
-                                android:gravity="bottom"
-                                android:text="Total Tagihan"
-                                android:textStyle="bold"
-                                android:fontFamily="@font/poppins_medium"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_10ssp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                            <TextView
-                                android:id="@+id/total_akhir_palihAkhir"
-                                app:layout_flexBasisPercent="55%"
-                                android:gravity="top"
-                                android:text="Kode Barang"
-                                android:fontFamily="@font/poppins_medium"
-                                android:textStyle="bold"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_17ssp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                        </com.google.android.flexbox.FlexboxLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        app:layout_flexBasisPercent="40%"
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-                        <com.google.android.flexbox.FlexboxLayout
-                            android:id="@+id/pembayaran_paling_akhir"
-                            app:justifyContent="space_evenly"
-                            app:alignItems="center"
-                            android:layout_gravity="center"
-                            android:paddingVertical="@dimen/_7sdp"
-                            android:background="@drawable/shape2_1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/bayar"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bayar"
-                                android:fontFamily="@font/poppins_medium"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_12ssp"/>
-                        </com.google.android.flexbox.FlexboxLayout>
-                    </LinearLayout>
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-
-            </com.google.android.flexbox.FlexboxLayout>
         </com.google.android.flexbox.FlexboxLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/loadingPrint"
+<!--    <RelativeLayout-->
+<!--        android:visibility="gone"-->
+<!--        android:id="@+id/loadingPrint"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="#8B808080">-->
+<!--        <com.airbnb.lottie.LottieAnimationView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:lottie_autoPlay="true"-->
+<!--            app:lottie_loop="true"-->
+<!--            app:lottie_rawRes="@raw/no_values"-->
+<!--            />-->
+<!--    </RelativeLayout>-->
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginHorizontal="@dimen/_25sdp"
+        android:layout_alignParentBottom="true"
+        app:alignItems="center"
+        android:id="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#8B808080">
-        <com.airbnb.lottie.LottieAnimationView
+        android:layout_height="wrap_content">
+
+        <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_values"
-            />
-    </RelativeLayout>
+            app:justifyContent="space_between"
+            app:alignItems="center"
+            app:flexDirection="row">
+
+            <LinearLayout
+                app:layout_flexBasisPercent="60%"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:orientation="vertical">
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:flexDirection="column"
+                    app:justifyContent="space_between">
+                    <TextView
+                        app:layout_flexBasisPercent="45%"
+                        android:gravity="bottom"
+                        android:text="Total Tagihan"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/total_akhir"
+                        app:layout_flexBasisPercent="55%"
+                        android:gravity="top"
+                        android:text="Kode Barang"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_17ssp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.flexbox.FlexboxLayout>
+            </LinearLayout>
+            <LinearLayout
+                app:layout_flexBasisPercent="40%"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:elevation="4dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/btn_transaksi"
+                    android:layout_width="wrap_content"
+                    android:paddingHorizontal="20dp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:background="@drawable/shape2_1">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/bayar"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bayar"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
 
 
 </RelativeLayout>

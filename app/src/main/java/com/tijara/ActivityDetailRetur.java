@@ -2,31 +2,58 @@ package com.tijara;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.flexbox.FlexboxLayout;
+import com.tijara.keranjang.DataKeranjang;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class ActivityDetailRetur extends AppCompatActivity {
     String[] jenis_kembalian = {"Tunai", "Produk"};
     int selectedJenis = 0;
-    TextView field_jenis_kembalian, btn_pilih_produk, field_produk;
-    EditText field_jumlah_barang_retur;
+    TextView field_jenis_kembalian, btn_pilih_produk, field_produk, txt_info_jumlah, field_kembalian_tunai, txt_info_kurang_bayar;
+    EditText field_jumlah_barang_retur, field_bayar_kurang, field_bayar_tunai;
 
     FlexboxLayout layout_bayar_kurang, layout_kembalian_tunai, layout_bayar_tunai;
+    LinearLayout layout_pilih_produk, btn_submit;
     int qty;
+    JSONObject myData;
+    JSONObject productReturSelected;
+
+    String opsiReturProduk = "";
+    int hitungTunaiDariQty = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +66,19 @@ public class ActivityDetailRetur extends AppCompatActivity {
         layout_bayar_tunai = findViewById(R.id.layout_bayar_tunai);
         btn_pilih_produk = findViewById(R.id.btn_pilih_produk);
         field_produk = findViewById(R.id.field_produk);
+        layout_pilih_produk = findViewById(R.id.layout_pilih_produk);
+        txt_info_jumlah = findViewById(R.id.txt_info_jumlah);
+        field_kembalian_tunai = findViewById(R.id.field_kembalian_tunai);
+        field_bayar_kurang = findViewById(R.id.field_bayar_kurang);
+        txt_info_kurang_bayar = findViewById(R.id.txt_info_kurang_bayar);
+        field_bayar_tunai = findViewById(R.id.field_bayar_tunai);
+        btn_submit = findViewById(R.id.btn_submit);
 
         String mystring = getIntent().getStringExtra("barang");
         try {
-            JSONObject ob = new JSONObject(mystring);
-            qty = Integer.valueOf(ob.getString("qty"));
+            myData = new JSONObject(mystring);
+            qty = Integer.valueOf(myData.getString("qty"));
+            txt_info_jumlah.setText("Maksimal input jumlah produk retur: " + qty);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -59,10 +94,12 @@ public class ActivityDetailRetur extends AppCompatActivity {
                     dialogInterface.dismiss();
                     field_jenis_kembalian.setText(jenis_kembalian[i].toString());
                     if(selectedJenis == 0){
+                        layout_pilih_produk.setVisibility(View.GONE);
                         layout_bayar_kurang.setVisibility(View.GONE);
                         layout_kembalian_tunai.setVisibility(View.GONE);
                         layout_bayar_tunai.setVisibility(View.VISIBLE);
                     } else {
+                        layout_pilih_produk.setVisibility(View.VISIBLE);
                         layout_bayar_kurang.setVisibility(View.GONE);
                         layout_kembalian_tunai.setVisibility(View.GONE);
                         layout_bayar_tunai.setVisibility(View.GONE);
@@ -92,17 +129,270 @@ public class ActivityDetailRetur extends AppCompatActivity {
                     // Periksa apakah angka berada dalam rentang yang diinginkan
                     if (number < 1 || number > qty) {
                         // Angka di luar rentang, hapus teks terakhir
+
                         field_jumlah_barang_retur.setText(charSequence.subSequence(0, charSequence.length() - 1));
                         field_jumlah_barang_retur.setSelection(field_jumlah_barang_retur.getText().length());
+
+                    } else {
+                        hitungTunaiDariQty = number;
                     }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                try {
+                    if(opsiReturProduk.equals("")){
+                        
+                    } else {
+                        if(opsiReturProduk.equals("kembalian_tunai")){
+                            try {
+                                field_kembalian_tunai.setText(Env.formatRupiah((Integer.valueOf(myData.getString("harga")) - Integer.valueOf(productReturSelected.getString("harga"))) * hitungTunaiDariQty));
+                            } catch (Exception e) {
+//                        throw new RuntimeException(e);
+                            }
+                            if(editable.toString().equals("")){
+                                field_kembalian_tunai.setText("");
+                            }
+                        } else if(opsiReturProduk.equals("bayar_kurang")){
+                            try {
+                                txt_info_kurang_bayar.setText("Bayar kurang: " + Env.formatRupiah(((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty)));
+                                if((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty > Integer.valueOf(field_bayar_kurang.getText().toString().replace(".", ""))){
+                                    txt_info_kurang_bayar.setTextColor(Color.parseColor("#6B0000"));
+                                    txt_info_kurang_bayar.setText("Bayar kurang: " + Env.formatRupiah(((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty) - Integer.valueOf(field_bayar_kurang.getText().toString().replace(".", ""))));
+                                } else {
+                                    txt_info_kurang_bayar.setTextColor(Color.parseColor("#176B00"));
+                                    txt_info_kurang_bayar.setText("Kembalian: " + Env.formatRupiah(Integer.valueOf(field_bayar_kurang.getText().toString().replace(".", "")) - ((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty)));
+                                }
+
+                            } catch (Exception e) {
+//                        throw new RuntimeException(e);
+                            }
+                            if(editable.toString().equals("")){
+                                txt_info_kurang_bayar.setText("");
+                                field_bayar_kurang.setText("");
+                            }
+                        }
+                    }
+
+                } catch (Exception e){
+
+                }
 
             }
         });
+
+        field_bayar_kurang.addTextChangedListener(new RupiahTextWatcher(field_bayar_kurang));
+        field_bayar_tunai.addTextChangedListener(new RupiahBayarTunai(field_bayar_tunai));
+
+        btn_submit.setOnClickListener(view -> {
+            if(selectedJenis == 0){
+                String error = "";
+                if(field_jumlah_barang_retur.getText().toString().equals("")){
+//                    Toast.makeText(this, "isi dulu cuy", Toast.LENGTH_SHORT).show();
+                    error = "Jumlah produk retur wajib diisi";
+                } else if(field_bayar_tunai.getText().toString().equals("")){
+                    error = "Bayar tunai wajib diisi";
+                }
+
+                if(error.equals("")){
+                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Retur")
+                            .setContentText("Apakah anda yakin ingin melakukan retur")
+                            .setCancelText("Tidak")
+                            .setConfirmText("Ya")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                    SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
+                                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                    pDialog.setTitleText("Loading");
+                                    pDialog.setCancelable(false);
+                                    pDialog.show();
+
+                                    submitRetur(pDialog);
+
+                                }
+                            })
+                            .show();
+                } else {
+                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Informasi")
+                            .setContentText(error)
+                            .show();
+                }
+            } else {
+                if(field_jumlah_barang_retur.getText().toString().equals("")){
+                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Informasi")
+                            .setContentText("Jumlah produk retur wajib diisi")
+                            .show();
+                } else {
+                    if(field_produk.getText().toString().equals("")){
+                        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Informasi")
+                                .setContentText("Pilih produk terlebih dahulu")
+                                .show();
+                    } else {
+                        if(opsiReturProduk.equals("pas")){
+                            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("Retur")
+                                    .setContentText("Apakah anda yakin ingin melakukan retur")
+                                    .setCancelText("Tidak")
+                                    .setConfirmText("Ya")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismiss();
+                                            SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
+                                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                            pDialog.setTitleText("Loading");
+                                            pDialog.setCancelable(false);
+                                            pDialog.show();
+
+                                            submitRetur(pDialog);
+
+                                        }
+                                    })
+                                    .show();
+                        } else if(opsiReturProduk.equals("bayar_kurang")){
+                            if(field_bayar_kurang.getText().toString().equals("")){
+                                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("Informasi")
+                                        .setContentText("Bayar kurang wajib diisi")
+                                        .show();
+                            } else if(txt_info_kurang_bayar.getText().toString().contains("Bayar")){
+                                try {
+                                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                                            .setTitleText("Informasi")
+                                            .setContentText("Bayar kurang harus lebih dari " + Env.formatRupiah((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty))
+                                            .show();
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }else {
+                                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Retur")
+                                        .setContentText("Apakah anda yakin ingin melakukan retur")
+                                        .setCancelText("Tidak")
+                                        .setConfirmText("Ya")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismiss();
+                                                SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
+                                                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                                pDialog.setTitleText("Loading");
+                                                pDialog.setCancelable(false);
+                                                pDialog.show();
+
+                                                submitRetur(pDialog);
+
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } else if(opsiReturProduk.equals("kembalian_tunai")){
+                            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("Retur")
+                                    .setContentText("Apakah anda yakin ingin melakukan retur")
+                                    .setCancelText("Tidak")
+                                    .setConfirmText("Ya")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismiss();
+                                            SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
+                                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                            pDialog.setTitleText("Loading");
+                                            pDialog.setCancelable(false);
+                                            pDialog.show();
+
+                                            submitRetur(pDialog);
+
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void submitRetur(SweetAlertDialog dialog){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JSONObject input = new JSONObject();
+        try {
+//            Toast.makeText(ActivityDetailRetur.this, myData.getString("nama"), Toast.LENGTH_SHORT).show();
+            input.put("nama_pegawai", "Mphstar");
+            input.put("kode_br", myData.getString("kode"));
+            input.put("kode_tr", myData.getString("kode_tr"));
+            input.put("qty", field_jumlah_barang_retur.getText().toString());
+            input.put("jenis_pengembalian", field_jenis_kembalian.getText().toString().toLowerCase());
+            if(opsiReturProduk.equals("bayar_kurang")){
+                input.put("bayar_kurang", field_bayar_kurang.getText().toString().replace(".", ""));
+            } else if(opsiReturProduk.equals("kembalian_tunai")){
+                input.put("kembalian_tunai", field_kembalian_tunai.getText().toString().replace(".", ""));
+            }
+            if(selectedJenis == 0){
+                input.put("bayar_tunai", field_bayar_tunai.getText().toString().replace(".", ""));
+            } else {
+                input.put("kode_br_keluar", productReturSelected.getString("kode_br"));
+            }
+        } catch (Exception e){
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Env.BASE_URL + "submit_retur_customer?apikey=" + Env.API_KEY, input, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dialog.dismiss();
+                try {
+                    JSONObject res = response;
+                    if(res.getString("status").equals("success")){
+                        SweetAlertDialog succ = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.SUCCESS_TYPE);
+                        succ.setTitle("Berhasil");
+                        succ.setContentText(res.getString("message"));
+                        succ.setCanceledOnTouchOutside(false);
+                        succ.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+
+                                Intent intent = new Intent(ActivityDetailRetur.this, Home.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        });
+                        succ.show();
+
+
+                    } else if(res.getString("status").equals("error")) {
+                        new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Gagal")
+                                .setContentText(res.getString("message"))
+                                .show();
+                    }
+                    queue.getCache().clear();
+                } catch (Exception e){
+                    new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Gagal")
+                            .setContentText(e.toString())
+                            .show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(com.android.volley.VolleyError error) {
+                Toast.makeText(ActivityDetailRetur.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("error", error.toString());
+                dialog.dismiss();
+            }
+        });
+
+        queue.add(request);
     }
 
     @Override
@@ -112,14 +402,132 @@ public class ActivityDetailRetur extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String getdata = data.getStringExtra("data");
                 try {
-                    JSONObject obj = new JSONObject(getdata);
-                    field_produk.setText(obj.getString("nama_br"));
-                    Toast.makeText(this, obj.getString("nama_br"), Toast.LENGTH_SHORT).show();
+                    productReturSelected = new JSONObject(getdata);
+                    if(field_jumlah_barang_retur.getText().toString().equals("")){
+                        hitungTunaiDariQty = 1;
+                    } else {
+                        hitungTunaiDariQty = Integer.valueOf(field_jumlah_barang_retur.getText().toString());
+                    }
+//                    Toast.makeText(this, productReturSelected.getString("harga"), Toast.LENGTH_SHORT).show();
+                    field_produk.setText(productReturSelected.getString("nama_br"));
+                    if(Integer.valueOf(myData.getString("harga")) < Integer.valueOf(productReturSelected.getString("harga"))){
+                        opsiReturProduk = "bayar_kurang";
+                        layout_bayar_kurang.setVisibility(View.VISIBLE);
+                        layout_kembalian_tunai.setVisibility(View.GONE);
+                        txt_info_kurang_bayar.setTextColor(Color.parseColor("#6B0000"));
+                        txt_info_kurang_bayar.setText("Bayar kurang: " + Env.formatRupiah((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty));
+                    } else if(Integer.valueOf(myData.getString("harga")) > Integer.valueOf(productReturSelected.getString("harga"))){
+                        opsiReturProduk = "kembalian_tunai";
+                        layout_bayar_kurang.setVisibility(View.GONE);
+                        layout_kembalian_tunai.setVisibility(View.VISIBLE);
+
+                        field_kembalian_tunai.setText(Env.formatRupiah((Integer.valueOf(myData.getString("harga")) - Integer.valueOf(productReturSelected.getString("harga"))) * hitungTunaiDariQty ));
+                    } else {
+                        opsiReturProduk = "pas";
+                        layout_bayar_kurang.setVisibility(View.GONE);
+                        layout_kembalian_tunai.setVisibility(View.GONE);
+                    }
                 } catch (Exception e){
                     Toast.makeText(this, "Error " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
 
             }
+        }
+    }
+
+    class RupiahBayarTunai implements TextWatcher {
+
+        private EditText editText;
+
+        public RupiahBayarTunai(EditText editText) {
+            this.editText = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            editText.removeTextChangedListener(this);
+
+            String originalString = s.toString();
+
+            // Menghapus tanda titik dan koma
+            String cleanString = originalString.replaceAll("[Rp,.]", "");
+
+            try {
+                // Parsing angka
+                int parsed = Integer.valueOf(cleanString);
+
+                // Format angka ke Rupiah
+                String formattedString = Env.formatRupiah(parsed);
+
+                // Setel kembali teks pada EditText
+                editText.setText(formattedString);
+                editText.setSelection(formattedString.length());
+            } catch (NumberFormatException e) {
+                // Tangani jika terjadi kesalahan parsing
+            }
+
+            editText.addTextChangedListener(this);
+        }
+    }
+
+    class RupiahTextWatcher implements TextWatcher {
+
+        private EditText editText;
+
+        public RupiahTextWatcher(EditText editText) {
+            this.editText = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            editText.removeTextChangedListener(this);
+
+            String originalString = s.toString();
+
+            // Menghapus tanda titik dan koma
+            String cleanString = originalString.replaceAll("[Rp,.]", "");
+
+            try {
+                // Parsing angka
+                int parsed = Integer.valueOf(cleanString);
+                if(parsed < (Integer.valueOf(Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty)){
+                    txt_info_kurang_bayar.setTextColor(Color.parseColor("#6B0000"));
+                    txt_info_kurang_bayar.setText("Bayar kurang: " + Env.formatRupiah(((Integer.valueOf(Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga")))) * hitungTunaiDariQty )  - parsed));
+                } else {
+                    txt_info_kurang_bayar.setTextColor(Color.parseColor("#176B00"));
+                    txt_info_kurang_bayar.setText("Kembalian: " + Env.formatRupiah(parsed - (hitungTunaiDariQty * (Integer.valueOf(Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga")))))));
+                }
+
+                // Format angka ke Rupiah
+                String formattedString = Env.formatRupiah(parsed);
+
+                // Setel kembali teks pada EditText
+                editText.setText(formattedString);
+                editText.setSelection(formattedString.length());
+            } catch (NumberFormatException e) {
+                // Tangani jika terjadi kesalahan parsing
+            } catch (JSONException e) {
+            }
+
+            editText.addTextChangedListener(this);
         }
     }
 }

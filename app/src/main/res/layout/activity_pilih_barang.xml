@@ -129,12 +129,18 @@
             android:layout_below="@+id/search_barang"
             android:layout_height="match_parent"
             android:paddingVertical="@dimen/_5sdp">
-            <androidx.recyclerview.widget.RecyclerView
-                android:paddingStart="@dimen/_22sdp"
-                android:id="@+id/list_barang"
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:ignore="MissingConstraints" />
+                android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_barang"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="MissingConstraints" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/image_no_value"
@@ -179,6 +185,16 @@
                     </LinearLayout>
                 </com.google.android.flexbox.FlexboxLayout>
 
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/loading"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
