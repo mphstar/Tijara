@@ -78,6 +78,6 @@ public class CustomDialogSetup extends AlertDialog {
     }
 
     public void setListenerTidak(View.OnClickListener listener) {
-        ya.setOnClickListener(listener);
+        tidak.setOnClickListener(listener);
     }
 }

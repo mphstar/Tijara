@@ -52,7 +52,7 @@
             android:text="OK"
             android:id="@+id/yes"
             android:layout_marginHorizontal="5dp"
-            android:backgroundTint="#22A824"
+            android:backgroundTint="#171717"
             android:fontFamily="@font/poppins_regular" />
     </LinearLayout>
 </LinearLayout>

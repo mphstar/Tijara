@@ -78,6 +78,12 @@ public class Home extends AppCompatActivity {
     static String name;
     SwipeRefreshLayout refreshLayout;
 
+    CustomDialogSetup mDialog;
+
+    private void setupDialog(CustomDialog type){
+        mDialog = new CustomDialogSetup(this, R.style.dialog, type);
+    }
+
     private void getPemasukan(){
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -116,13 +122,19 @@ public class Home extends AppCompatActivity {
                     }
 
                 } catch (Exception e){
-                    Toast.makeText(Home.this, "Error JSON", Toast.LENGTH_SHORT).show();
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Home.this, error.toString(), Toast.LENGTH_LONG).show();
+                setupDialog(CustomDialog.WARNING);
+                mDialog.setJudul("Informasi");
+                mDialog.setDeskripsi("Tidak ada koneksi");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+                mDialog.show();
             }
         });
 
@@ -328,22 +340,21 @@ public class Home extends AppCompatActivity {
         });
 
         btn_logout.setOnClickListener(view -> {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Keluar")
-                    .setContentText("Apakah anda yakin ingin keluar")
-                    .setCancelText("Tidak")
-                    .setConfirmText("Ya")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismiss();
-                            Preferences.clearLoggedInUser(Home.this);
-                            Intent intent = new Intent(Home.this, Login.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                        }
-                    })
-                    .show();
+            setupDialog(CustomDialog.CONFIRMATION);
+            mDialog.setJudul("Keluar");
+            mDialog.setDeskripsi("Apakah anda yakin ingin keluar");
+            mDialog.setListenerTidak(v -> {
+                mDialog.dismiss();
+            });
+            mDialog.setListenerOK(v -> {
+                mDialog.dismiss();
+                Preferences.clearLoggedInUser(Home.this);
+                Intent intent = new Intent(Home.this, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            });
+
+            mDialog.show();
 
         });
 
@@ -394,7 +405,6 @@ public class Home extends AppCompatActivity {
                 int i = 0;
                 for (BluetoothConnection device : bluetoothDevicesList) {
                     items[++i] = device.getDevice().getName();
-                    Toast.makeText(this, device.getDevice().getName(), Toast.LENGTH_SHORT).show();
                 }
 
                 android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(Home.this);
@@ -433,7 +443,13 @@ public class Home extends AppCompatActivity {
                 alert.setCanceledOnTouchOutside(false);
                 alert.show();
             } else {
-                Toast.makeText(this, "Bluetooth tidak aktif", Toast.LENGTH_SHORT).show();
+                setupDialog(CustomDialog.WARNING);
+                mDialog.setJudul("Informasi");
+                mDialog.setDeskripsi("Bluetooth tidak aktif");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+                mDialog.show();
             }
         });
 

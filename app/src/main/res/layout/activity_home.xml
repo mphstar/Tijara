@@ -144,7 +144,7 @@
                                     android:textColor="@color/white"
                                     android:id="@+id/txt_pemasukan"
                                     android:fontFamily="@font/poppins_semibold"
-                                    android:text="-" />
+                                    android:text="Rp. 0" />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
                                                 android:fontFamily="@font/poppins_semibold"
                                                 android:textColor="@color/white"
                                                 android:id="@+id/txt_terjual_pria"
-                                                android:text="-" />
+                                                android:text="0" />
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
                                                 android:fontFamily="@font/poppins_semibold"
                                                 android:textColor="@color/white"
                                                 android:id="@+id/txt_terjual_wanita"
-                                                android:text="-" />
+                                                android:text="0" />
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
@@ -287,7 +287,7 @@
                                                 android:fontFamily="@font/poppins_semibold"
                                                 android:textColor="@color/white"
                                                 android:id="@+id/txt_terjual_anak"
-                                                android:text="-" />
+                                                android:text="0" />
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
