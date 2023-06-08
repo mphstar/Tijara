@@ -35,7 +35,6 @@
                 android:fontFamily="@font/poppins_regular"
                 android:hint="Username"
                 android:paddingStart="@dimen/_15sdp"
-                android:textColor="#CECECE"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold" />
             <com.google.android.flexbox.FlexboxLayout
@@ -53,7 +52,6 @@
                 <EditText
                     android:id="@+id/field_password"
                     android:hint="Password"
-                    android:textColor="#CECECE"
                     android:textStyle="bold"
                     android:textSize="@dimen/_13ssp"
                     android:inputType="textPassword"

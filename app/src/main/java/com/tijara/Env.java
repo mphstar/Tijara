@@ -9,7 +9,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 public class Env {
-    static String BASE_URL = "http://192.168.0.4:8000/api/";
+    static String BASE_URL = "https://tijara.mphstar.tech/api/";
     static  String API_KEY = "DWuqUHWDUhDQUDadaq";
 
     static String formatRupiah(int value){
