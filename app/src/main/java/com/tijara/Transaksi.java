@@ -11,11 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,23 +22,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.JsonObject;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.tijara.keranjang.DataKeranjang;
 import com.tijara.keranjang.KategoriDiskon;
 import com.tijara.keranjang.ModelKeranjang;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 class AdapterKeranjang extends RecyclerView.Adapter<AdapterKeranjang.RecyclerViewViewHolder>{
     private ArrayList<ModelKeranjang> dataList;
@@ -111,7 +101,6 @@ class AdapterKeranjang extends RecyclerView.Adapter<AdapterKeranjang.RecyclerVie
             icon_sampah = itemView.findViewById(R.id.icon_sampah);
             icon_sampah.setOnClickListener(view -> {
                 listener.onClick(view, getAdapterPosition());
-                notifyItemRemoved(getAdapterPosition());
             });
         }
     }
@@ -124,15 +113,38 @@ public class Transaksi extends AppCompatActivity {
     AlertDialog builder;
     LinearLayout button_lanjut;
 
+    CustomDialogSetup mDialog;
+    AdapterKeranjang adapt;
+
+    class ListenerHapus implements RecyclerViewListener {
+
+        @Override
+        public void onClick(View view, int position) {
+            setupDialog(CustomDialog.CONFIRMATION);
+            mDialog.setJudul("Hapus");
+            mDialog.setDeskripsi("Apakah anda yakin ingin menghapus data ini dalam keranjang");
+            mDialog.setListenerTidak(v -> {
+                mDialog.dismiss();
+            });
+
+            mDialog.setListenerOK(v -> {
+                DataKeranjang.dataKeranjang.remove(position);
+                adapt.notifyItemRemoved(position);
+                hitungTotal();
+                mDialog.dismiss();
+            });
+
+            mDialog.show();
+        }
+    }
+
+    private void setupDialog(CustomDialog type){
+        mDialog = new CustomDialogSetup(this, R.style.dialog, type);
+    }
+
     private void loadKeranjang(){
         materi.setLayoutManager(new LinearLayoutManager(Transaksi.this));
-        AdapterKeranjang adapt = new AdapterKeranjang(DataKeranjang.dataKeranjang, new RecyclerViewListener() {
-            @Override
-            public void onClick(View view, int position) {
-                DataKeranjang.dataKeranjang.remove(position);
-                hitungTotal();
-            }
-        });
+        adapt = new AdapterKeranjang(DataKeranjang.dataKeranjang, new ListenerHapus());
 
         materi.setAdapter(adapt);
 
@@ -221,11 +233,15 @@ public class Transaksi extends AppCompatActivity {
 
         button_lanjut.setOnClickListener(view -> {
             if(DataKeranjang.dataKeranjang.size() == 0){
-                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Informasi")
-                        .setContentText("Keranjang tidak boleh kosong")
-                        .setConfirmText("OK")
-                        .show();
+                setupDialog(CustomDialog.WARNING);
+                mDialog.setJudul("Informasi");
+                mDialog.setDeskripsi("Keranjang tidak boleh kosong");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+
+                mDialog.show();
+
             } else {
                 Intent inten = new Intent(Transaksi.this, PembayaranActivity.class);
                 startActivity(inten);
@@ -278,11 +294,14 @@ public class Transaksi extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 scanBarcode();
             } else {
-                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Gagal")
-                        .setContentText("Gagal memuat kamera")
-                        .setConfirmText("OK")
-                        .show();
+                setupDialog(CustomDialog.ERROR);
+                mDialog.setJudul("Gagal");
+                mDialog.setDeskripsi("Gagal mengakses kamera");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+
+                mDialog.show();
             }
         }
 

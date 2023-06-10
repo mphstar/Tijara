@@ -118,7 +118,7 @@
 
     </com.google.android.flexbox.FlexboxLayout>
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/detail_dialog"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -128,6 +128,7 @@
             android:layout_marginBottom="@dimen/_15sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             app:justifyContent="space_between"
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             app:flexDirection="row">
@@ -163,6 +164,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="MissingConstraints" />
+            <io.supercharge.shimmerlayout.ShimmerLayout
+                android:id="@+id/loading"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                app:shimmer_animation_duration="1200">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <include layout="@layout/placeholder_tambah_product" />
+                        <include layout="@layout/placeholder_tambah_product" />
+                        <include layout="@layout/placeholder_tambah_product" />
+                    </LinearLayout>
+                </ScrollView>
+            </io.supercharge.shimmerlayout.ShimmerLayout>
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/image_no_value"
@@ -180,7 +201,7 @@
                         android:layout_height="wrap_content"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/no_values"
+                        app:lottie_rawRes="@raw/nodata"
                         />
                     <LinearLayout
                         app:layout_flexBasisPercent="25%"
@@ -195,7 +216,7 @@
                             android:textStyle="bold"
                             android:textColor="@color/black"
                             android:fontFamily="@font/poppins_medium"
-                            android:textSize="@dimen/_13ssp"
+                            android:textSize="@dimen/_12ssp"
                             android:text="Hasil Tidak Ditemukan"/>
 
                         <TextView
@@ -204,7 +225,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:fontFamily="@font/poppins_regular"
-                            android:textSize="@dimen/_12ssp"
+                            android:textSize="@dimen/_10ssp"
                             android:text="Masukkan kode barang pada kolom pencarian"/>
                     </LinearLayout>
                 </com.google.android.flexbox.FlexboxLayout>

@@ -1,22 +1,15 @@
 package com.tijara;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,8 +23,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Login extends AppCompatActivity {
     static EditText txtUsername, txtPassword;
@@ -111,7 +102,7 @@ public class Login extends AppCompatActivity {
                                             mDialog.setDeskripsi(jsonObject.getString("message"));
                                             mDialog.setListenerOK(v -> {
                                                 try {
-                                                    ToHome(data.getString("nama"));
+                                                    ToHome(data.getString("nama"), data.toString());
                                                 } catch (JSONException e) {
                                                 }
                                                 Intent intent = new Intent(Login.this, Home.class);
@@ -170,9 +161,10 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void ToHome(String nama) {
+    private void ToHome(String nama, String data) {
         Preferences.setLoggedInUser(getBaseContext(), String.valueOf(nama));
         Preferences.setLoggedInStatus(getBaseContext(),true);
+        Preferences.setCustomKey(getBaseContext(), "data_login", data);
 //        startActivity(new Intent(getBaseContext(), Home.class));
 //        finish();
     }

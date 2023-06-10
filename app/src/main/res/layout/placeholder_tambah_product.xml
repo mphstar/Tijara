@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:paddingHorizontal="25dp"
+    android:layout_marginVertical="@dimen/_3sdp"
+    android:paddingVertical="@dimen/_5sdp">
+
+    <LinearLayout
+        android:layout_marginVertical="@dimen/_25sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/to_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
+                app:cardPreventCornerOverlap="false"
+                app:cardCornerRadius="@dimen/_15sdp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:background="#C8C8C8"
+                        android:id="@+id/img_tambah_barang"/>
+
+            </androidx.cardview.widget.CardView>
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--                xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--                xmlns:tools="http://schemas.android.com/tools"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content">-->
+
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/bg"-->
+            <!--                    android:layout_width="80dp"-->
+            <!--                    android:layout_height="80dp"-->
+            <!--                    android:src="@drawable/shape2"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    tools:ignore="MissingConstraints"-->
+            <!--                    android:elevation="30dp"/>-->
+
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/img"-->
+            <!--                    android:layout_width="60dp"-->
+            <!--                    android:layout_height="60dp"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@+id/bg"-->
+            <!--                    app:layout_constraintEnd_toEndOf="@+id/bg"-->
+            <!--                    app:layout_constraintStart_toStartOf="@+id/bg"-->
+            <!--                    app:layout_constraintTop_toTopOf="@+id/bg"-->
+            <!--                    tools:ignore="MissingConstraints" />-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/img"-->
+            <!--                android:layout_marginStart="20sp"-->
+            <!--                android:background="@drawable/avatar"-->
+            <!--                android:layout_width="80dp"-->
+            <!--                android:layout_height="80dp"-->
+            <!--                />-->
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    app:layout_alignSelf="center">
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_marginVertical="@dimen/_3sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:flexDirection="column">
+                        <TextView
+                            android:fontFamily="@font/poppins_regular"
+                            app:layout_flexBasisPercent="30%"
+                            android:id="@+id/name_product"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#C8C8C8"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal" />
+                        <com.google.android.flexbox.FlexboxLayout
+
+                            app:layout_flexBasisPercent="40%"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            app:justifyContent="space_between">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_gravity="center"
+                                    android:layout_marginEnd="@dimen/_5ssp"
+                                    android:id="@+id/harga_pcs"
+                                    android:layout_width="70dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="#C8C8C8"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:paddingStart="@dimen/_10ssp"
+                                    android:textColor="#000000"
+                                    android:textStyle="bold"
+                                    android:textSize="13sp"
+                                    tools:ignore="MissingConstraints" />
+                                <TextView
+                                    android:layout_gravity="center"
+                                    android:id="@+id/potongan_harga"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="#C8C8C8"
+                                    android:textColor="#FF0000"
+                                    android:textSize="@dimen/_10ssp"
+                                    tools:ignore="MissingConstraints" />
+                            </LinearLayout>
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                    </com.google.android.flexbox.FlexboxLayout>
+                </LinearLayout>
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

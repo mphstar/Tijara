@@ -42,21 +42,30 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import io.supercharge.shimmerlayout.ShimmerLayout;
+
 public class PilihBarangActivity extends AppCompatActivity implements RecyclerViewListener, TextWatcher{
 
     RecyclerView listbarang;
     ArrayList<ModelBarang> datalist;
     EditText field_kode_product;
     ImageView scan_produk;
-    LinearLayout image_no_value, loading;
+    LinearLayout image_no_value;
+    ShimmerLayout loading;
     SwipeRefreshLayout refreshLayout;
     String url = Env.BASE_URL.replace("/api/", "");
+    CustomDialogSetup mDialog;
+
+    private void setupDialog(CustomDialog type){
+        mDialog = new CustomDialogSetup(this, R.style.dialog, type);
+    }
 
     private void loadProduct(){
 
-
+        image_no_value.setVisibility(View.GONE);
         listbarang.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
+        loading.startShimmerAnimation();
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/jual?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
@@ -70,7 +79,6 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
                         listbarang.setVisibility(View.GONE);
                         image_no_value.setVisibility(View.VISIBLE);
                     } else {
-
                         for (int i = 0; i < list_barang.length(); i++){
                             mapping_list = list_barang.getJSONObject(i);
                             ModelBarang barang = new ModelBarang(mapping_list.getString("nama_br"), url + "/uploads/products/" + mapping_list.getString("gambar"), mapping_list.getString("kode_br"), Integer.valueOf(mapping_list.getString("harga")));
@@ -91,6 +99,8 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
                         BarangAdapter adapt = new BarangAdapter(datalist, PilihBarangActivity.this);
                         listbarang.setLayoutManager(new LinearLayoutManager(PilihBarangActivity.this));
                         listbarang.setAdapter(adapt);
+
+                        image_no_value.setVisibility(View.GONE);
                         loading.setVisibility(View.GONE);
                         listbarang.setVisibility(View.VISIBLE);
                     }
@@ -111,6 +121,10 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
     }
 
     private void loadProductSearch(String keyword){
+        image_no_value.setVisibility(View.GONE);
+        listbarang.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
+        loading.startShimmerAnimation();
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/jual/" + keyword + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
@@ -145,6 +159,8 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
                         BarangAdapter adapt = new BarangAdapter(datalist, PilihBarangActivity.this);
                         listbarang.setLayoutManager(new LinearLayoutManager(PilihBarangActivity.this));
                         listbarang.setAdapter(adapt);
+
+                        image_no_value.setVisibility(View.GONE);
                         loading.setVisibility(View.GONE);
                         listbarang.setVisibility(View.VISIBLE);
                     }
@@ -177,6 +193,7 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
         scan_produk = findViewById(R.id.scan_produk);
         image_no_value = findViewById(R.id.image_no_value);
         loading = findViewById(R.id.loading);
+        loading.startShimmerAnimation();
         field_kode_product.addTextChangedListener(PilihBarangActivity.this);
         loadProduct();
         scan_produk.setOnClickListener(view -> {
@@ -277,7 +294,13 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 scanBarcode();
             } else {
-                Toast.makeText(this, "Gagal Memuat Kamera!!...", Toast.LENGTH_SHORT).show();
+                setupDialog(CustomDialog.ERROR);
+                mDialog.setJudul("Gagal");
+                mDialog.setDeskripsi("Gagal mengakses kamera");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+                mDialog.show();
             }
         }
     }

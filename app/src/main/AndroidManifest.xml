@@ -31,15 +31,19 @@
         tools:replace="android:icon">
         <activity
             android:name=".PilihBarangActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivityRetur"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Home"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Login"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ScanBarcodeActivity"
@@ -49,31 +53,40 @@
             android:theme="@style/zxing_CaptureTheme" />
         <activity
             android:name=".ContentProdukFreeActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".DetailRincianBarangActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".PilihVoucherActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".PembayaranActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".BottonSheetProductActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".TambahBarangActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Transaksi"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivityDetailRetur"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

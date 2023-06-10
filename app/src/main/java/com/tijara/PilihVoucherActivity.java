@@ -33,12 +33,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.supercharge.shimmerlayout.ShimmerLayout;
+
 public class PilihVoucherActivity extends AppCompatActivity {
 
     ImageView backTOMainTransaksi;
     ArrayList<ModelVoucher> dataList;
     RecyclerView voucher;
+    ShimmerLayout loading;
+    View nodata;
+
     private void loadVoucher(){
+        voucher.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
+        loading.startShimmerAnimation();
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "voucher?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
@@ -48,7 +56,9 @@ public class PilihVoucherActivity extends AppCompatActivity {
                     JSONArray list_barang = new JSONArray(response);
                     JSONObject mapping_list;
                     if(list_barang.length() == 0){
-//                        jika kosong
+                        voucher.setVisibility(View.GONE);
+                        loading.setVisibility(View.GONE);
+                        nodata.setVisibility(View.VISIBLE);
                     } else {
                         for (int i = 0; i < list_barang.length(); i++){
                             mapping_list = list_barang.getJSONObject(i);
@@ -80,6 +90,9 @@ public class PilihVoucherActivity extends AppCompatActivity {
                         voucher.setLayoutManager(new LinearLayoutManager(PilihVoucherActivity.this));
                         voucher.setAdapter(adapt);
 
+                        voucher.setVisibility(View.VISIBLE);
+                        loading.setVisibility(View.GONE);
+
                     }
 
                     queue.getCache().clear();
@@ -102,7 +115,9 @@ public class PilihVoucherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pilih_voucher);
         voucher = findViewById(R.id.voucher);
-
+        loading = findViewById(R.id.loading);
+        nodata = findViewById(R.id.nodata);
+        loading.startShimmerAnimation();
         loadVoucher();
 
         backTOMainTransaksi = findViewById(R.id.back_to_pembayaran);
@@ -146,6 +161,7 @@ class AdapterVoucher extends RecyclerView.Adapter<AdapterVoucher.RecyclerViewVie
     private ArrayList<ModelVoucher> dataList;
     private Context context;
     RecyclerViewListener listener;
+
 
     public AdapterVoucher(ArrayList<ModelVoucher> dataList, RecyclerViewListener listener) {
         this.dataList = dataList;

@@ -147,40 +147,40 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
 
         switch (result.getPrinterStatus()) {
             case AsyncEscPosPrint.FINISH_SUCCESS:
-                new AlertDialog.Builder(context)
-                        .setTitle("Success")
-                        .setMessage("Congratulation ! The texts are printed !")
-                        .show();
+//                new AlertDialog.Builder(context)
+//                        .setTitle("Success")
+//                        .setMessage("Congratulation ! The texts are printed !")
+//                        .show();
                 break;
             case AsyncEscPosPrint.FINISH_NO_PRINTER:
-                new AlertDialog.Builder(context)
-                        .setTitle("No printer")
-                        .setMessage("The application can't find any printer connected.")
-                        .show();
+//                new AlertDialog.Builder(context)
+//                        .setTitle("No printer")
+//                        .setMessage("The application can't find any printer connected.")
+//                        .show();
                 break;
             case AsyncEscPosPrint.FINISH_PRINTER_DISCONNECTED:
-                new AlertDialog.Builder(context)
-                    .setTitle("Broken connection")
-                    .setMessage("Unable to connect the printer.")
-                    .show();
+//                new AlertDialog.Builder(context)
+//                    .setTitle("Broken connection")
+//                    .setMessage("Unable to connect the printer.")
+//                    .show();
                 break;
             case AsyncEscPosPrint.FINISH_PARSER_ERROR:
-                new AlertDialog.Builder(context)
-                    .setTitle("Invalid formatted text")
-                    .setMessage("It seems to be an invalid syntax problem.")
-                    .show();
+//                new AlertDialog.Builder(context)
+//                    .setTitle("Invalid formatted text")
+//                    .setMessage("It seems to be an invalid syntax problem.")
+//                    .show();
                 break;
             case AsyncEscPosPrint.FINISH_ENCODING_ERROR:
-                new AlertDialog.Builder(context)
-                    .setTitle("Bad selected encoding")
-                    .setMessage("The selected encoding character returning an error.")
-                    .show();
+//                new AlertDialog.Builder(context)
+//                    .setTitle("Bad selected encoding")
+//                    .setMessage("The selected encoding character returning an error.")
+//                    .show();
                 break;
             case AsyncEscPosPrint.FINISH_BARCODE_ERROR:
-                new AlertDialog.Builder(context)
-                    .setTitle("Invalid barcode")
-                    .setMessage("Data send to be converted to barcode or QR code seems to be invalid.")
-                    .show();
+//                new AlertDialog.Builder(context)
+//                    .setTitle("Invalid barcode")
+//                    .setMessage("Data send to be converted to barcode or QR code seems to be invalid.")
+//                    .show();
                 break;
         }
         if(this.onPrintFinished != null) {

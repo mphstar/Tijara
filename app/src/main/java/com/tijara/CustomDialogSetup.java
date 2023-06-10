@@ -48,6 +48,7 @@ public class CustomDialogSetup extends AlertDialog {
 
         if(type == CustomDialog.LOADING){
             footer.setVisibility(View.GONE);
+            setCancelable(false);
         }
 
         if(type == CustomDialog.SUCCESS){
@@ -78,6 +79,6 @@ public class CustomDialogSetup extends AlertDialog {
     }
 
     public void setListenerTidak(View.OnClickListener listener) {
-        ya.setOnClickListener(listener);
+        tidak.setOnClickListener(listener);
     }
 }
