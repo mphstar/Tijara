@@ -157,97 +157,7 @@ public class Home extends AppCompatActivity {
 
     private BluetoothConnection selectedDevice;
 
-    /**
-     * Asynchronous printing
-     */
-    @SuppressLint("SimpleDateFormat")
-    public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection) {
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
-        AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 302, 76f, 48);
-        StringBuilder s = new StringBuilder();
-        s.append("\n");
-        s.append("\n");
-        s.append("[C]<b><font size='big'>TIJARA STORE</font></b>\n");
-        s.append(""+ manipulationAlignCenter("Alamat: Jl. Kaca Terbang No.55, Jember Utara, Garahan, Kec. Silo, Kabupaten Jember, Jawa Timur 68117") +"\n\n");
-        s.append("================================================\n");
-        s.append("[L]Tanggal: " + format.format(new Date()) + "[R]Kasir: " + Preferences.getLoggedInUser(Home.this) + "\n");
-        s.append("================================================\n");
-        s.append("[L]<b>Nama</b>[R]<b>QTY</b>[R]<b>Subtotal</b>[R]Total\n\n");
-        for (int i = 0; i < DataKeranjang.dataKeranjang.size(); i++){
-            s.append("[L]"+manipulationWidth(DataKeranjang.dataKeranjang.get(i).getNama())+"[R]"+DataKeranjang.dataKeranjang.get(i).getQty()+"[R]"+Env.formatRupiah(DataKeranjang.dataKeranjang.get(i).getHarga())+"[R]"+DataKeranjang.dataKeranjang.get(i).getHarga() * DataKeranjang.dataKeranjang.get(i).getQty()+"\n");
-            if(DataKeranjang.dataKeranjang.get(i).getDiskon() != null){
-                switch (DataKeranjang.dataKeranjang.get(i).getDiskon().getKategori()){
-                    case NOMINAL:
-                        s.append("[L]<b>Diskon</b>[R]<b>"+Env.formatRupiah(Integer.parseInt(DataKeranjang.dataKeranjang.get(i).getDiskon().getNominal()))+"</b>[R]<b>"+Env.formatRupiah(Integer.parseInt(DataKeranjang.dataKeranjang.get(i).getDiskon().getNominal()))+"</b>[R]<b>"+Env.formatRupiah(DataKeranjang.dataKeranjang.get(i).getQty() * Integer.parseInt(DataKeranjang.dataKeranjang.get(i).getDiskon().getNominal()))+"</b>\n");
-                        break;
-                    case PERSEN:
-                        s.append("[L]<b>Diskon</b>[R]<b>"+Integer.parseInt(DataKeranjang.dataKeranjang.get(i).getDiskon().getNominal()) + "%" + "</b>[R]<b>"+Env.formatRupiah((DataKeranjang.dataKeranjang.get(i).getHarga() / 100 * Integer.parseInt(DataKeranjang.dataKeranjang.get(i).getDiskon().getNominal())))+"</b>[R]<b>"+Env.formatRupiah(DataKeranjang.dataKeranjang.get(i).getQty() * (DataKeranjang.dataKeranjang.get(i).getHarga() / 100 * Integer.parseInt(DataKeranjang.dataKeranjang.get(i).getDiskon().getNominal())))+"</b>\n");
-                        break;
-                    case FREE_PRODUK:
-                        s.append("[L]<b>Diskon</b>[R]<b>Buy " + DataKeranjang.dataKeranjang.get(i).getDiskon().getBuy() + " Free " + DataKeranjang.dataKeranjang.get(i).getDiskon().getFree() + "</b>[R]\n");
-                        break;
-                }
-            }
-        }
-
-        s.append("\n\n");
-        s.append("------------------------------------------------\n");
-        int total = 0;
-        for (int i = 0; i < DataKeranjang.dataKeranjang.size(); i++){
-            total += DataKeranjang.dataKeranjang.get(i).getSubtotal();;
-        }
-        s.append("[L]Total Item[R]"+DataKeranjang.dataKeranjang.size()+"[R] [R]" + Env.formatRupiah(total) + "\n");
-        s.append("[L]Voucher[R]20.000\n");
-        s.append("[L]Total Harga[R]460.000\n");
-        s.append("[L]Tunai[R]500.000\n");
-        s.append("[L]Kembalian[R]40.000\n");
-        s.append("================================================\n\n\n");
-        s.append("[C]<barcode type='128' width='62' text='below'>TR0012133332431</barcode>\n\n");
-        s.append("[C]Kritik&Saran: mphstar@gmail.com\n");
-        s.append("[C]SMS/WA: 081233764580\n\n");
-
-        return printer.addTextToPrint(s.toString());
-    }
-
-    private String manipulationWidth(String text){
-        StringBuilder sb = new StringBuilder();
-        int currentIndex = 0;
-
-        while (currentIndex < text.length()) {
-            sb.append(text.substring(currentIndex, Math.min(currentIndex + 18, text.length())));
-            currentIndex += 18;
-            if (currentIndex < text.length()) {
-                sb.append("\n");
-
-                while (currentIndex < text.length() && text.charAt(currentIndex) == ' ') {
-                    currentIndex++;
-                }
-            }
-        }
-
-        return sb.toString();
-    }
-
-    private String manipulationAlignCenter(String text){
-        StringBuilder sb = new StringBuilder();
-        int currentIndex = 0;
-
-        sb.append("[C]");
-
-        while (currentIndex < text.length()) {
-            sb.append(text.substring(currentIndex, Math.min(currentIndex + 38, text.length())));
-            currentIndex += 38;
-
-            if (currentIndex < text.length()) {
-                sb.append("\n[C]");
-            }
-        }
-
-        String formattedString = sb.toString();
-        return formattedString;
-    }
-
+    ImageView profile;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -265,6 +175,7 @@ public class Home extends AppCompatActivity {
         txt_pemasukan = findViewById(R.id.txt_pemasukan);
         txt_terjual_pria = findViewById(R.id.txt_terjual_pria);
         txt_terjual_wanita = findViewById(R.id.txt_terjual_wanita);
+        profile = findViewById(R.id.profile);
         txt_terjual_anak = findViewById(R.id.txt_terjual_anak);
         container_menu = findViewById(R.id.container_menu);
         btn_logout = findViewById(R.id.btn_logout);
@@ -272,6 +183,22 @@ public class Home extends AppCompatActivity {
         bg_transparant = findViewById(R.id.bg_transparant);
         btn_bluetooth = findViewById(R.id.btn_bluetooth);
         ic_home = findViewById(R.id.ic_home);
+        if(!Preferences.getCustomKey(this, "data_login").equals("")){
+
+            try {
+                JSONObject js = new JSONObject(Preferences.getCustomKey(this, "data_login"));
+                if(js.getString("gender").equals("pria")){
+                    profile.setImageResource(R.drawable.ic_profile);
+                } else {
+                    profile.setImageResource(R.drawable.ic_profile_female);
+                }
+
+            } catch (Exception e){
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
 
         if(!Preferences.getCustomKey(this, "device_address").equals("")){
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
@@ -291,24 +218,7 @@ public class Home extends AppCompatActivity {
         }
 
         ic_home.setOnClickListener(view -> {
-//            this.checkBluetoothPermissions(() -> {
-//                new AsyncBluetoothEscPosPrint(
-//                        this,
-//                        new AsyncEscPosPrint.OnPrintFinished() {
-//                            @Override
-//                            public void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException) {
-//                                Log.e("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : An error occurred !");
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter) {
-//                                Log.i("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : Print is finished !");
-//
-//                            }
-//                        }
-//                )
-//                        .execute(this.getAsyncEscPosPrinter(selectedDevice));
-//            });
+
         });
 
         btn_bluetooth.setOnClickListener(view -> browseBluetoothDevice());
@@ -349,6 +259,7 @@ public class Home extends AppCompatActivity {
             mDialog.setListenerOK(v -> {
                 mDialog.dismiss();
                 Preferences.clearLoggedInUser(Home.this);
+                Preferences.deleteCustomKey(Home.this, "data_login");
                 Intent intent = new Intent(Home.this, Login.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

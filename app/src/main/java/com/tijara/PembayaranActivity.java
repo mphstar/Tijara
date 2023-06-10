@@ -1,6 +1,5 @@
 package com.tijara;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,20 +17,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
@@ -40,19 +34,10 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-
-import com.bumptech.glide.Glide;
-import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.DeviceConnection;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection;
-import com.dantsu.escposprinter.connection.tcp.TcpConnection;
-import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
-import com.journeyapps.barcodescanner.ScanContract;
-import com.journeyapps.barcodescanner.ScanOptions;
 import com.tijara.async.AsyncBluetoothEscPosPrint;
 import com.tijara.async.AsyncEscPosPrint;
 import com.tijara.async.AsyncEscPosPrinter;
@@ -62,7 +47,6 @@ import com.tijara.keranjang.KategoriDiskon;
 import com.tijara.keranjang.ModelKeranjang;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -70,9 +54,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 
 public class PembayaranActivity extends AppCompatActivity {
 
@@ -220,6 +201,12 @@ public class PembayaranActivity extends AppCompatActivity {
 
     String selectedJenisPembayaran = "cash";
 
+    CustomDialogSetup mDialog;
+
+    private void setupDialog(CustomDialog type){
+        mDialog = new CustomDialogSetup(this, R.style.dialog, type);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -312,65 +299,62 @@ public class PembayaranActivity extends AppCompatActivity {
     private void submitTransaksi(){
 
         if(selectedJenisPembayaran.equals("qris")){
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Konfirmasi")
-                    .setContentText("Apakah anda yakin ingin melakukan transaksi")
-                    .setCancelText("Tidak")
-                    .setConfirmText("Ya")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismiss();
 
-                            SweetAlertDialog pDialog = new SweetAlertDialog(PembayaranActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                            pDialog.setTitleText("Loading");
-                            pDialog.setCancelable(false);
-                            pDialog.show();
+            setupDialog(CustomDialog.CONFIRMATION);
+            mDialog.setJudul("Konfirmasi");
+            mDialog.setDeskripsi("Apakah anda yakin ingin melakukan transaksi");
+            mDialog.setListenerTidak(v -> {
+                mDialog.dismiss();
+            });
+            mDialog.setListenerOK(v -> {
+                mDialog.dismiss();
+                setupDialog(CustomDialog.LOADING);
+                mDialog.setJudul("Loading");
+                mDialog.setDeskripsi("Sedang melakukan proses transaksi");
+                mDialog.show();
 
-                            prosesTransaksi(pDialog);
+                prosesTransaksi();
+            });
+            mDialog.show();
 
 
-                        }
-                    })
-                    .show();
         } else {
             if(field_total_bayar.getText().toString().isEmpty()){
-                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Informasi")
-                        .setContentText("Field pembayaran tidak boleh kosong")
-                        .setConfirmText("OK")
-                        .show();
+                setupDialog(CustomDialog.WARNING);
+                mDialog.setJudul("Informasi");
+                mDialog.setDeskripsi("Field pembayaran tidak boleh kosong");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+                mDialog.show();
+
             } else {
                 if(keterangan_bayar.getText().toString().contains("Kurang")){
-                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Informasi")
-                            .setContentText("Field bayar harus lebih dari total harga")
-                            .setConfirmText("OK")
-                            .show();
+                    setupDialog(CustomDialog.WARNING);
+                    mDialog.setJudul("Informasi");
+                    mDialog.setDeskripsi("Field bayar harus lebih dari total harga");
+                    mDialog.setListenerOK(v -> {
+                        mDialog.dismiss();
+                    });
+                    mDialog.show();
+
                 } else {
-                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Konfirmasi")
-                            .setContentText("Apakah anda yakin ingin melakukan transaksi")
-                            .setCancelText("Tidak")
-                            .setConfirmText("Ya")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
+                    setupDialog(CustomDialog.CONFIRMATION);
+                    mDialog.setJudul("Konfirmasi");
+                    mDialog.setDeskripsi("Apakah anda yakin ingin melakukan transaksi");
+                    mDialog.setListenerTidak(v -> {
+                        mDialog.dismiss();
+                    });
+                    mDialog.setListenerOK(v -> {
+                        mDialog.dismiss();
+                        setupDialog(CustomDialog.LOADING);
+                        mDialog.setJudul("Loading");
+                        mDialog.setDeskripsi("Sedang melakukan proses transaksi");
+                        mDialog.show();
 
-                                    SweetAlertDialog pDialog = new SweetAlertDialog(PembayaranActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-                                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                    pDialog.setTitleText("Loading");
-                                    pDialog.setCancelable(false);
-                                    pDialog.show();
-
-                                    prosesTransaksi(pDialog);
-
-
-                                }
-                            })
-                            .show();
+                        prosesTransaksi();
+                    });
+                    mDialog.show();
                 }
 
             }
@@ -395,7 +379,7 @@ public class PembayaranActivity extends AppCompatActivity {
     }
 
 
-    private void prosesTransaksi(SweetAlertDialog dialog){
+    private void prosesTransaksi(){
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.POST, Env.BASE_URL + "transaksi", new Response.Listener<String>() {
             @Override
@@ -406,98 +390,86 @@ public class PembayaranActivity extends AppCompatActivity {
                     JSONObject res = new JSONObject(response);
                     NotificationHelper.showNotification(PembayaranActivity.this, "Tijara Store", "Transaksi Berhasil");
 
-                    dialog.dismiss();
+                    mDialog.dismiss();
                     if(res.getString("status").equals("success")){
                         JSONObject data = res.getJSONObject("data");
-                        SweetAlertDialog succ = new SweetAlertDialog(PembayaranActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                        succ.setTitle("Berhasil");
-                        succ.setContentText(res.getString("message"));
-                        succ.setCanceledOnTouchOutside(false);
-                        succ.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        setupDialog(CustomDialog.SUCCESS);
+                        mDialog.setJudul("Berhasil");
+                        mDialog.setDeskripsi(res.getString("message"));
+                        mDialog.setCancelable(false);
+                        mDialog.setCanceledOnTouchOutside(false);
+                        mDialog.setListenerOK(v -> {
+                            mDialog.dismiss();
 
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismiss();
+                            PembayaranActivity.this.checkBluetoothPermissions(() -> {
+                                new AsyncBluetoothEscPosPrint(
+                                        PembayaranActivity.this,
+                                        new AsyncEscPosPrint.OnPrintFinished() {
+                                            @Override
+                                            public void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException) {
+                                                setupDialog(CustomDialog.ERROR);
+                                                mDialog.setJudul("Gagal");
+                                                mDialog.setDeskripsi("Gagal melakukan print struk");
+                                                mDialog.setListenerOK(v -> {
+                                                    mDialog.dismiss();
+                                                    DataKeranjang.dataKeranjang = new ArrayList<>();
 
-                                PembayaranActivity.this.checkBluetoothPermissions(() -> {
-                                    new AsyncBluetoothEscPosPrint(
-                                            PembayaranActivity.this,
-                                            new AsyncEscPosPrint.OnPrintFinished() {
-                                                @Override
-                                                public void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException) {
-                                                    SweetAlertDialog succ = new SweetAlertDialog(PembayaranActivity.this, SweetAlertDialog.ERROR_TYPE);
-                                                    succ.setTitle("Gagal");
-                                                    succ.setContentText("Gagal print struk");
-                                                    succ.setCanceledOnTouchOutside(false);
-                                                    succ.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    Intent intent = new Intent(PembayaranActivity.this, Home.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                });
+                                                mDialog.show();
 
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                            sweetAlertDialog.dismiss();
-                                                            DataKeranjang.dataKeranjang = new ArrayList<>();
-
-                                                            Intent intent = new Intent(PembayaranActivity.this, Home.class);
-                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                            startActivity(intent);
-                                                        }
-                                                    });
-                                                    succ.show();
-                                                }
-
-                                                @Override
-                                                public void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter) {
-                                                    SweetAlertDialog succ = new SweetAlertDialog(PembayaranActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                                                    succ.setTitle("Berhasil");
-                                                    succ.setContentText("Print struk berhasil");
-                                                    succ.setCanceledOnTouchOutside(false);
-                                                    succ.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-
-                                                        @Override
-                                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                            sweetAlertDialog.dismiss();
-                                                            DataKeranjang.dataKeranjang = new ArrayList<>();
-                                                            Intent intent = new Intent(PembayaranActivity.this, Home.class);
-                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                            startActivity(intent);
-                                                        }
-                                                    });
-                                                    succ.show();
-
-                                                }
                                             }
-                                    )
-                                            .execute(PembayaranActivity.this.getAsyncEscPosPrinter(selectedDevice, data));
-                                });
 
+                                            @Override
+                                            public void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter) {
+                                                setupDialog(CustomDialog.SUCCESS);
+                                                mDialog.setJudul("Berhasil");
+                                                mDialog.setDeskripsi("Print struk berhasil");
+                                                mDialog.setCancelable(false);
+                                                mDialog.setCanceledOnTouchOutside(false);
+                                                mDialog.setListenerOK(v -> {
+                                                    mDialog.dismiss();
+                                                    DataKeranjang.dataKeranjang = new ArrayList<>();
 
-                            }
+                                                    Intent intent = new Intent(PembayaranActivity.this, Home.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                });
+                                                mDialog.show();
+
+                                            }
+                                        }
+                                )
+                                        .execute(PembayaranActivity.this.getAsyncEscPosPrinter(selectedDevice, data));
+                            });
                         });
-                        succ.show();
-
-
-
-
+                        mDialog.show();
 
                     } else {
-                        SweetAlertDialog succ = new SweetAlertDialog(PembayaranActivity.this, SweetAlertDialog.ERROR_TYPE);
-                        succ.setTitle("Gagal");
-                        succ.setContentText(res.getString("message"));
+                        setupDialog(CustomDialog.ERROR);
+                        mDialog.setJudul("Gagal");
+                        mDialog.setDeskripsi(res.getString("message"));
+                        mDialog.setListenerOK(v -> {
+                            mDialog.dismiss();
+                        });
+                        mDialog.show();
 
-                        succ.show();
                     }
 
 //                    Toast.makeText(PembayaranActivity.this, res.getString("message"), Toast.LENGTH_SHORT).show();
 
                     queue.getCache().clear();
                 } catch (Exception e){
-                    dialog.dismiss();
+                    mDialog.dismiss();
                     Toast.makeText(PembayaranActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 Toast.makeText(PembayaranActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }){

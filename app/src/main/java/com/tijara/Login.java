@@ -102,7 +102,7 @@ public class Login extends AppCompatActivity {
                                             mDialog.setDeskripsi(jsonObject.getString("message"));
                                             mDialog.setListenerOK(v -> {
                                                 try {
-                                                    ToHome(data.getString("nama"));
+                                                    ToHome(data.getString("nama"), data.toString());
                                                 } catch (JSONException e) {
                                                 }
                                                 Intent intent = new Intent(Login.this, Home.class);
@@ -161,9 +161,10 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void ToHome(String nama) {
+    private void ToHome(String nama, String data) {
         Preferences.setLoggedInUser(getBaseContext(), String.valueOf(nama));
         Preferences.setLoggedInStatus(getBaseContext(),true);
+        Preferences.setCustomKey(getBaseContext(), "data_login", data);
 //        startActivity(new Intent(getBaseContext(), Home.class));
 //        finish();
     }

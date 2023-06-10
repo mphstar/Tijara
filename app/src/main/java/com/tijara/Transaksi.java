@@ -101,7 +101,6 @@ class AdapterKeranjang extends RecyclerView.Adapter<AdapterKeranjang.RecyclerVie
             icon_sampah = itemView.findViewById(R.id.icon_sampah);
             icon_sampah.setOnClickListener(view -> {
                 listener.onClick(view, getAdapterPosition());
-                notifyItemRemoved(getAdapterPosition());
             });
         }
     }
@@ -115,6 +114,29 @@ public class Transaksi extends AppCompatActivity {
     LinearLayout button_lanjut;
 
     CustomDialogSetup mDialog;
+    AdapterKeranjang adapt;
+
+    class ListenerHapus implements RecyclerViewListener {
+
+        @Override
+        public void onClick(View view, int position) {
+            setupDialog(CustomDialog.CONFIRMATION);
+            mDialog.setJudul("Hapus");
+            mDialog.setDeskripsi("Apakah anda yakin ingin menghapus data ini dalam keranjang");
+            mDialog.setListenerTidak(v -> {
+                mDialog.dismiss();
+            });
+
+            mDialog.setListenerOK(v -> {
+                DataKeranjang.dataKeranjang.remove(position);
+                adapt.notifyItemRemoved(position);
+                hitungTotal();
+                mDialog.dismiss();
+            });
+
+            mDialog.show();
+        }
+    }
 
     private void setupDialog(CustomDialog type){
         mDialog = new CustomDialogSetup(this, R.style.dialog, type);
@@ -122,25 +144,7 @@ public class Transaksi extends AppCompatActivity {
 
     private void loadKeranjang(){
         materi.setLayoutManager(new LinearLayoutManager(Transaksi.this));
-        AdapterKeranjang adapt = new AdapterKeranjang(DataKeranjang.dataKeranjang, new RecyclerViewListener() {
-            @Override
-            public void onClick(View view, int position) {
-                setupDialog(CustomDialog.CONFIRMATION);
-                mDialog.setJudul("Hapus");
-                mDialog.setDeskripsi("Apakah anda yakin ingin menghapus data ini dalam keranjang");
-                mDialog.setListenerTidak(v -> {
-                    mDialog.dismiss();
-                });
-
-                mDialog.setListenerOK(v -> {
-                    DataKeranjang.dataKeranjang.remove(position);
-                    hitungTotal();
-                });
-
-                mDialog.show();
-
-            }
-        });
+        adapt = new AdapterKeranjang(DataKeranjang.dataKeranjang, new ListenerHapus());
 
         materi.setAdapter(adapt);
 
