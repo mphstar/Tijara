@@ -48,6 +48,7 @@ public class CustomDialogSetup extends AlertDialog {
 
         if(type == CustomDialog.LOADING){
             footer.setVisibility(View.GONE);
+            setCancelable(false);
         }
 
         if(type == CustomDialog.SUCCESS){

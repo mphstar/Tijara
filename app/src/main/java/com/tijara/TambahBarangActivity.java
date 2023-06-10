@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,18 +50,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.supercharge.shimmerlayout.ShimmerLayout;
+
 
 public class TambahBarangActivity extends AppCompatActivity implements TextWatcher {
 
     ArrayList<ModelTambahProduk> datalist;
+
+
     ArrayList<ModelProdukFree> dataProdukFree;
     ArrayList<ModelProdukFree> dataProdukFreePreview = new ArrayList<>();
     ArrayList<DiskonFreeProduk> arrdata;
     RecyclerView listbarang;
     EditText field_kode_product;
     ImageView scan_produk;
-    LinearLayout image_no_value, loading;
+    LinearLayout image_no_value;
+    ShimmerLayout loading;
     SwipeRefreshLayout refreshLayout;
     String url = Env.BASE_URL.replace("/api/", "");
     BottomSheetDialog bottomSheetDialog;
@@ -72,11 +75,17 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
 
     int jumlahFreeProdukDipilih = 0;
 
+    CustomDialogSetup mDialog;
 
+    private void setupDialog(CustomDialog type){
+        mDialog = new CustomDialogSetup(this, R.style.dialog, type);
+    }
 
     private void loadProduct(){
         listbarang.setVisibility(View.GONE);
+        image_no_value.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
+        loading.startShimmerAnimation();
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/jual?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
@@ -85,80 +94,91 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
                 try {
                     JSONArray res = new JSONArray(response);
                     JSONObject produk;
-                    for(int i = 0; i < res.length(); i++){
-                        produk = res.getJSONObject(i);
-                        ModelTambahProduk modeltambah = null;
-                        if(produk.getString("diskon").equals("null")){
-                            modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")));
-                        } else {
-                            JSONObject dataDiskon = new JSONObject(produk.getString("diskon"));
-                            ModelBarangDiskon barangdiskon;
-                            if(dataDiskon.getString("kategori").equals("nominal")){
-                                barangdiskon = new ModelBarangDiskon(KategoriDiskon.NOMINAL);
-                                barangdiskon.setNominal(dataDiskon.getInt("nominal"));
-                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
-
-                            } else if(dataDiskon.getString("kategori").equals("persen")){
-                                barangdiskon = new ModelBarangDiskon(KategoriDiskon.PERSEN);
-                                barangdiskon.setNominal(dataDiskon.getInt("nominal"));
-                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
-
-                            } else if(dataDiskon.getString("kategori").equals("free")){
-                                barangdiskon = new ModelBarangDiskon(KategoriDiskon.FREE_PRODUK);
-                                barangdiskon.setBuy(dataDiskon.getInt("buy"));
-                                barangdiskon.setFree(dataDiskon.getInt("free"));
-                                if(dataDiskon.getString("free_product").equals("sama")){
-                                    barangdiskon.setFree_produk(KategoriFreeProduk.SAMA);
-                                } else if(dataDiskon.getString("free_product").equals("bebas")){
-                                    barangdiskon.setFree_produk(KategoriFreeProduk.BEBAS);
-                                }
-                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
-                            }
-
-                        }
-                        datalist.add(modeltambah);
-                    }
-
-                    AdapterTambahProduk dapt = new AdapterTambahProduk(datalist, new RecyclerViewListener() {
-                        @Override
-                        public void onClick(View view, int position) {
-                            boolean cekKeranjang = false;
-                            for (int i = 0; i < DataKeranjang.dataKeranjang.size(); i++){
-                                if(datalist.get(position).getKode_br().equals(DataKeranjang.dataKeranjang.get(i).getKode_br())){
-                                    cekKeranjang = true;
-                                }
-                            }
-
-                            if(cekKeranjang){
-                                new SweetAlertDialog(TambahBarangActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Informasi")
-                                        .setContentText("Data sudah ada dikeranjang")
-                                        .setConfirmText("OK")
-                                        .show();
+                    if(res.length() != 0){
+                        for(int i = 0; i < res.length(); i++){
+                            produk = res.getJSONObject(i);
+                            ModelTambahProduk modeltambah = null;
+                            if(produk.getString("diskon").equals("null")){
+                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")));
                             } else {
-                                if(datalist.get(position).getDiskon() != null){
-                                    if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.NOMINAL){
-                                        showBottomSheet(datalist.get(position));
-//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Nominal", Toast.LENGTH_SHORT).show();
-                                    } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.PERSEN){
-                                        showBottomSheet(datalist.get(position));
-//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Persen", Toast.LENGTH_SHORT).show();
-                                    } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.FREE_PRODUK){
-                                        showBottomSheet(datalist.get(position));
-//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Free Produk", Toast.LENGTH_SHORT).show();
+                                JSONObject dataDiskon = new JSONObject(produk.getString("diskon"));
+                                ModelBarangDiskon barangdiskon;
+                                if(dataDiskon.getString("kategori").equals("nominal")){
+                                    barangdiskon = new ModelBarangDiskon(KategoriDiskon.NOMINAL);
+                                    barangdiskon.setNominal(dataDiskon.getInt("nominal"));
+                                    modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
+
+                                } else if(dataDiskon.getString("kategori").equals("persen")){
+                                    barangdiskon = new ModelBarangDiskon(KategoriDiskon.PERSEN);
+                                    barangdiskon.setNominal(dataDiskon.getInt("nominal"));
+                                    modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
+
+                                } else if(dataDiskon.getString("kategori").equals("free")){
+                                    barangdiskon = new ModelBarangDiskon(KategoriDiskon.FREE_PRODUK);
+                                    barangdiskon.setBuy(dataDiskon.getInt("buy"));
+                                    barangdiskon.setFree(dataDiskon.getInt("free"));
+                                    if(dataDiskon.getString("free_product").equals("sama")){
+                                        barangdiskon.setFree_produk(KategoriFreeProduk.SAMA);
+                                    } else if(dataDiskon.getString("free_product").equals("bebas")){
+                                        barangdiskon.setFree_produk(KategoriFreeProduk.BEBAS);
                                     }
+                                    modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
+                                }
+
+                            }
+                            datalist.add(modeltambah);
+                        }
+
+                        AdapterTambahProduk dapt = new AdapterTambahProduk(datalist, new RecyclerViewListener() {
+                            @Override
+                            public void onClick(View view, int position) {
+                                boolean cekKeranjang = false;
+                                for (int i = 0; i < DataKeranjang.dataKeranjang.size(); i++){
+                                    if(datalist.get(position).getKode_br().equals(DataKeranjang.dataKeranjang.get(i).getKode_br())){
+                                        cekKeranjang = true;
+                                    }
+                                }
+
+                                if(cekKeranjang){
+                                    setupDialog(CustomDialog.WARNING);
+                                    mDialog.setJudul("Informasi");
+                                    mDialog.setDeskripsi("Data sudah ada dikeranjang");
+                                    mDialog.setListenerOK(v -> {
+                                        mDialog.dismiss();
+                                    });
+                                    mDialog.show();
+
                                 } else {
-                                    showBottomSheet(datalist.get(position));
+                                    if(datalist.get(position).getDiskon() != null){
+                                        if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.NOMINAL){
+                                            showBottomSheet(datalist.get(position));
+//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Nominal", Toast.LENGTH_SHORT).show();
+                                        } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.PERSEN){
+                                            showBottomSheet(datalist.get(position));
+//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Persen", Toast.LENGTH_SHORT).show();
+                                        } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.FREE_PRODUK){
+                                            showBottomSheet(datalist.get(position));
+//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Free Produk", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        showBottomSheet(datalist.get(position));
 //                                    Toast.makeText(TambahBarangActivity.this, "Tidak ada diskon", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
 
-                    listbarang.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
-                    listbarang.setAdapter(dapt);
-                    loading.setVisibility(View.GONE);
-                    listbarang.setVisibility(View.VISIBLE);
+                        listbarang.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
+                        listbarang.setAdapter(dapt);
+
+                        loading.setVisibility(View.GONE);
+                        image_no_value.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.VISIBLE);
+                    } else {
+                        loading.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.GONE);
+                        image_no_value.setVisibility(View.VISIBLE);
+                    }
                     refreshLayout.setRefreshing(false);
                     queue.getCache().clear();
                 } catch (Exception e){
@@ -168,6 +188,7 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
+                refreshLayout.setRefreshing(false);
                 Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -176,6 +197,10 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
     }
 
     private void loadProductSearch(String keyword){
+        listbarang.setVisibility(View.GONE);
+        image_no_value.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
+        loading.startShimmerAnimation();
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/jual/" + keyword + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
@@ -184,80 +209,92 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
                 try {
                     JSONArray res = new JSONArray(response);
                     JSONObject produk;
-                    for(int i = 0; i < res.length(); i++){
-                        produk = res.getJSONObject(i);
-                        ModelTambahProduk modeltambah = null;
-                        if(produk.getString("diskon").equals("null")){
-                            modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")));
-                        } else {
-                            JSONObject dataDiskon = new JSONObject(produk.getString("diskon"));
-                            ModelBarangDiskon barangdiskon;
-                            if(dataDiskon.getString("kategori").equals("nominal")){
-                                barangdiskon = new ModelBarangDiskon(KategoriDiskon.NOMINAL);
-                                barangdiskon.setNominal(dataDiskon.getInt("nominal"));
-                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
+                    if(res.length() != 0){
+                        for(int i = 0; i < res.length(); i++){
+                            produk = res.getJSONObject(i);
+                            ModelTambahProduk modeltambah = null;
+                            if(produk.getString("diskon").equals("null")){
+                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")));
+                            } else {
+                                JSONObject dataDiskon = new JSONObject(produk.getString("diskon"));
+                                ModelBarangDiskon barangdiskon;
+                                if(dataDiskon.getString("kategori").equals("nominal")){
+                                    barangdiskon = new ModelBarangDiskon(KategoriDiskon.NOMINAL);
+                                    barangdiskon.setNominal(dataDiskon.getInt("nominal"));
+                                    modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
 
-                            } else if(dataDiskon.getString("kategori").equals("persen")){
-                                barangdiskon = new ModelBarangDiskon(KategoriDiskon.PERSEN);
-                                barangdiskon.setNominal(dataDiskon.getInt("nominal"));
-                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
+                                } else if(dataDiskon.getString("kategori").equals("persen")){
+                                    barangdiskon = new ModelBarangDiskon(KategoriDiskon.PERSEN);
+                                    barangdiskon.setNominal(dataDiskon.getInt("nominal"));
+                                    modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
 
-                            } else if(dataDiskon.getString("kategori").equals("free")){
-                                barangdiskon = new ModelBarangDiskon(KategoriDiskon.FREE_PRODUK);
-                                barangdiskon.setBuy(dataDiskon.getInt("buy"));
-                                barangdiskon.setFree(dataDiskon.getInt("free"));
-                                if(dataDiskon.getString("free_product").equals("sama")){
-                                    barangdiskon.setFree_produk(KategoriFreeProduk.SAMA);
-                                } else if(dataDiskon.getString("free_product").equals("bebas")){
-                                    barangdiskon.setFree_produk(KategoriFreeProduk.BEBAS);
+                                } else if(dataDiskon.getString("kategori").equals("free")){
+                                    barangdiskon = new ModelBarangDiskon(KategoriDiskon.FREE_PRODUK);
+                                    barangdiskon.setBuy(dataDiskon.getInt("buy"));
+                                    barangdiskon.setFree(dataDiskon.getInt("free"));
+                                    if(dataDiskon.getString("free_product").equals("sama")){
+                                        barangdiskon.setFree_produk(KategoriFreeProduk.SAMA);
+                                    } else if(dataDiskon.getString("free_product").equals("bebas")){
+                                        barangdiskon.setFree_produk(KategoriFreeProduk.BEBAS);
+                                    }
+                                    modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
                                 }
-                                modeltambah = new ModelTambahProduk(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), Integer.parseInt(produk.getString("harga")), 0, Integer.parseInt(produk.getString("stok")), barangdiskon);
-                            }
 
+                            }
+                            datalist.add(modeltambah);
                         }
-                        datalist.add(modeltambah);
+
+                        AdapterTambahProduk dapt = new AdapterTambahProduk(datalist, new RecyclerViewListener() {
+                            @Override
+                            public void onClick(View view, int position) {
+                                boolean cekKeranjang = false;
+                                for (int i = 0; i < DataKeranjang.dataKeranjang.size(); i++){
+                                    if(datalist.get(position).getKode_br().equals(DataKeranjang.dataKeranjang.get(i).getKode_br())){
+                                        cekKeranjang = true;
+                                    }
+                                }
+
+                                if(cekKeranjang){
+                                    setupDialog(CustomDialog.WARNING);
+                                    mDialog.setJudul("Informasi");
+                                    mDialog.setDeskripsi("Data sudah ada dikeranjang");
+                                    mDialog.setListenerOK(v -> {
+                                        mDialog.dismiss();
+                                    });
+                                    mDialog.show();
+
+                                } else {
+                                    if(datalist.get(position).getDiskon() != null){
+                                        if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.NOMINAL){
+                                            showBottomSheet(datalist.get(position));
+//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Nominal", Toast.LENGTH_SHORT).show();
+                                        } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.PERSEN){
+                                            showBottomSheet(datalist.get(position));
+//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Persen", Toast.LENGTH_SHORT).show();
+                                        } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.FREE_PRODUK){
+                                            showBottomSheet(datalist.get(position));
+//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Free Produk", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        showBottomSheet(datalist.get(position));
+//                                    Toast.makeText(TambahBarangActivity.this, "Tidak ada diskon", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+
+                        listbarang.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
+                        listbarang.setAdapter(dapt);
+
+                        loading.setVisibility(View.GONE);
+                        image_no_value.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.VISIBLE);
+                    } else {
+                        loading.setVisibility(View.GONE);
+                        listbarang.setVisibility(View.GONE);
+                        image_no_value.setVisibility(View.VISIBLE);
                     }
 
-                    AdapterTambahProduk dapt = new AdapterTambahProduk(datalist, new RecyclerViewListener() {
-                        @Override
-                        public void onClick(View view, int position) {
-                            boolean cekKeranjang = false;
-                            for (int i = 0; i < DataKeranjang.dataKeranjang.size(); i++){
-                                if(datalist.get(position).getKode_br().equals(DataKeranjang.dataKeranjang.get(i).getKode_br())){
-                                    cekKeranjang = true;
-                                }
-                            }
-
-                            if(cekKeranjang){
-                                new SweetAlertDialog(TambahBarangActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Informasi")
-                                        .setContentText("Data sudah ada dikeranjang")
-                                        .setConfirmText("OK")
-                                        .show();
-                            } else {
-                                if(datalist.get(position).getDiskon() != null){
-                                    if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.NOMINAL){
-                                        showBottomSheet(datalist.get(position));
-//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Nominal", Toast.LENGTH_SHORT).show();
-                                    } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.PERSEN){
-                                        showBottomSheet(datalist.get(position));
-//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Persen", Toast.LENGTH_SHORT).show();
-                                    } else if(datalist.get(position).getDiskon().getKategori() == KategoriDiskon.FREE_PRODUK){
-                                        showBottomSheet(datalist.get(position));
-//                                        Toast.makeText(TambahBarangActivity.this, "Diskon Free Produk", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    showBottomSheet(datalist.get(position));
-//                                    Toast.makeText(TambahBarangActivity.this, "Tidak ada diskon", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    });
-
-                    listbarang.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
-                    listbarang.setAdapter(dapt);
-                    loading.setVisibility(View.GONE);
-                    listbarang.setVisibility(View.VISIBLE);
                     refreshLayout.setRefreshing(false);
                     queue.getCache().clear();
                 } catch (Exception e){
@@ -267,6 +304,7 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
+                refreshLayout.setRefreshing(false);
                 Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -465,13 +503,20 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
                         public void afterTextChanged(Editable editable) {
                             if(!editable.toString().isEmpty()){
 
+
+
                                 int beli = Integer.valueOf(model.getDiskon().getBuy());
                                 int gratis = Integer.valueOf(model.getDiskon().getFree());
                                 int field = Integer.valueOf(editable.toString());
+
+                                if(field > model.getStok()){
+                                    return;
+                                }
                                 dibeli = field;
                                 model.setQty(field);
 
                                 subTotal = field * model.getHarga_asli();
+
                                 if(field == beli){
                                     freeProduk = gratis;
                                 } else if(field % beli == 0){
@@ -479,15 +524,19 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
                                     freeProduk = gratis * kelipatan;
                                 } else {
                                     if(field >= beli && field % beli != 0){
-                                        freeProduk = (1 * ( field / beli )) * gratis;
+                                        if(field > model.getStok()){
+//                                            freeProduk = gratis * kelipatan;
+                                        } else {
+                                            freeProduk = (1 * ( field / beli )) * gratis;
+                                        }
                                     } else {
                                         freeProduk = 0;
                                     }
                                 }
 
-                                if(Integer.parseInt(editable.toString()) > model.getStok()){
-                                    freeProduk = 0;
-                                }
+//                                if(Integer.parseInt(editable.toString()) > model.getStok()){
+//                                    freeProduk = gratis * kelipatan;
+//                                }
                             } else {
                                 jumlahFreeProdukDipilih = 0;
 
@@ -537,11 +586,14 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
                     } else if(model.getDiskon().getFree_produk() == KategoriFreeProduk.BEBAS){
                         tambah_produk.setOnClickListener(view -> {
                             if(jumlahFreeProdukDipilih == freeProduk){
-                                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Informasi")
-                                        .setContentText("Free produk sudah terpenuhi")
-                                        .setConfirmText("OK")
-                                        .show();
+                                setupDialog(CustomDialog.WARNING);
+                                mDialog.setJudul("Informasi");
+                                mDialog.setDeskripsi("Free produk sudah terpenuhi");
+                                mDialog.setListenerOK(v -> {
+                                    mDialog.dismiss();
+                                });
+                                mDialog.show();
+
                             } else {
                                 showDialogTambahProduk(adaptProdekFreePreview, model);
                             }
@@ -594,11 +646,14 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         }
         button_back_to_transaksi.setOnClickListener(view -> {
             if(field_isi_jumlah_barang.getText().toString().equals("")){
-                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Informasi")
-                        .setContentText("Field jumlah barang wajib diisi")
-                        .setConfirmText("OK")
-                        .show();
+                setupDialog(CustomDialog.WARNING);
+                mDialog.setJudul("Informasi");
+                mDialog.setDeskripsi("Field jumlah barang wajib diisi");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+                mDialog.show();
+
             } else {
                 if(jumlahFreeProdukDipilih == freeProduk){
 //                    Toast.makeText(this, "lanjut aman", Toast.LENGTH_SHORT).show();
@@ -639,11 +694,13 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
                     finish();
 
                 } else {
-                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Informasi")
-                            .setContentText("Masukkan free produk terlebih dahulu")
-                            .setConfirmText("OK")
-                            .show();
+                    setupDialog(CustomDialog.WARNING);
+                    mDialog.setJudul("Informasi");
+                    mDialog.setDeskripsi("Masukkan free produk terlebih dahulu");
+                    mDialog.setListenerOK(v -> {
+                        mDialog.dismiss();
+                    });
+                    mDialog.show();
                 }
             }
         });
@@ -666,10 +723,16 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         ImageView button_close;
 
         RecyclerView listViewProdukFree;
+        ShimmerLayout loadinggg;
+        LinearLayout imagenovalue;
 
         detail_dialog = dialogView.findViewById(R.id.detail_dialog);
         button_metode_barcode = dialogView.findViewById(R.id.button_metode_barcode);
         listViewProdukFree = dialogView.findViewById(R.id.list_produk_gratis);
+        loadinggg = dialogView.findViewById(R.id.loading);
+        loadinggg.startShimmerAnimation();
+        imagenovalue = dialogView.findViewById(R.id.image_no_value);
+
         fielddd = dialogView.findViewById(R.id.field_kode_product);
         detail_dialog.setVisibility(View.VISIBLE);
         button_close = dialogView.findViewById(R.id.button_close);
@@ -689,9 +752,9 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             @Override
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().isEmpty()){
-                    loadProductFree(listViewProdukFree, builder, adapt, model);
+                    loadProductFree(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg);
                 } else {
-                    loadProductFreeSearch(listViewProdukFree, builder, adapt, model, editable.toString());
+                    loadProductFreeSearch(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg, editable.toString());
                 }
             }
         });
@@ -708,7 +771,7 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             }
         });
 
-        loadProductFree(listViewProdukFree, builder, adapt, model);
+        loadProductFree(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg);
 
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -720,7 +783,12 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         builder.show();
     }
 
-    private void loadProductFree(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model){
+    private void loadProductFree(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model, LinearLayout imagenovalue, ShimmerLayout loadinggg){
+        view.setVisibility(View.GONE);
+        imagenovalue.setVisibility(View.GONE);
+        loadinggg.setVisibility(View.VISIBLE);
+        loadinggg.startShimmerAnimation();
+
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/free?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
@@ -728,49 +796,63 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
                 dataProdukFree = new ArrayList<>();
                 try {
                     JSONArray res = new JSONArray(response);
-                    JSONObject produk;
-                    String kategori;
-                    for(int i = 0; i < res.length(); i++){
-                        produk = res.getJSONObject(i);
+                    if(res.length() != 0){
+                        JSONObject produk;
+                        String kategori;
+                        for(int i = 0; i < res.length(); i++){
+                            produk = res.getJSONObject(i);
 
-                        dataProdukFree.add(new ModelProdukFree(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), 1, KategoriFreeProduk.BEBAS));
-                    }
+                            dataProdukFree.add(new ModelProdukFree(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), 1, KategoriFreeProduk.BEBAS));
+                        }
 
-                    AdapterProdukFree dapt = new AdapterProdukFree(dataProdukFree, new RecyclerViewListener() {
-                        @Override
-                        public void onClick(View view, int position) {
-                            boolean isError = false;
-                            for(int i = 0; i < dataProdukFreePreview.size(); i++){
-                                if(dataProdukFreePreview.get(i).getKode_br().equals(dataProdukFree.get(position).getKode_br())){
-                                    isError = true;
+                        AdapterProdukFree dapt = new AdapterProdukFree(dataProdukFree, new RecyclerViewListener() {
+                            @Override
+                            public void onClick(View view, int position) {
+                                boolean isError = false;
+                                for(int i = 0; i < dataProdukFreePreview.size(); i++){
+                                    if(dataProdukFreePreview.get(i).getKode_br().equals(dataProdukFree.get(position).getKode_br())){
+                                        isError = true;
+                                    }
                                 }
-                            }
 
-                            if(isError){
-                                new SweetAlertDialog(TambahBarangActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Informasi")
-                                        .setContentText("Data sudah dimasukkan")
-                                        .setConfirmText("OK")
-                                        .show();
-                            } else {
-                                dataProdukFreePreview.add(new ModelProdukFree(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getPath_gambar(), dataProdukFree.get(position).getKode_br(), dataProdukFree.get(position).getQty(), KategoriFreeProduk.BEBAS));
-                                adapt.notifyDataSetChanged();
-                                jumlahFreeProdukDipilih = jumlahFreeProdukDipilih + 1;
-                                arrdata.add(new DiskonFreeProduk(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getKode_br(), 1));
-                                model.getDiskon().setDiskonFreeProduks(arrdata);
-                                dialog.dismiss();
-                            }
+                                if(isError){
+                                    setupDialog(CustomDialog.WARNING);
+                                    mDialog.setJudul("Informasi");
+                                    mDialog.setDeskripsi("Data sudah dimasukkan");
+                                    mDialog.setListenerOK(v -> {
+                                        mDialog.dismiss();
+                                    });
+                                    mDialog.show();
+
+
+                                } else {
+                                    dataProdukFreePreview.add(new ModelProdukFree(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getPath_gambar(), dataProdukFree.get(position).getKode_br(), dataProdukFree.get(position).getQty(), KategoriFreeProduk.BEBAS));
+                                    adapt.notifyDataSetChanged();
+                                    jumlahFreeProdukDipilih = jumlahFreeProdukDipilih + 1;
+                                    arrdata.add(new DiskonFreeProduk(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getKode_br(), 1));
+                                    model.getDiskon().setDiskonFreeProduks(arrdata);
+                                    dialog.dismiss();
+                                }
 
 
 
 //                            Toast.makeText(TambahBarangActivity.this, dataProdukFree.get(position).getNama(), Toast.LENGTH_SHORT).show();
 
-                        }
-                    });
+                            }
+                        });
 
-                    view.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
-                    view.setAdapter(dapt);
+                        view.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
+                        view.setAdapter(dapt);
 
+
+                        loadinggg.setVisibility(View.GONE);
+                        imagenovalue.setVisibility(View.GONE);
+                        view.setVisibility(View.VISIBLE);
+                    } else {
+                        view.setVisibility(View.GONE);
+                        loadinggg.setVisibility(View.GONE);
+                        imagenovalue.setVisibility(View.VISIBLE);
+                    }
                     queue.getCache().clear();
 
 //                    Toast.makeText(TambahBarangActivity.this, "sukses", Toast.LENGTH_SHORT).show();
@@ -788,55 +870,72 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         queue.add(request);
     }
 
-    private void loadProductFreeSearch(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model, String keyword){
+    private void loadProductFreeSearch(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model, LinearLayout imagenovalue, ShimmerLayout loadinggg, String keyword){
+        view.setVisibility(View.GONE);
+        imagenovalue.setVisibility(View.GONE);
+        loadinggg.setVisibility(View.VISIBLE);
+        loadinggg.startShimmerAnimation();
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "product/free/" + keyword + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 dataProdukFree = new ArrayList<>();
                 try {
+
                     JSONArray res = new JSONArray(response);
-                    JSONObject produk;
-                    String kategori;
-                    for(int i = 0; i < res.length(); i++){
-                        produk = res.getJSONObject(i);
 
-                        dataProdukFree.add(new ModelProdukFree(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), 1, KategoriFreeProduk.BEBAS));
-                    }
+                    if(res.length() != 0) {
+                        JSONObject produk;
+                        String kategori;
+                        for(int i = 0; i < res.length(); i++){
+                            produk = res.getJSONObject(i);
 
-                    AdapterProdukFree dapt = new AdapterProdukFree(dataProdukFree, new RecyclerViewListener() {
-                        @Override
-                        public void onClick(View view, int position) {
-                            boolean isError = false;
-                            for(int i = 0; i < dataProdukFreePreview.size(); i++){
-                                if(dataProdukFreePreview.get(i).getKode_br().equals(dataProdukFree.get(position).getKode_br())){
-                                    isError = true;
+                            dataProdukFree.add(new ModelProdukFree(produk.getString("nama_br"), url + "/uploads/products/" + produk.getString("gambar"), produk.getString("kode_br"), 1, KategoriFreeProduk.BEBAS));
+                        }
+
+                        AdapterProdukFree dapt = new AdapterProdukFree(dataProdukFree, new RecyclerViewListener() {
+                            @Override
+                            public void onClick(View view, int position) {
+                                boolean isError = false;
+                                for(int i = 0; i < dataProdukFreePreview.size(); i++){
+                                    if(dataProdukFreePreview.get(i).getKode_br().equals(dataProdukFree.get(position).getKode_br())){
+                                        isError = true;
+                                    }
                                 }
-                            }
 
-                            if(isError){
-                                new SweetAlertDialog(TambahBarangActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Informasi")
-                                        .setContentText("Data sudah dimasukkan")
-                                        .setConfirmText("OK")
-                                        .show();
-                            } else {
-                                dataProdukFreePreview.add(new ModelProdukFree(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getPath_gambar(), dataProdukFree.get(position).getKode_br(), dataProdukFree.get(position).getQty(), KategoriFreeProduk.BEBAS));
-                                adapt.notifyDataSetChanged();
-                                jumlahFreeProdukDipilih = jumlahFreeProdukDipilih + 1;
-                                arrdata.add(new DiskonFreeProduk(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getKode_br(), 1));
-                                model.getDiskon().setDiskonFreeProduks(arrdata);
-                                dialog.dismiss();
-                            }
+                                if(isError){
+                                    setupDialog(CustomDialog.WARNING);
+                                    mDialog.setJudul("Informasi");
+                                    mDialog.setDeskripsi("Data sudah dimasukkan");
+                                    mDialog.setListenerOK(v -> {
+                                        mDialog.dismiss();
+                                    });
+                                    mDialog.show();
+                                } else {
+                                    dataProdukFreePreview.add(new ModelProdukFree(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getPath_gambar(), dataProdukFree.get(position).getKode_br(), dataProdukFree.get(position).getQty(), KategoriFreeProduk.BEBAS));
+                                    adapt.notifyDataSetChanged();
+                                    jumlahFreeProdukDipilih = jumlahFreeProdukDipilih + 1;
+                                    arrdata.add(new DiskonFreeProduk(dataProdukFree.get(position).getNama(), dataProdukFree.get(position).getKode_br(), 1));
+                                    model.getDiskon().setDiskonFreeProduks(arrdata);
+                                    dialog.dismiss();
+                                }
 
 //                            Toast.makeText(TambahBarangActivity.this, dataProdukFree.get(position).getNama(), Toast.LENGTH_SHORT).show();
 
-                        }
-                    });
+                            }
+                        });
 
-                    view.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
-                    view.setAdapter(dapt);
+                        view.setLayoutManager(new LinearLayoutManager(TambahBarangActivity.this));
+                        view.setAdapter(dapt);
 
+                        loadinggg.setVisibility(View.GONE);
+                        imagenovalue.setVisibility(View.GONE);
+                        view.setVisibility(View.VISIBLE);
+                    } else {
+                        view.setVisibility(View.GONE);
+                        loadinggg.setVisibility(View.GONE);
+                        imagenovalue.setVisibility(View.VISIBLE);
+                    }
                     queue.getCache().clear();
 
 //                    Toast.makeText(TambahBarangActivity.this, "sukses", Toast.LENGTH_SHORT).show();
@@ -867,8 +966,8 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         scan_produk = findViewById(R.id.scan_produk);
         image_no_value = findViewById(R.id.image_no_value);
         loading = findViewById(R.id.loading);
+        loading.startShimmerAnimation();
         back_to_main_transaksi = findViewById(R.id.back_to_main_transaksi);
-
         field_kode_product.addTextChangedListener(this);
 
         if(getIntent().getStringExtra("kode") == null){
@@ -897,7 +996,17 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             finish();
         });
 
-
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(field_kode_product.getText().toString().equals("")){
+                    loadProduct();
+                } else {
+                    loadProductSearch(field_kode_product.getText().toString());
+                }
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void scanBarcodeFree() {
@@ -937,11 +1046,13 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 scanBarcode();
             } else {
-                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Gagal")
-                        .setContentText("Gagal memuat kamera")
-                        .setConfirmText("OK")
-                        .show();
+                setupDialog(CustomDialog.ERROR);
+                mDialog.setJudul("Gagal");
+                mDialog.setDeskripsi("Gagal mengakses kamera");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+                mDialog.show();
             }
         }
 

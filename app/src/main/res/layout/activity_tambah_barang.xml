@@ -137,6 +137,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list_barang"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="match_parent"
                     tools:ignore="MissingConstraints" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -186,16 +187,29 @@
                 </com.google.android.flexbox.FlexboxLayout>
 
             </LinearLayout>
-            <LinearLayout
+            <io.supercharge.shimmerlayout.ShimmerLayout
                 android:id="@+id/loading"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_height="match_parent">
-                <ProgressBar
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                app:shimmer_animation_duration="1200">
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <include layout="@layout/placeholder_tambah_product" />
+                            <include layout="@layout/placeholder_tambah_product" />
+                            <include layout="@layout/placeholder_tambah_product" />
+                            <include layout="@layout/placeholder_tambah_product" />
+                            <include layout="@layout/placeholder_tambah_product" />
+                            <include layout="@layout/placeholder_tambah_product" />
+                        </LinearLayout>
+                    </ScrollView>
+            </io.supercharge.shimmerlayout.ShimmerLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
