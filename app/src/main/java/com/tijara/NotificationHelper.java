@@ -53,7 +53,7 @@ public class NotificationHelper {
                 pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
                 builder.setContentTitle(title)  // required
-                        .setSmallIcon(R.drawable.ic_logo) // required
+                        .setSmallIcon(R.drawable.logo_notif) // required
                         .setContentText(text)  // required
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setAutoCancel(true)
@@ -70,7 +70,7 @@ public class NotificationHelper {
                 pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
                 builder.setContentTitle(title)                           // required
-                        .setSmallIcon(R.drawable.ic_logo) // required
+                        .setSmallIcon(R.drawable.logo_notif) // required
                         .setContentText(text)  // required
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setAutoCancel(true)

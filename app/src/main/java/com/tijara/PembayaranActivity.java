@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
@@ -187,6 +188,7 @@ public class PembayaranActivity extends AppCompatActivity {
     ArrayList<ModelVoucher> voucher;
     EditText field_total_bayar;
     LinearLayout btn_transaksi;
+    ScrollView scrollview;
 
     int total = 0;
 
@@ -230,6 +232,7 @@ public class PembayaranActivity extends AppCompatActivity {
 
         }
 
+        scrollview = findViewById(R.id.scrollview);
         buttonCash = findViewById(R.id.buttonTunai);
         buttonQris = findViewById(R.id.buttonQris);
         teksTunai = findViewById(R.id.teksTunai);
@@ -247,6 +250,20 @@ public class PembayaranActivity extends AppCompatActivity {
         btn_transaksi = findViewById(R.id.btn_transaksi);
         back_to_view_transaksi.setOnClickListener(view -> {
             finish();
+        });
+
+        field_total_bayar.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    scrollview.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollview.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });
+                }
+            }
         });
 
         field_total_bayar.addTextChangedListener(new RupiahBayarTunai(field_total_bayar));
