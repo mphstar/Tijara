@@ -55,6 +55,12 @@ public class ActivityDetailRetur extends AppCompatActivity {
     String opsiReturProduk = "";
     int hitungTunaiDariQty = 1;
 
+    CustomDialogSetup mDialog;
+
+    private void setupDialog(CustomDialog type){
+        mDialog = new CustomDialogSetup(this, R.style.dialog, type);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,124 +202,129 @@ public class ActivityDetailRetur extends AppCompatActivity {
                 }
 
                 if(error.equals("")){
-                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Retur")
-                            .setContentText("Apakah anda yakin ingin melakukan retur")
-                            .setCancelText("Tidak")
-                            .setConfirmText("Ya")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
-                                    SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
-                                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                    pDialog.setTitleText("Loading");
-                                    pDialog.setCancelable(false);
-                                    pDialog.show();
+                    setupDialog(CustomDialog.CONFIRMATION);
+                    mDialog.setJudul("Retur");
+                    mDialog.setDeskripsi("Apakah anda yakin ingin melakukan retur");
+                    mDialog.setListenerTidak(v -> {
+                        mDialog.dismiss();
+                    });
+                    mDialog.setListenerOK(v -> {
+                        mDialog.dismiss();
+                        setupDialog(CustomDialog.LOADING);
+                        mDialog.setJudul("Loading");
+                        mDialog.setDeskripsi("Sedang melakukan proses retur");
+                        mDialog.show();
 
-                                    submitRetur(pDialog);
+                        submitRetur();
+                    });
+                    mDialog.show();
 
-                                }
-                            })
-                            .show();
+
                 } else {
-                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Informasi")
-                            .setContentText(error)
-                            .show();
+                    setupDialog(CustomDialog.WARNING);
+                    mDialog.setJudul("Informasi");
+                    mDialog.setDeskripsi(error);
+                    mDialog.setListenerOK(v -> {
+                        mDialog.dismiss();
+                    });
+                    mDialog.show();
+
                 }
             } else {
                 if(field_jumlah_barang_retur.getText().toString().equals("")){
-                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Informasi")
-                            .setContentText("Jumlah produk retur wajib diisi")
-                            .show();
+                    setupDialog(CustomDialog.WARNING);
+                    mDialog.setJudul("Informasi");
+                    mDialog.setDeskripsi("Jumlah produk retur wajib diisi");
+                    mDialog.setListenerOK(v -> {
+                        mDialog.dismiss();
+                    });
+                    mDialog.show();
+
                 } else {
                     if(field_produk.getText().toString().equals("")){
-                        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText("Informasi")
-                                .setContentText("Pilih produk terlebih dahulu")
-                                .show();
+                        setupDialog(CustomDialog.WARNING);
+                        mDialog.setJudul("Informasi");
+                        mDialog.setDeskripsi("Pilih produk terlebih dahulu");
+                        mDialog.setListenerOK(v -> {
+                            mDialog.dismiss();
+                        });
+                        mDialog.show();
                     } else {
                         if(opsiReturProduk.equals("pas")){
-                            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                                    .setTitleText("Retur")
-                                    .setContentText("Apakah anda yakin ingin melakukan retur")
-                                    .setCancelText("Tidak")
-                                    .setConfirmText("Ya")
-                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            sweetAlertDialog.dismiss();
-                                            SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
-                                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                            pDialog.setTitleText("Loading");
-                                            pDialog.setCancelable(false);
-                                            pDialog.show();
+                            setupDialog(CustomDialog.CONFIRMATION);
+                            mDialog.setJudul("Retur");
+                            mDialog.setDeskripsi("Apakah anda yakin ingin melakukan retur");
+                            mDialog.setListenerTidak(v -> {
+                                mDialog.dismiss();
+                            });
+                            mDialog.setListenerOK(v -> {
+                                mDialog.dismiss();
+                                setupDialog(CustomDialog.LOADING);
+                                mDialog.setJudul("Loading");
+                                mDialog.setDeskripsi("Sedang melakukan proses retur");
+                                mDialog.show();
 
-                                            submitRetur(pDialog);
-
-                                        }
-                                    })
-                                    .show();
+                                submitRetur();
+                            });
+                            mDialog.show();
                         } else if(opsiReturProduk.equals("bayar_kurang")){
                             if(field_bayar_kurang.getText().toString().equals("")){
-                                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                                        .setTitleText("Informasi")
-                                        .setContentText("Bayar kurang wajib diisi")
-                                        .show();
+                                setupDialog(CustomDialog.WARNING);
+                                mDialog.setJudul("Informasi");
+                                mDialog.setDeskripsi("Bayar kurang wajib diisi");
+                                mDialog.setListenerOK(v -> {
+                                    mDialog.dismiss();
+                                });
+                                mDialog.show();
+
                             } else if(txt_info_kurang_bayar.getText().toString().contains("Bayar")){
                                 try {
-                                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                                            .setTitleText("Informasi")
-                                            .setContentText("Bayar kurang harus lebih dari " + Env.formatRupiah((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty))
-                                            .show();
+                                    setupDialog(CustomDialog.WARNING);
+                                    mDialog.setJudul("Informasi");
+                                    mDialog.setDeskripsi("Bayar kurang harus lebih dari " + Env.formatRupiah((Integer.valueOf(productReturSelected.getString("harga")) - Integer.valueOf(myData.getString("harga"))) * hitungTunaiDariQty));
+                                    mDialog.setListenerOK(v -> {
+                                        mDialog.dismiss();
+                                    });
+                                    mDialog.show();
+
                                 } catch (JSONException e) {
-                                    throw new RuntimeException(e);
+//                                    throw new RuntimeException(e);
                                 }
                             }else {
-                                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Retur")
-                                        .setContentText("Apakah anda yakin ingin melakukan retur")
-                                        .setCancelText("Tidak")
-                                        .setConfirmText("Ya")
-                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                sweetAlertDialog.dismiss();
-                                                SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
-                                                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                                pDialog.setTitleText("Loading");
-                                                pDialog.setCancelable(false);
-                                                pDialog.show();
+                                setupDialog(CustomDialog.CONFIRMATION);
+                                mDialog.setJudul("Retur");
+                                mDialog.setDeskripsi("Apakah anda yakin ingin melakukan retur");
+                                mDialog.setListenerTidak(v -> {
+                                    mDialog.dismiss();
+                                });
+                                mDialog.setListenerOK(v -> {
+                                    mDialog.dismiss();
+                                    setupDialog(CustomDialog.LOADING);
+                                    mDialog.setJudul("Loading");
+                                    mDialog.setDeskripsi("Sedang melakukan proses retur");
+                                    mDialog.show();
 
-                                                submitRetur(pDialog);
-
-                                            }
-                                        })
-                                        .show();
+                                    submitRetur();
+                                });
+                                mDialog.show();
                             }
                         } else if(opsiReturProduk.equals("kembalian_tunai")){
-                            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                                    .setTitleText("Retur")
-                                    .setContentText("Apakah anda yakin ingin melakukan retur")
-                                    .setCancelText("Tidak")
-                                    .setConfirmText("Ya")
-                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            sweetAlertDialog.dismiss();
-                                            SweetAlertDialog pDialog = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.PROGRESS_TYPE);
-                                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                            pDialog.setTitleText("Loading");
-                                            pDialog.setCancelable(false);
-                                            pDialog.show();
+                            setupDialog(CustomDialog.CONFIRMATION);
+                            mDialog.setJudul("Retur");
+                            mDialog.setDeskripsi("Apakah anda yakin ingin melakukan retur");
+                            mDialog.setListenerTidak(v -> {
+                                mDialog.dismiss();
+                            });
+                            mDialog.setListenerOK(v -> {
+                                mDialog.dismiss();
+                                setupDialog(CustomDialog.LOADING);
+                                mDialog.setJudul("Loading");
+                                mDialog.setDeskripsi("Sedang melakukan proses retur");
+                                mDialog.show();
 
-                                            submitRetur(pDialog);
-
-                                        }
-                                    })
-                                    .show();
+                                submitRetur();
+                            });
+                            mDialog.show();
                         }
                     }
                 }
@@ -322,7 +333,7 @@ public class ActivityDetailRetur extends AppCompatActivity {
         });
     }
 
-    private void submitRetur(SweetAlertDialog dialog){
+    private void submitRetur(){
         RequestQueue queue = Volley.newRequestQueue(this);
         JSONObject input = new JSONObject();
         try {
@@ -348,39 +359,41 @@ public class ActivityDetailRetur extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Env.BASE_URL + "submit_retur_customer?apikey=" + Env.API_KEY, input, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 try {
                     JSONObject res = response;
                     if(res.getString("status").equals("success")){
-                        SweetAlertDialog succ = new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.SUCCESS_TYPE);
-                        succ.setTitle("Berhasil");
-                        succ.setContentText(res.getString("message"));
-                        succ.setCanceledOnTouchOutside(false);
-                        succ.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismiss();
-
-                                Intent intent = new Intent(ActivityDetailRetur.this, Home.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
+                        setupDialog(CustomDialog.SUCCESS);
+                        mDialog.setJudul("Berhasil");
+                        mDialog.setDeskripsi(res.getString("message"));
+                        mDialog.setCancelable(false);
+                        mDialog.setCanceledOnTouchOutside(false);
+                        mDialog.setListenerOK(v -> {
+                            mDialog.dismiss();
+                            Intent intent = new Intent(ActivityDetailRetur.this, Home.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         });
-                        succ.show();
-
+                        mDialog.show();
 
                     } else if(res.getString("status").equals("error")) {
-                        new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText("Gagal")
-                                .setContentText(res.getString("message"))
-                                .show();
+                        setupDialog(CustomDialog.ERROR);
+                        mDialog.setJudul("Gagal");
+                        mDialog.setDeskripsi(res.getString("message"));
+                        mDialog.setListenerOK(v -> {
+                            mDialog.dismiss();
+                        });
+                        mDialog.show();
                     }
                     queue.getCache().clear();
                 } catch (Exception e){
-                    new SweetAlertDialog(ActivityDetailRetur.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Gagal")
-                            .setContentText(e.toString())
-                            .show();
+                    setupDialog(CustomDialog.ERROR);
+                    mDialog.setJudul("Gagal");
+                    mDialog.setDeskripsi(e.toString());
+                    mDialog.setListenerOK(v -> {
+                        mDialog.dismiss();
+                    });
+                    mDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -388,7 +401,7 @@ public class ActivityDetailRetur extends AppCompatActivity {
             public void onErrorResponse(com.android.volley.VolleyError error) {
                 Toast.makeText(ActivityDetailRetur.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("error", error.toString());
-                dialog.dismiss();
+                mDialog.dismiss();
             }
         });
 

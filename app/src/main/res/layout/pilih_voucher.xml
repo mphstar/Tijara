@@ -25,6 +25,7 @@ tools:context=".PilihVoucherActivity">
             <ImageView
                 android:id="@+id/back_to_pembayaran"
                 app:layout_alignSelf="center"
+                android:padding="20dp"
                 android:src="@drawable/kembali"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -39,7 +40,7 @@ tools:context=".PilihVoucherActivity">
                 android:textSize="@dimen/_18ssp"/>
             <ImageView
                 app:layout_alignSelf="center"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content">
             </ImageView>
         </com.google.android.flexbox.FlexboxLayout>
@@ -75,19 +76,34 @@ tools:context=".PilihVoucherActivity">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:ignore="MissingConstraints">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/voucher"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="MissingConstraints" />
+            <io.supercharge.shimmerlayout.ShimmerLayout
+                android:id="@+id/loading"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                app:shimmer_animation_duration="1200">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <include layout="@layout/placeholder_voucher" />
+                    </LinearLayout>
+                </ScrollView>
+            </io.supercharge.shimmerlayout.ShimmerLayout>
+            <include android:visibility="gone" android:id="@+id/nodata" layout="@layout/content_nodata" />
         </LinearLayout>
-        <ImageView
-            android:id="@+id/image_no_value"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.flexbox.FlexboxLayout>
 

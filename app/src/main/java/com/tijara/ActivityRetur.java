@@ -49,6 +49,11 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
     LinearLayout loading;
     FrameLayout btn_scan;
     SwipeRefreshLayout refreshLayout;
+    CustomDialogSetup mDialog;
+
+    private void setupDialog(CustomDialog type){
+        mDialog = new CustomDialogSetup(this, R.style.dialog, type);
+    }
 
     private void loadDetailTransaksi(String keyword){
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -90,7 +95,7 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
                     } else if(res.getString("status").equals("error")) {
                         recView.setVisibility(View.INVISIBLE);
                         layout_no_value.setVisibility(View.VISIBLE);
-                        Toast.makeText(ActivityRetur.this, res.getString("message"), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(ActivityRetur.this, res.getString("message"), Toast.LENGTH_LONG).show();
                     }
 
                     queue.getCache().clear();
@@ -190,7 +195,13 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 scanBarcode();
             } else {
-                Toast.makeText(this, "Gagal Memuat Kamera!!...", Toast.LENGTH_SHORT).show();
+                setupDialog(CustomDialog.ERROR);
+                mDialog.setJudul("Gagal");
+                mDialog.setDeskripsi("Gagal mengakses kamera");
+                mDialog.setListenerOK(v -> {
+                    mDialog.dismiss();
+                });
+                mDialog.show();
             }
         }
     }
