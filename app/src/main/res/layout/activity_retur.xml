@@ -196,5 +196,13 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
+    <include
+        android:visibility="gone"
+        android:layout_below="@+id/txt_rincian"
+        android:id="@+id/nokoneksi"
+        layout="@layout/content_nokoneksi"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
 
 </RelativeLayout>

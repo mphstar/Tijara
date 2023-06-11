@@ -155,83 +155,93 @@
                 android:src="@drawable/search_2"/>
 
         </com.google.android.flexbox.FlexboxLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_produk_gratis"
-                android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="MissingConstraints" />
-            <io.supercharge.shimmerlayout.ShimmerLayout
-                android:id="@+id/loading"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="match_parent"
-                app:shimmer_animation_duration="1200">
-                <ScrollView
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_produk_gratis"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <include layout="@layout/placeholder_tambah_product" />
-                        <include layout="@layout/placeholder_tambah_product" />
-                        <include layout="@layout/placeholder_tambah_product" />
-                    </LinearLayout>
-                </ScrollView>
-            </io.supercharge.shimmerlayout.ShimmerLayout>
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/image_no_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:ignore="MissingConstraints">
-                <com.google.android.flexbox.FlexboxLayout
-                    app:flexDirection="column"
+                    android:layout_height="wrap_content"
+                    tools:ignore="MissingConstraints" />
+                <io.supercharge.shimmerlayout.ShimmerLayout
+                    android:id="@+id/loading"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <com.airbnb.lottie.LottieAnimationView
-                        app:layout_flexBasisPercent="65%"
-                        android:paddingStart="@dimen/_20sdp"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    app:shimmer_animation_duration="1200">
+                    <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/nodata"
-                        />
-                    <LinearLayout
-                        app:layout_flexBasisPercent="25%"
-                        android:orientation="vertical"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <include layout="@layout/placeholder_tambah_product" />
+                            <include layout="@layout/placeholder_tambah_product" />
+                            <include layout="@layout/placeholder_tambah_product" />
+                        </LinearLayout>
+                    </ScrollView>
+                </io.supercharge.shimmerlayout.ShimmerLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/image_no_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="MissingConstraints">
+                    <com.google.android.flexbox.FlexboxLayout
+                        app:flexDirection="column"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:gravity="center_horizontal"
+                        android:layout_height="match_parent">
+                        <com.airbnb.lottie.LottieAnimationView
+                            app:layout_flexBasisPercent="65%"
+                            android:paddingStart="@dimen/_20sdp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/poppins_medium"
-                            android:textSize="@dimen/_12ssp"
-                            android:text="Hasil Tidak Ditemukan"/>
-
-                        <TextView
-                            android:gravity="center_horizontal"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/nodata"
+                            />
+                        <LinearLayout
+                            app:layout_flexBasisPercent="25%"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/poppins_regular"
-                            android:textSize="@dimen/_10ssp"
-                            android:text="Masukkan kode barang pada kolom pencarian"/>
-                    </LinearLayout>
-                </com.google.android.flexbox.FlexboxLayout>
+                            android:layout_height="wrap_content">
 
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:gravity="center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/poppins_medium"
+                                android:textSize="@dimen/_12ssp"
+                                android:text="Hasil Tidak Ditemukan"/>
+
+                            <TextView
+                                android:gravity="center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textSize="@dimen/_10ssp"
+                                android:text="Masukkan kode barang pada kolom pencarian"/>
+                        </LinearLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                </LinearLayout>
+                <include
+                    android:visibility="gone"
+                    android:id="@+id/nokoneksi"
+                    layout="@layout/content_nokoneksi" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
         <LinearLayout
             android:id="@+id/button_lanjut_transaksi"
             android:layout_marginTop="@dimen/_15sdp"
