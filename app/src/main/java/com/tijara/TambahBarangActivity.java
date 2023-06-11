@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,11 +78,15 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
 
     CustomDialogSetup mDialog;
 
+    View nokoneksi;
+    Button coba_lagi;
+
     private void setupDialog(CustomDialog type){
         mDialog = new CustomDialogSetup(this, R.style.dialog, type);
     }
 
     private void loadProduct(){
+        nokoneksi.setVisibility(View.GONE);
         listbarang.setVisibility(View.GONE);
         image_no_value.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
@@ -189,7 +194,11 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
                 refreshLayout.setRefreshing(false);
-                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                loading.setVisibility(View.GONE);
+                listbarang.setVisibility(View.GONE);
+                image_no_value.setVisibility(View.GONE);
+                nokoneksi.setVisibility(View.VISIBLE);
+//                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -197,6 +206,7 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
     }
 
     private void loadProductSearch(String keyword){
+        nokoneksi.setVisibility(View.GONE);
         listbarang.setVisibility(View.GONE);
         image_no_value.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
@@ -305,7 +315,11 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
                 refreshLayout.setRefreshing(false);
-                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                loading.setVisibility(View.GONE);
+                listbarang.setVisibility(View.GONE);
+                image_no_value.setVisibility(View.GONE);
+                nokoneksi.setVisibility(View.VISIBLE);
+//                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -726,6 +740,12 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         ShimmerLayout loadinggg;
         LinearLayout imagenovalue;
 
+        View nokoneksiiii;
+        Button cobalagiii;
+
+        nokoneksiiii = dialogView.findViewById(R.id.nokoneksi);
+        cobalagiii = nokoneksiiii.findViewById(R.id.coba_lagi);
+
         detail_dialog = dialogView.findViewById(R.id.detail_dialog);
         button_metode_barcode = dialogView.findViewById(R.id.button_metode_barcode);
         listViewProdukFree = dialogView.findViewById(R.id.list_produk_gratis);
@@ -737,6 +757,14 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         detail_dialog.setVisibility(View.VISIBLE);
         button_close = dialogView.findViewById(R.id.button_close);
         button_close.setOnClickListener(view -> builder.dismiss());
+
+        cobalagiii.setOnClickListener(v -> {
+            if(fielddd.getText().toString().isEmpty()){
+                loadProductFree(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg, nokoneksiiii);
+            } else {
+                loadProductFreeSearch(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg, nokoneksiiii, fielddd.getText().toString());
+            }
+        });
 
         fielddd.addTextChangedListener(new TextWatcher() {
             @Override
@@ -752,9 +780,9 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             @Override
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().isEmpty()){
-                    loadProductFree(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg);
+                    loadProductFree(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg, nokoneksiiii);
                 } else {
-                    loadProductFreeSearch(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg, editable.toString());
+                    loadProductFreeSearch(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg, nokoneksiiii, editable.toString());
                 }
             }
         });
@@ -771,7 +799,7 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
             }
         });
 
-        loadProductFree(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg);
+        loadProductFree(listViewProdukFree, builder, adapt, model, imagenovalue, loadinggg, nokoneksiiii);
 
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -783,7 +811,8 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         builder.show();
     }
 
-    private void loadProductFree(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model, LinearLayout imagenovalue, ShimmerLayout loadinggg){
+    private void loadProductFree(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model, LinearLayout imagenovalue, ShimmerLayout loadinggg, View noconn){
+        noconn.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
         imagenovalue.setVisibility(View.GONE);
         loadinggg.setVisibility(View.VISIBLE);
@@ -863,14 +892,19 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
-                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                view.setVisibility(View.GONE);
+                loadinggg.setVisibility(View.GONE);
+                imagenovalue.setVisibility(View.GONE);
+                noconn.setVisibility(View.VISIBLE);
+//                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
         queue.add(request);
     }
 
-    private void loadProductFreeSearch(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model, LinearLayout imagenovalue, ShimmerLayout loadinggg, String keyword){
+    private void loadProductFreeSearch(RecyclerView view, AlertDialog dialog, AdapterProdukFreePreview adapt, ModelTambahProduk model, LinearLayout imagenovalue, ShimmerLayout loadinggg, View noconn, String keyword){
+        noconn.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
         imagenovalue.setVisibility(View.GONE);
         loadinggg.setVisibility(View.VISIBLE);
@@ -946,7 +980,11 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
-                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                view.setVisibility(View.GONE);
+                loadinggg.setVisibility(View.GONE);
+                imagenovalue.setVisibility(View.GONE);
+                noconn.setVisibility(View.VISIBLE);
+//                Toast.makeText(TambahBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -960,6 +998,9 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_barang);
 
+        nokoneksi = findViewById(R.id.nokoneksi);
+        coba_lagi = nokoneksi.findViewById(R.id.coba_lagi);
+
         refreshLayout = findViewById(R.id.refreshLayout);
         listbarang = findViewById(R.id.list_barang);
         field_kode_product = findViewById(R.id.field_kode_product);
@@ -969,6 +1010,14 @@ public class TambahBarangActivity extends AppCompatActivity implements TextWatch
         loading.startShimmerAnimation();
         back_to_main_transaksi = findViewById(R.id.back_to_main_transaksi);
         field_kode_product.addTextChangedListener(this);
+
+        coba_lagi.setOnClickListener(v -> {
+            if(field_kode_product.getText().toString().equals("")){
+                loadProduct();
+            } else {
+                loadProductSearch(field_kode_product.getText().toString());
+            }
+        });
 
         if(getIntent().getStringExtra("kode") == null){
             loadProduct();

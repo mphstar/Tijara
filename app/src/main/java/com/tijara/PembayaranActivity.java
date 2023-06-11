@@ -588,7 +588,7 @@ public class PembayaranActivity extends AppCompatActivity {
             } else {
                 keterangan_bayar.setText("Kurang Bayar: ");
                 kurang_bayar.setTextColor(Color.parseColor("#6B0000"));
-                kurang_bayar.setText("Rp. 0");
+                kurang_bayar.setText(total_akhir.getText().toString());
             }
 
 

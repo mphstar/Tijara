@@ -19,6 +19,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -49,6 +50,8 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
     LinearLayout loading;
     FrameLayout btn_scan;
     SwipeRefreshLayout refreshLayout;
+    View nokoneksi;
+    Button coba_lagi;
     CustomDialogSetup mDialog;
 
     private void setupDialog(CustomDialog type){
@@ -56,11 +59,14 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
     }
 
     private void loadDetailTransaksi(String keyword){
+        nokoneksi.setVisibility(View.GONE);
+        layout_no_value.setVisibility(View.GONE);
+        recView.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, Env.BASE_URL + "detail_transaksi/" + URLEncoder.encode(keyword) + "?apikey=" + Env.API_KEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                loading.setVisibility(View.GONE);
                 try {
                     JSONObject res = new JSONObject(response);
                     if(res.getString("status").equals("success")){
@@ -90,10 +96,14 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
                         DetailBarangAdapter adapt = new DetailBarangAdapter(listData, ActivityRetur.this);
                         recView.setLayoutManager(new LinearLayoutManager(ActivityRetur.this));
                         recView.setAdapter(adapt);
+
+                        loading.setVisibility(View.GONE);
+                        layout_no_value.setVisibility(View.GONE);
                         recView.setVisibility(View.VISIBLE);
-                        layout_no_value.setVisibility(View.INVISIBLE);
+
                     } else if(res.getString("status").equals("error")) {
-                        recView.setVisibility(View.INVISIBLE);
+                        recView.setVisibility(View.GONE);
+                        loading.setVisibility(View.GONE);
                         layout_no_value.setVisibility(View.VISIBLE);
 //                        Toast.makeText(ActivityRetur.this, res.getString("message"), Toast.LENGTH_LONG).show();
                     }
@@ -106,7 +116,11 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
-                Toast.makeText(ActivityRetur.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                loading.setVisibility(View.GONE);
+                layout_no_value.setVisibility(View.GONE);
+                recView.setVisibility(View.GONE);
+                nokoneksi.setVisibility(View.VISIBLE);
+//                Toast.makeText(ActivityRetur.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -123,6 +137,11 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
         loading = findViewById(R.id.loading);
         btn_scan = findViewById(R.id.btn_scan);
         refreshLayout = findViewById(R.id.refreshLayout);
+        nokoneksi = findViewById(R.id.nokoneksi);
+        coba_lagi = nokoneksi.findViewById(R.id.coba_lagi);
+        coba_lagi.setOnClickListener(v -> {
+            loadDetailTransaksi(field_search.getText().toString());
+        });
         btn_scan.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(ActivityRetur.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(ActivityRetur.this, android.Manifest.permission.CAMERA)) {
@@ -158,6 +177,7 @@ public class ActivityRetur extends AppCompatActivity implements RecyclerViewList
                     layout_no_value.setVisibility(View.GONE);
                     recView.setVisibility(View.GONE);
                     loading.setVisibility(View.GONE);
+                    nokoneksi.setVisibility(View.GONE);
                 }
             }
         });

@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,6 +55,9 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
     ShimmerLayout loading;
     SwipeRefreshLayout refreshLayout;
     String url = Env.BASE_URL.replace("/api/", "");
+
+    View nokoneksi;
+    Button coba_lagi;
     CustomDialogSetup mDialog;
 
     private void setupDialog(CustomDialog type){
@@ -61,7 +65,7 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
     }
 
     private void loadProduct(){
-
+        nokoneksi.setVisibility(View.GONE);
         image_no_value.setVisibility(View.GONE);
         listbarang.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
@@ -113,7 +117,11 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
-                Toast.makeText(PilihBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                loading.setVisibility(View.GONE);
+                listbarang.setVisibility(View.GONE);
+                image_no_value.setVisibility(View.GONE);
+                nokoneksi.setVisibility(View.VISIBLE);
+//                Toast.makeText(PilihBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -121,6 +129,7 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
     }
 
     private void loadProductSearch(String keyword){
+        nokoneksi.setVisibility(View.GONE);
         image_no_value.setVisibility(View.GONE);
         listbarang.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
@@ -174,7 +183,11 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(com.android.volley.VolleyError error) {
-                Toast.makeText(PilihBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
+                loading.setVisibility(View.GONE);
+                listbarang.setVisibility(View.GONE);
+                image_no_value.setVisibility(View.GONE);
+                nokoneksi.setVisibility(View.VISIBLE);
+//                Toast.makeText(PilihBarangActivity.this, "Error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -193,6 +206,16 @@ public class PilihBarangActivity extends AppCompatActivity implements RecyclerVi
         scan_produk = findViewById(R.id.scan_produk);
         image_no_value = findViewById(R.id.image_no_value);
         loading = findViewById(R.id.loading);
+        nokoneksi = findViewById(R.id.nokoneksi);
+        coba_lagi = nokoneksi.findViewById(R.id.coba_lagi);
+        coba_lagi.setOnClickListener(v -> {
+            if(field_kode_product.getText().toString().equals("")){
+                loadProduct();
+            } else {
+                loadProductSearch(field_kode_product.getText().toString());
+            }
+        });
+
         loading.startShimmerAnimation();
         field_kode_product.addTextChangedListener(PilihBarangActivity.this);
         loadProduct();
